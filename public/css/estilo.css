@@ -97,7 +97,8 @@ main {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 80vh;
+  height: fit-content;
+  padding: 100px;
   gap: 20px;
 }
 
@@ -137,32 +138,53 @@ tr:nth-child(even) td {
 
 .problema {
   color: #dc2626;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .solucao {
   color: #10b981;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .recursos {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   width: 100%;
-  height: 50vh;
-  background-color: aqua;
+  height: fit-content;
+  background-color: var(--laranja-vivo);
+  padding: 100px 0;
+  gap: 40px;
+}
+
+.recursos h1 {
+  font-size: 3rem;
+  color: var(--branco);
+}
+
+.recursos-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 45vw;
+  gap: 30px;
 }
 
 .card {
+  flex: 0 0 calc(50% - 30px); /* Aqui estou calculando metade do container menos metade do gap */
   display: flex;
-  width: 25%;
+  width: 50%;
   height: 15vh;
   border-radius: 10px;
   background-color: var(--branco);
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
-  -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -webkit-box-shadow: -10px 10px 47px 0px rgba(108, 108, 108, 0.75);
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
 }
 
 .card-esquerda {
@@ -186,6 +208,58 @@ tr:nth-child(even) td {
   padding: 10px;
 }
 
+.passos {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  height: fit-content;
+  padding-top: 80px;
+  padding-bottom: 120px;
+  background-color: #ff6a34;
+}
+
+.passos h1{
+  font-size: 3rem;
+  color: var(--branco);
+}
+
+.container-passos{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.card-passos{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 17vw;
+  height: fit-content;
+  background-color: var(--cinza-escuro);
+  color: var(--branco);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.circulo{
+  position: relative;
+  top: -45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.3rem;
+  width: 50px;
+  height: 50px;
+  background-color: var(--branco);
+  color: var(--cinza-escuro);
+  border-radius: 50%;
+}
+
 footer {
   display: flex;
   align-items: center;
@@ -194,5 +268,5 @@ footer {
   font-weight: bold;
   width: 100%;
   height: 20vh;
-  background-color: var(--cor-azul);
+  background-color: var(--cinza);
 }
