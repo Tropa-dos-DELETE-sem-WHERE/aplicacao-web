@@ -30,7 +30,7 @@ main {
   height: fit-content;
   background-color: var(--branco);
   color: black;
-  padding: 20px;
+  padding: 40px 20px;
   gap: 10px;
   border-radius: 10px;
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
@@ -74,4 +74,11 @@ button:focus {
 
 .campo button:hover {
   transform: scale(1.03);
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .cadastro-container{
+    width: 85%;
+  }
 }
