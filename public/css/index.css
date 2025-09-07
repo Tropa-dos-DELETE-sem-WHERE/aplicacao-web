@@ -1,0 +1,226 @@
+:root {
+  --azul-vivo: #1e90ff;
+  --laranja-vivo: #ff6a34;
+  --vermelho-vivo: #ff3b30;
+  --branco: #f3f3f3;
+  --cinza: #ebebeb;
+  --cinza-escuro: #4f4f4f;
+}
+
+main {
+  width: 100%;
+  height: 20vh;
+  background-color: var(--cor-branco);
+  height: fit-content;
+}
+
+.introducao {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--cor-branco);
+  height: 65vh;
+  padding: 30px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 50%;
+  height: fit-content;
+  background-color: var(--cor-cinza-claro);
+  border-radius: 10px;
+  padding: 20px;
+  gap: 20px;
+  box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+}
+
+.container h1 {
+  font-size: 2.2rem;
+}
+
+.container p {
+  font-size: 1.2rem;
+}
+
+.container button {
+  height: 7vh;
+  background-color: var(--laranja-vivo);
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.problemaSolucao {
+  background-color: var(--cinza);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: fit-content;
+  padding: 100px;
+  gap: 20px;
+}
+
+.problemaSolucao h1 {
+  font-size: 2.5rem;
+}
+
+/* Tabela */
+table {
+  width: 40%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+}
+
+th,
+td {
+  padding: 16px 20px;
+  text-align: left;
+}
+
+th {
+  background-color: var(--laranja-vivo);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+tr:nth-child(even) td {
+  background-color: #f9fafb;
+}
+
+.problema {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.solucao {
+  color: #10b981;
+  font-weight: bold;
+}
+
+.recursos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  background-color: var(--laranja-vivo);
+  padding: 100px 0;
+  gap: 40px;
+}
+
+.recursos h1 {
+  font-size: 3rem;
+  color: var(--branco);
+}
+
+.recursos-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 45vw;
+  gap: 30px;
+}
+
+.card {
+  flex: 0 0 calc(50% - 30px); /* Aqui estou calculando metade do container menos metade do gap */
+  display: flex;
+  width: 50%;
+  height: 15vh;
+  border-radius: 10px;
+  background-color: var(--branco);
+  box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -webkit-box-shadow: -10px 10px 47px 0px rgba(108, 108, 108, 0.75);
+  -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-esquerda {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+}
+
+.card-esquerda img {
+  width: 80%;
+  height: auto;
+}
+
+.card-direita {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 70%;
+  gap: 5px;
+  padding: 10px;
+}
+
+.passos {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  height: fit-content;
+  padding-top: 80px;
+  padding-bottom: 120px;
+  background-color: #ff6a34;
+}
+
+.passos h1 {
+  font-size: 3rem;
+  color: var(--branco);
+}
+
+.container-passos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.card-passos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 17vw;
+  height: fit-content;
+  background-color: var(--cinza-escuro);
+  color: var(--branco);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.circulo {
+  position: relative;
+  top: -45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.3rem;
+  width: 50px;
+  height: 50px;
+  background-color: var(--branco);
+  color: var(--cinza-escuro);
+  border-radius: 50%;
+}
