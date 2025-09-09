@@ -153,7 +153,8 @@ tr:nth-child(even) td {
   transition: 0.3s;
 }
 
-.card:hover, .card-passos:hover {
+.card:hover,
+.card-passos:hover {
   transform: scale(1.05);
 }
 
@@ -198,7 +199,7 @@ tr:nth-child(even) td {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 100px;
   width: 100%;
   flex-wrap: wrap;
   margin-top: 40px;
@@ -215,9 +216,12 @@ tr:nth-child(even) td {
   padding: 20px;
   border-radius: 15px;
   transition: 0.3s;
+  box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
 }
 
-.card-passos p{
+.card-passos p {
   margin-top: 15px;
 }
 
