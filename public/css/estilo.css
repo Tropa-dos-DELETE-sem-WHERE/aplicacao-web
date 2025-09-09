@@ -82,3 +82,13 @@ footer nav ul li a{
 footer nav ul li a:hover{
   color: var(--cinza-escuro);
 }
+
+/* Responsividade */
+@media (max-width: 600px) {
+  footer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+  }
+}
