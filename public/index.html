@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>AquaTech | Página Inicial</title>
+  <title>EducaData | Página Inicial</title>
 
   <script src="./js/sessao.js"></script>
 
@@ -31,6 +31,8 @@
     <nav>
       <ul>
         <li><a href="index.html">Início</a></li>
+        <li><a href="">Sobre</a></li>
+        <li><a href="">Contato</a></li>
         <li><a href="cadastro.html">Cadastrar-se</a></li>
         <li><a href="login.html">Login</a></li>
       </ul>
@@ -48,7 +50,55 @@
       </div>
     </section>
 
-    <section class="problemaSolucao">
+    <section class="recursos">
+
+      <h1>Nossos recursos</h1>
+
+      <div class="recursos-container">
+        <div class="card">
+          <div class="card-esquerda">
+          <img src="./assets/icons/icons8-gráfico-positivo-32.png">
+          </div>
+          <div class="card-direita">
+            <h3>Dashboard</h3>
+            <p>Tenha um feedback visual sobre os dados do ENEM</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-esquerda">
+            <img src="./assets/icons/icons8-documento-32.png">
+          </div>
+          <div class="card-direita">
+            <h3>Relatórios</h3>
+            <p>Acesso a relatórios com base nos dados</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-esquerda">
+          <img src="./assets/icons/icons8-notificação-32.png">
+          </div>
+          <div class="card-direita">
+            <h3>Notificações</h3>
+            <p>Receba notificações sobre os dados</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-esquerda">
+            <img src="./assets/icons/icons8-alvo-32.png">
+          </div>
+          <div class="card-direita">
+            <h3>Criação de metas/objetivos</h3>
+            <p>Crie metas e objetivos</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+     <section class="problemaSolucao">
       <h1>Sua dor vs Nossa solução</h1>
       <table>
         <tr>
@@ -78,53 +128,6 @@
       </table>
     </section>
 
-    <section class="recursos">
-
-      <h1>Nossos recursos</h1>
-
-      <div class="recursos-container">
-        <div class="card">
-          <div class="card-esquerda">
-            <p>📊</p>
-          </div>
-          <div class="card-direita">
-            <h3>Dashboard</h3>
-            <p>Tenha um feedback visual sobre os dados do ENEM</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-esquerda">
-            <p>📄</p>
-          </div>
-          <div class="card-direita">
-            <h3>Relatórios</h3>
-            <p>Acesso a relatórios com base nos dados</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-esquerda">
-            <p>🔔</p>
-          </div>
-          <div class="card-direita">
-            <h3>Notificações</h3>
-            <p>Receba notificações sobre os dados</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-esquerda">
-            <p>🎯</p>
-          </div>
-          <div class="card-direita">
-            <h3>Criação de metas/objetivos</h3>
-            <p>Crie metas e objetivos</p>
-          </div>
-        </div>
-      </div>
-
-    </section>
 
     <section class="passos">
       <h1>Passo a passo:</h1>
@@ -164,6 +167,30 @@
     </section>
 
     </div>
+
+    <section class="contato">
+
+      <div class="credenciais">
+          <h1>Contato!</h1>
+
+      <div class="campo">
+        <label for="nomeInstituicao">Nome:</label>
+        <input type="text" id="nomeInstituicao">
+      </div>
+
+      <div class="campo">
+        <label for="cnpj">Email:</label>
+        <input type="number" id="cnpj">
+      </div>
+
+      <div class="campo">
+        <label for="descricao">Descrição:</label>
+        <textarea name="textarea" id="descricao"></textarea>
+           <button>Enviar -></button>
+      </div>
+
+      </div>
+    </section>
 
 
   </main>

@@ -49,7 +49,7 @@ button {
   height: 6vh;
   background-color: var(--branco);
   border: 2px solid var(--cinza-escuro);
-  color: black;
+  color: var(--branco);
   border-radius: 10px;
   padding-left: 10px;
   transition: 0.3s;
