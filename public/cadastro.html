@@ -45,56 +45,68 @@
       </div>
     </div> -->
 
-    <div class="cadastro-container">
-      <h1>Bem vindo(a)!</h1>
-
+    <form class="cadastro-container">
+      <h1>Bem vindo(a) ao EducaData!</h1>
       <div class="campo">
         <label for="nomeInstituicao">Nome da instituição:</label>
-        <input type="text" id="nomeInstituicao">
+        <input type="text" id="input_nomeInstituicao" required>
       </div>
 
       <div class="campo">
-        <label for="cnpj">CNPJ da instituição:</label>
-        <input type="number" id="cnpj">
+        <label for="cnpj">Nome do Usuario:</label>
+        <input type="text" id="input_usuario" required>
+      </div>
+
+      <div class="campo">
+        <label for="cnpj">Email do Usuario:</label>
+        <input type="email" id="input_email" required>
       </div>
 
       <div class="campo">
         <label for="senha">Senha:</label>
-        <input type="password" id="senha">
+        <input type="text" id="input_senha" required>
       </div>
 
       <div class="campo">
         <label for="repetirSenha">Confirme sua senha:</label>
-        <input type="password" id="repetirSenha">
-        <button>Cadastrar -></button>
+        <input type="text" id="input_repetirSenha" required>
+        <button type="button" onclick="cadastrar()">Cadastrar -></button>
       </div>
-    </div>
 
+        <div id="div_aviso">
+          <h1 id="h1_aviso"></h1>
+        </div>
+    </form>
   </main>
-
 </body>
 
 </html>
 
 <script>
+
   function cadastrar() {
-    var nomeVar = nome_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
-
-
-    fetch("/usuarios/cadastrar", {
+    event.preventDefault();
+    const nomeInstituicao = input_nomeInstituicao.value;
+    const nomeUsuario = input_usuario.value;
+    const email = input_email.value;
+    const senha = input_senha.value;
+    const confirmarSenha = input_repetirSenha.value;
+    const tipoUsuario = '1';
+   if(senha === confirmarSenha)
+   {
+    h1_aviso.innerHTML = ``;
+     fetch("/usuarios/cadastrar", 
+     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
+        nomeInstituicaoServer: nomeInstituicao,
+        nomeUsuarioServer: nomeUsuario,
+        emailServer: email,
+        senhaServer: senha,
+        tipoUsuarioServer: tipoUsuario
       }),
     })
       .then(function (resposta) {
@@ -106,8 +118,13 @@
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
       });
-
-    return false;
+  
+   }
+   else
+   {
+    console.log('diferentes')
+      h1_aviso.innerHTML = `Senhas devem ser iguais`;
+   }
   }
 
 </script>
