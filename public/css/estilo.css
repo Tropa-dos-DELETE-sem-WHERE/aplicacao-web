@@ -25,6 +25,8 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 0 80px;
+  position: sticky;
+  top: 0;
 }
 
 header img{
