@@ -49,14 +49,14 @@
             <h1>Bem vindo(a) ao EducaData!</h1>
 
             <div class="campo">
-                <label for="cnpj">CNPJ da instituição:</label>
-                <input type="number" id="cnpj">
+                <label for="input_email">Email do Usuario:</label>
+                <input type="text" id="input_email">
             </div>
 
             <div class="campo">
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha">
-                <button>Entrar -></button>
+                <label for="input_senha">Senha do Usuario:</label>
+                <input type="text" id="input_senha">
+                <button onclick="autenticar()">Entrar -></button>
             </div>
 
     </main>
@@ -66,30 +66,28 @@
 </html>
 
 <script>
-    function entrar() {
-        var emailVar = email_input.value;
-        var senhaVar = senha_input.value;
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
+    function autenticar() {
+        const email = email_input.value;
+        const senha = senha_input.value;
         fetch("/usuarios/autenticar", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                emailServer: emailVar,
-                senhaServer: senhaVar
+                emailServer: email,
+                senhaServer: senha
             })
         }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
             if (resposta.status == 200) {
                 console.log(resposta);
                 resposta.json().then(json => {
-                    console.log(json);
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.id;
+                    sessionStorage.ID_INSTITUICAO_USUARIO = json.escola_id;
+                    sessionStorage.ID_TIPO_USUARIO = json.tipoUsuario_id;
                     window.location = "./logou.html";
                 });
             }

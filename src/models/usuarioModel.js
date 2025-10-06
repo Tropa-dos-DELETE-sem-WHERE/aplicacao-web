@@ -1,22 +1,33 @@
+const e = require("express");
 var database = require("../database/config")
 
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
-        SELECT id, nome, email FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT * FROM usuario WHERE email = '${email}' AND senha = '${senha}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nomeInstituicao,nomeUsuario,email,senha,tipoUsuario) {
+async function cadastrar(nomeInstituicao,nomeUsuario,email,senha,tipoUsuario) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nomeInstituicao, nomeUsuario, email,senha,tipoUsuario);
     
     // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
     //  e na ordem de inserção dos dados.
+    const id_escola = `SELECT id FROM escola WHERE nomeEscola = '${nomeInstituicao}';`;
+    const res = await database.executar(id_escola);
+    console.log('id escola' + id_escola);
+    console.log("res : "+res);
+    if(res.length === 0)
+    {
+        const erro = new Error("Não existe essa escola");
+        erro.tipo = "escola_nao_encontrada";
+        throw erro;
+    }
     var instrucaoSql = `
-    INSERT INTO usuario (nome,email,senha,escola_id,tipoUsuario_id) VALUES ('${nomeUsuario}','${email}','${senha}',(SELECT id FROM escola WHERE nomeEscola = '${nomeInstituicao}'),'${tipoUsuario}');
+    INSERT INTO usuario (nome,email,senha,escola_id,tipoUsuario_id) VALUES ('${nomeUsuario}','${email}','${senha}','${id_escola}','${tipoUsuario}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

@@ -114,6 +114,10 @@
         if (resposta.status == 200) {
           window.location = "./login.html";
         }
+         if (resposta.status == 404) {
+          console.log("escola nao existe")
+           h1_aviso.innerHTML = `Instituição digitada não existe.`;
+        }
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);

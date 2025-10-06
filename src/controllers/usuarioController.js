@@ -1,8 +1,8 @@
-var usuarioModel = require("../models/usuarioModel");
+const usuarioModel = require("../models/usuarioModel");
 
 function autenticar(req, res) {
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
+    const email = req.body.emailServer;
+    const senha = req.body.senhaServer;
 
     if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
@@ -21,13 +21,15 @@ function autenticar(req, res) {
                                 id: resultadoAutenticar[0].id,
                                 email: resultadoAutenticar[0].email,
                                 nome: resultadoAutenticar[0].nome,
-                                senha: resultadoAutenticar[0].senha
+                                senha: resultadoAutenticar[0].senha,
+                                escola_id: resultadoAutenticar[0].escola_id,
+                                tipoUsuario_id: resultadoAutenticar[0].tipoUsuario_id
                             });
                                 
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
-                        res.status(403).send("Mais de um usuário com o mesmo login e senha!");
+                        res.status(403).send("Mais de um usuário com o mesmo email!");
                     }
                 }
             ).catch(
@@ -64,15 +66,17 @@ function cadastrar(req, res) {
         usuarioModel.cadastrar(nomeInstituicao,nomeUsuario,email,senha,tipoUsuario)
             .then(
                 function (resultado) {
+                
                     res.json(resultado);
                 }
+                
             ).catch(
                 function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
+                      console.log("Erro:", erro);
+                    if(erro.tipo == "escola_nao_encontrada")
+                        {
+                          return res.status(404).json(erro);
+                        }
                     res.status(500).json(erro.sqlMessage);
                 }
             );
