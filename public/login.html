@@ -67,8 +67,8 @@
 
 <script>
     function autenticar() {
-        const email = email_input.value;
-        const senha = senha_input.value;
+        const email = input_email.value;
+        const senha = input_senha.value;
         fetch("/usuarios/autenticar", {
             method: "POST",
             headers: {
