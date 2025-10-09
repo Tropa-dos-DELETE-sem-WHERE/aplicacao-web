@@ -68,7 +68,6 @@
             const inputs = document.querySelectorAll("#form_editar input, #form_editar select");
             const btnSalvar = document.getElementById("btn_salvar");
             const btnCancelar = document.getElementById("btn_cancelar");
-        
             for(var i=0;i<4;i++)
             {
                 inputs[i].disabled = false;
@@ -80,12 +79,32 @@
         }
 
         function salvarAlteracoes() {
-            sessionStorage.NOME_USUARIO = input_nome.value;
-            sessionStorage.EMAIL_USUARIO = input_email.value;
-            sessionStorage.ID_INSTITUICAO_USUARIO = input_instituicao.value;
-            sessionStorage.ID_TIPO_USUARIO = input_tipo.value;
+            const nomeUsuario = input_nome.value;
+            const emailUsuario = input_email.value;
+            const id_instituicao = input_instituicao.value;
+            const id_usuario = sessionStorage.ID_USUARIO;
+            function atualizarDadoByUser() {
+            fetch("/usuarios/atualizarDadoByUser", 
+            {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idInstituicaoServer: id_instituicao,
+                nomeUsuarioServer: nomeUsuario,
+                emailServer: emailUsuario,
+                idUsuarioServer: id_usuario
+            }),
+            })
+            .then(function (resposta) {
+                console.log("Funcionouuuuuuuuuuuuuuu");
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+        }
 
-            alert("Alterações salvas com sucesso!");
             desabilitarEdicao();
         }
 
@@ -96,7 +115,7 @@
              const inputs = document.querySelectorAll("#form_editar input, #form_editar select");
             const btnSalvar = document.getElementById("btn_salvar");
             const btnCancelar = document.getElementById("btn_cancelar");
-            inputs.forEach(input => input.disabled = true);
+            inputs.forEach(input => input.disabled = true); 
             btnSalvar.disabled = true;
             btnCancelar.disabled = true;
         }

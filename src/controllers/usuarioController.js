@@ -83,7 +83,38 @@ function cadastrar(req, res) {
     }
 }
 
+function atualizarDadoByUser(req, res) {
+    
+    const idInstituicao = req.body.idInstituicaoServer;
+    const nomeUsuario = req.body.nomeUsuarioServer;
+    const email = req.body.emailServer;
+    const idUsuario = req.body.idUsuarioServer;
+    
+    // Faça as validações dos valores
+    if (idInstituicao == undefined) {
+        res.status(400).send("Nome da Instituição está undefined!");
+    } else if (nomeUsuario == undefined) {
+        res.status(400).send("Nome do Usuário está undefined!");
+    } else if (email == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else if (idUsuario == undefined) {
+        res.status(400).send("Sua senha está undefined!");
+    } else {
+        usuarioModel.atualizarDadoByUser(idInstituicao,nomeUsuario,email,idUsuario)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                      console.log("Erro:", erro);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    atualizarDadoByUser
 }

@@ -10,12 +10,8 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-// Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
 async function cadastrar(nomeInstituicao,nomeUsuario,email,senha,tipoUsuario) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nomeInstituicao, nomeUsuario, email,senha,tipoUsuario);
-    
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
     const id_escola = `SELECT id FROM escola WHERE nomeEscola = '${nomeInstituicao}';`;
     const res = await database.executar(id_escola);
     console.log('id escola' + id_escola);
@@ -27,7 +23,18 @@ async function cadastrar(nomeInstituicao,nomeUsuario,email,senha,tipoUsuario) {
         throw erro;
     }
     var instrucaoSql = `
-    INSERT INTO usuario (nome,email,senha,escola_id,tipoUsuario_id) VALUES ('${nomeUsuario}','${email}','${senha}','${id_escola}','${tipoUsuario}');
+    INSERT INTO usuario (nome,email,senha,escola_id,tipoUsuario_id) VALUES ('${nomeUsuario}','${email}','${senha}',(SELECT id FROM escola WHERE nomeEscola = '${nomeInstituicao}'),'${tipoUsuario}');
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function atualizarDadoByUser(idInstituicao,nomeUsuario,email,idUsuario) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function atualizarDadoByUser(): ",idInstituicao,nomeUsuario,email,idUsuario)
+    var instrucaoSql = `
+        UPDATE usuario
+        SET nome = ${nomeUsuario}, email = ${email}, escola_id = ${idInstituicao}
+        WHERE id = ${idUsuario}; 
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -35,5 +42,6 @@ async function cadastrar(nomeInstituicao,nomeUsuario,email,senha,tipoUsuario) {
 
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    atualizarDadoByUser
 };
