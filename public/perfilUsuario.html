@@ -35,7 +35,7 @@
             </select>
 
             <div class="botoes">
-                <button type="button" class="btn btn-salvar" onclick="salvarAlteracoes()" disabled id="btn_salvar">Salvar</button>
+                <button type="button" class="btn btn-salvar" onclick="atualizarDadoByUser()" disabled id="btn_salvar">Salvar</button>
                 <button type="button" class="btn btn-cancelar" onclick="cancelar()" disabled id="btn_cancelar">Cancelar</button>
             </div>
         </form>
@@ -63,7 +63,7 @@
             btnEditar.style = "display:none";
 
         }
- const btnEditar = document.getElementById("btn_editar");
+        const btnEditar = document.getElementById("btn_editar");
         function desabilitarEdicao() {
             const inputs = document.querySelectorAll("#form_editar input, #form_editar select");
             const btnSalvar = document.getElementById("btn_salvar");
@@ -78,12 +78,12 @@
             btnEditar.onclick = habilitarEdicao;
         }
 
-        function salvarAlteracoes() {
+        function atualizarDadoByUser() {
+            console.log("Entrou")
             const nomeUsuario = input_nome.value;
             const emailUsuario = input_email.value;
             const id_instituicao = input_instituicao.value;
             const id_usuario = sessionStorage.ID_USUARIO;
-            function atualizarDadoByUser() {
             fetch("/usuarios/atualizarDadoByUser", 
             {
             method: "PUT",
@@ -103,9 +103,6 @@
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
-        }
-
-            desabilitarEdicao();
         }
 
         function cancelar() {
