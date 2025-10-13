@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS educadata;
 USE educadata;
-SELECT * FROM usuario;
+
 -- -----------------------------------------------------
 -- Tabela Tipo de Escola
 -- -----------------------------------------------------
