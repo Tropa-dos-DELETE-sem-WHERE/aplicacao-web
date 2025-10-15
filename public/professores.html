@@ -10,43 +10,168 @@
   <header>Professores - Administração</header>
   <main>
     <h2>Lista de Professores</h2>
-    <form>
-        <button type="submit" class="btn add-btn">+ Novo Professor</button>
-    </form>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>Materia</th>
-          <th>Escola</th>
-          <th colspan="2">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="actions">
-            <form>
-              <button type="submit" class="btn btn-edit">Editar</button>
-            </form>
-          </td>
-          <td class="actions">
-            <form>
-              <button type="submit" class="btn btn-delete">Excluir</button>
-            </form>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <button class="btn add-btn" onclick="adicionarProfessor()">+ Novo Professor</button>
+    <div id="div_container_professores"></div>
+    <div id="modal_container_adicionar"></div>
   </main>
 </body>
 </html>
+<!-- .then(resposta => {
+            
+        }) -->
 <script>
+   window.onload = () => {
+    carregarTabela();
+  }
+  function excluirProfessor()
+  {
 
+  }
+  function carregarTabela() {
+  fetch("/usuarios/listarProfessores")
+    .then(resposta => resposta.json())
+    .then(professores => {
+      console.log("Professores recebidos:", professores);
+
+      let tabela = `
+        <table class="tabela-professores">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Matéria</th>
+              <th>Escola</th>
+              <th colspan="2">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      professores.forEach(prof => {
+        tabela += `
+          <tr>
+            <td>${prof.id}</td>
+            <td>${prof.nome}</td>
+            <td>${prof.email}</td>
+            <td>${"—"}</td>
+            <td>${"—"}</td>
+            <td class="actions">
+              <button class="btn btn-edit" onclick="editarProfessor(${prof.id})">
+                Editar
+              </button>
+            </td>
+            <td class="actions">
+              <button class="btn btn-delete" onclick="deletarProfessor(${prof.id})">
+                Excluir
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tabela += `
+          </tbody>
+        </table>
+      `;
+
+      document.getElementById("div_container_professores").innerHTML = tabela;
+    })
+    .catch(erro => {
+      console.error("Erro ao carregar professores:", erro);
+    });
+}
+
+  function adicionarProfessor() {
+    console.log("chamou o modal")
+  modal_container_adicionar.innerHTML = `
+    <div class="modal-container show">
+      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal">
+        <h1>Cadastrar Professor</h1>
+        <div class="form_professor">
+          <div class="informacoes_professor">
+            <div class="form-group">
+              <label for="input_nome">Nome do Professor:</label>
+              <input type="text" id="input_nome" placeholder="Ex: João Silva">
+            </div>
+            
+            <div class="form-group">
+              <label for="input_email">E-mail:</label>
+              <input type="email" id="input_email" placeholder="Ex: joao@email.com">
+            </div>
+
+            <div class="form-group">
+              <label for="Escola">Escola:</label>
+              <input type="text" placeholder="Ex:Pedro Taques">
+            </div>
+
+            <div class="form-group">
+              <label for="Escola">Senha:</label>
+              <input type="senha" id="input_senha" placeholder="Ex: ******">
+            </div>
+          </div>
+        </div>
+
+        <div class="boxButton">
+          <button class="btnSalvar" onclick="inserirProfessor()">Cadastrar</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+   function fecharModal() {
+        modal_container_adicionar.innerHTML = ``;
+    }
+  function listarProfessores()
+  {
+          fetch("/usuarios/listarProfessores").then(resposta => console.log(resposta.json()))
+          .catch(erro => {
+              console.error('Deu erro:', erro);
+          });
+  }
+   function inserirProfessor() 
+   {
+    console.log("chamou");
+    const nome = input_nome.value;
+    const email = input_email.value;
+    const senha = input_senha.value;
+    const tipoUsuario = 2;
+      console.log(nome);
+      console.log(email);
+      console.log(senha);
+      console.log(tipoUsuario);
+      console.log(sessionStorage.ID_INSTITUICAO_USUARIO);
+      fetch("/usuarios/inserirProfessor", 
+     {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nome: nome,
+        email: email,
+        senha: senha,
+        tipoUsuario: tipoUsuario,
+        escola_id: sessionStorage.ID_INSTITUICAO_USUARIO
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+    }
+    
+  function deletarProfessor(id) {
+    console.log("Opa");
+  fetch("/usuarios/deleteProfessores", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idProfessor: id })
+  });
+  alert("Professor deletado!");
+  window.location.reload();
+}
 </script>
