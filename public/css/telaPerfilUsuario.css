@@ -103,3 +103,13 @@ input:disabled, select:disabled {
 .btn-editar{
     text-align: center;
 }
+
+#conteudo {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+#conteudo.mostrar {
+    display: block;
+    opacity: 1;
+}

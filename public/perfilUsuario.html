@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/telaPerfilUsuario.css">
     <title>Editar Perfil</title>
 </head>
+
 <body>
-    <h1><a href="professores.html">professores</a></h1>
-    <div class="container">
+    <div id="loading" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <h2>Carregando dados...</h2>
+    </div>
+    <h1 id="isGestor"></h1>
+    <div class="container" id="conteudo">
         <h2 class="titulo">Editar Perfil</h2>
 
         <div class="foto-perfil">
-            <img id="foto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="alterarFoto()" alt="Foto de Perfil">
+            <img id="foto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="alterarFoto()"
+                alt="Foto de Perfil">
             <input type="file" id="input_foto" accept="image/*" style="display:none">
         </div>
 
         <button type="button" class="btn btn-editar" id="btn_editar" onclick="habilitarEdicao()">Editar</button>
 
         <form id="form_editar">
-            <label for="nome">Nome</label>
+            <label for="nome">Nome</label>git commit -m 'Style: Tela de carregar dados'
             <input type="text" id="input_nome" disabled>
 
             <label for="email">E-mail</label>
@@ -36,18 +42,49 @@
             </select>
 
             <div class="botoes">
-                <button type="button" class="btn btn-salvar" onclick="atualizarDadoByUser()" disabled id="btn_salvar">Salvar</button>
-                <button type="button" class="btn btn-cancelar" onclick="cancelar()" disabled id="btn_cancelar">Cancelar</button>
+                <button type="button" class="btn btn-salvar" onclick="atualizarDadoByUser()" disabled
+                    id="btn_salvar">Salvar</button>
+                <button type="button" class="btn btn-cancelar" onclick="cancelar()" disabled
+                    id="btn_cancelar">Cancelar</button>
             </div>
         </form>
     </div>
 
     <script>
-        window.onload = () => {
-            input_nome.value = sessionStorage.NOME_USUARIO || "";
-            input_email.value = sessionStorage.EMAIL_USUARIO || "";
-            input_instituicao.value = sessionStorage.ID_INSTITUICAO_USUARIO || "";
-            input_tipo.value = sessionStorage.ID_TIPO_USUARIO || "";
+        const btnEditar = document.getElementById("btn_editar");
+        window.onload = async () => {
+
+            const loading = document.getElementById("loading");
+            const conteudo = document.getElementById("conteudo");
+
+            setTimeout(async () => {
+                await escolaUsuario();
+
+                sessionStorage.ID_TIPO_USUARIO == 1
+                    ? isGestor.innerHTML = `<a href="professores.html">professores</a>`
+                    : isGestor.innerHTML = "";
+
+                input_nome.value = sessionStorage.NOME_USUARIO || "";
+                input_email.value = sessionStorage.EMAIL_USUARIO || "";
+                input_tipo.value = sessionStorage.ID_TIPO_USUARIO || "";
+
+                loading.style.display = "none";
+                conteudo.classList.add("mostrar");
+            }, 1000);
+        };
+
+        function escolaUsuario() {
+            const idUsuario = sessionStorage.ID_USUARIO;
+            fetch(`/usuarios/escolasUser/${idUsuario}`)
+                .then(resposta => {
+                    return resposta.json()
+                }).then(atributos => {
+                    console.log(atributos)
+                    input_instituicao.value = atributos[0].nomeEscola;
+                })
+                .catch(erro => {
+                    console.error("Deu erro:", erro);
+                });
         }
 
         function habilitarEdicao() {
@@ -55,8 +92,7 @@
             const btnSalvar = document.getElementById("btn_salvar");
             const btnCancelar = document.getElementById("btn_cancelar");
             const btnEditar = document.getElementById("btn_editar");
-            for(var i=0;i<4;i++)
-            {
+            for (var i = 0; i < 4; i++) {
                 inputs[i].disabled = false;
             }
             btnSalvar.disabled = false;
@@ -64,18 +100,16 @@
             btnEditar.style = "display:none";
 
         }
-        const btnEditar = document.getElementById("btn_editar");
         function desabilitarEdicao() {
             const inputs = document.querySelectorAll("#form_editar input, #form_editar select");
             const btnSalvar = document.getElementById("btn_salvar");
             const btnCancelar = document.getElementById("btn_cancelar");
-            for(var i=0;i<4;i++)
-            {
+            for (var i = 0; i < 4; i++) {
                 inputs[i].disabled = false;
             }
             btnSalvar.disabled = true;
             btnCancelar.disabled = true;
-            btnEditar.textContent = "Editar";
+            btnEditar.innerHTML = "Editar";
             btnEditar.onclick = habilitarEdicao;
         }
 
@@ -83,37 +117,37 @@
             console.log("Entrou")
             const nomeUsuario = input_nome.value;
             const emailUsuario = input_email.value;
-            const id_instituicao = input_instituicao.value;
+            const id_instituicao = sessionStorage.ID_INSTITUICAO_USUARIO;
             const id_usuario = sessionStorage.ID_USUARIO;
-            fetch("/usuarios/atualizarDadoByUser", 
-            {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                idInstituicaoServer: id_instituicao,
-                nomeUsuarioServer: nomeUsuario,
-                emailServer: emailUsuario,
-                idUsuarioServer: id_usuario
-            }),
-            })
-            .then(function (resposta) {
-                console.log("Funcionouuuuuuuuuuuuuuu");
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-            });
+            fetch("/usuarios/atualizarDadoByUser",
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idInstituicaoServer: id_instituicao,
+                        nomeUsuarioServer: nomeUsuario,
+                        emailServer: emailUsuario,
+                        idUsuarioServer: id_usuario
+                    }),
+                })
+                .then(function (resposta) {
+                    console.log("Funcionouuuuuuuuuuuuuuu");
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                });
         }
 
         function cancelar() {
             btnEditar.style = "display:block";
             btnEditar.textContent = "Editar";
             btnEditar.onclick = desabilitarEdicao;
-             const inputs = document.querySelectorAll("#form_editar input, #form_editar select");
+            const inputs = document.querySelectorAll("#form_editar input, #form_editar select");
             const btnSalvar = document.getElementById("btn_salvar");
             const btnCancelar = document.getElementById("btn_cancelar");
-            inputs.forEach(input => input.disabled = true); 
+            inputs.forEach(input => input.disabled = true);
             btnSalvar.disabled = true;
             btnCancelar.disabled = true;
         }
@@ -123,4 +157,5 @@
         }
     </script>
 </body>
+
 </html>
