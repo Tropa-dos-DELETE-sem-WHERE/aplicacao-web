@@ -120,7 +120,6 @@ function inserirProfessor(req, res) {
     const tipoUsuario = req.body.tipoUsuario;
     const escola_id = req.body.escola_id;
 
-    // Validações
     if (nome == undefined) {
         res.status(400).send("O nome está undefined!");
     } else if (email == undefined) {
@@ -165,6 +164,30 @@ usuarioModel.listarProfessores().then(
             );
 }
 
+function escolaUser(req, res) {
+    const idUsuario = req.params.idUsuario;
+    if (idUsuario == undefined) {
+        res.status(400).send("O id do Usuario está undefined!");
+    } else {
+        usuarioModel.escolaUser(idUsuario)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            )
+            .catch(
+                function (erro) {
+                    console.log("Erro:", erro);
+                    if (erro.tipo == "escola_nao_encontrada") {
+                        return res.status(404).json(erro);
+                    }
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
+
 function deleteProfessor(req, res) {
     var idProfessor = req.body.idProfessor;
 
@@ -183,5 +206,6 @@ module.exports = {
     atualizarDadoByUser,
     listarProfessores,
     inserirProfessor,
-    deleteProfessor
+    deleteProfessor,
+    escolaUser
 }

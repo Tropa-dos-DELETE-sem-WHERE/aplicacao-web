@@ -49,6 +49,17 @@ function listarProfessores(){
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+function escolaUser(idUsuario){
+    console.log("acessei o select escola do usuario com id :"+idUsuario);
+    var instrucaoSql = 
+    `
+        SELECT e.* FROM usuario as u
+        JOIN escola as e ON u.escola_id = e.id
+        where u.id = ${idUsuario};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
 function inserirProfessor(nome, email, senha, tipoUsuario, escola_id) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function inserirProfessor(): ", nome, email, senha, tipoUsuario, escola_id);
@@ -79,5 +90,6 @@ module.exports = {
     atualizarDadoByUser,
     listarProfessores,
     inserirProfessor,
-    deleteProfessor
+    deleteProfessor,
+    escolaUser
 };

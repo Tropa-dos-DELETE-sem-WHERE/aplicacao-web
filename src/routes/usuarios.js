@@ -27,4 +27,8 @@ router.delete("/deleteProfessores", function(req, res) {
     usuarioController.deleteProfessor(req, res);
 });
 
+router.get("/escolasUser/:idUsuario", function(req, res) {
+    usuarioController.escolaUser(req, res);
+});
+
 module.exports = router;
