@@ -153,3 +153,27 @@ position: fixed;
     justify-content: space-around;
     align-items: center;
 }
+
+.tabela-professores td {
+  max-width: 180px;     
+  overflow: hidden;     
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+  vertical-align: middle;
+}
+
+#conteudo {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+#conteudo.mostrar {
+    display: block;
+    opacity: 1;
+}
+.semProfessores {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.2em;
+  color: #555;
+}
