@@ -1,3 +1,12 @@
+:root {
+    --azul-vivo: #1e90ff;
+    --laranja-vivo: #ff6a34;
+    --vermelho-vivo: #ff3b30;
+    --branco: #f3f3f3;
+    --cinza: #ebebeb;
+    --cinza-escuro: #4f4f4f;
+}
+
 *{
     padding: 0;
     margin: 0;
