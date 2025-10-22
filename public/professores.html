@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="professores.css">
+  <title>Lista de Professores</title>
+</head>
+
+<body>
+  <header>Professores - Administração</header>
+  <div id="loading" style="display: flex; justify-content: center; align-items: center; height: 90vh;">
+    <h2>Carregando dados...</h2>
+  </div>
+  <main class="container" id="conteudo">
+    <h2>Lista de Professores</h2>
+    <button class="btn add-btn" onclick="adicionarProfessor()">+ Novo Professor</button>
+    <div id="div_container_professores"></div>
+
+    <div id="modal_container_adicionar"></div>
+  </main>
+</body>
+
+</html>
+<script>
+  window.onload = async () => {
+    const loading = document.getElementById("loading");
+    const conteudo = document.getElementById("conteudo");
+
+    setTimeout(() => {
+      carregarTabela();
+      loading.style.display = "none";
+      conteudo.classList.add("mostrar");
+    }, 500);
+  };
+  async function carregarTabela() {
+    try {
+      const resposta = await fetch("/usuarios/listarProfessores");
+      const professores = await resposta.json();
+
+      let tabela = `
+      <table class="tabela-professores">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Escola</th>
+            <th colspan="2">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+      if (professores.length > 0) {
+        for (const prof of professores) {
+          let nomeEscola = "—";
+
+          try {
+            const respostaEscola = await fetch(`/usuarios/escolasUser/${prof.id}`);
+            const dadosEscola = await respostaEscola.json();
+
+            if (dadosEscola.length > 0) {
+              nomeEscola = dadosEscola[0].nomeEscola;
+            }
+          } catch (erro) {
+            console.error(`Erro ao buscar escola do professor ${prof.id}:`, erro);
+          }
+
+          tabela += `
+        <tr>
+          <td>${prof.id}</td>
+          <td>${prof.nome}</td>
+          <td>${prof.email}</td>
+          <td>${nomeEscola}</td>
+          <td class="actions">
+            <button class="btn btn-edit" onclick="editarProfessor(${prof.id},'${prof.nome}','${prof.email}','${prof.senha}')">
+              Editar
+            </button>
+          </td>
+          <td class="actions">
+            <button class="btn btn-delete" onclick="deletarProfessormodal(${prof.id})">
+              Excluir
+            </button>
+          </td>
+        </tr>
+      `;
+        }
+
+        tabela += `
+        </tbody>
+      </table>
+    `;
+      } else {
+          tabela = `
+            <div class="semProfessores">
+              <p>Nenhum professor cadastrado até o momento.</p>
+              <p>Use o botão <strong>+ Novo Professor</strong> para adicionar um.</p>
+            </div>
+          `;
+      }
+
+      document.getElementById("div_container_professores").innerHTML = tabela;
+    } catch (erro) {
+      console.error("Erro ao carregar professores:", erro);
+    }
+  }
+  function adicionarProfessor() {
+    console.log("chamou o modal")
+    modal_container_adicionar.innerHTML = `
+    <div class="modal-container show">
+      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal">
+        <h1>Cadastrar Professor</h1>
+        <div class="form_professor">
+          <div class="informacoes_professor">
+            <div class="form-group">
+              <label for="input_nome">Nome do Professor:</label>
+              <input type="text" id="input_nome" placeholder="Ex: João Silva">
+            </div>
+            
+            <div class="form-group">
+              <label for="input_email">E-mail:</label>
+              <input type="email" id="input_email" placeholder="Ex: joao@email.com">
+            </div>
+
+            <div class="form-group">
+              <label for="Escola">Senha:</label>
+              <input type="senha" id="input_senha" placeholder="Ex: ******"><button onclick="gerarSenha(10)">Gerar senha aleatoria</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="boxButton">
+          <button class="btnSalvar" onclick="inserirProfessor()">Cadastrar</button>
+        </div>
+      </div>
+    </div>
+  `;
+  }
+  function fecharModal() {
+    modal_container_adicionar.innerHTML = ``;
+  }
+  function inserirProfessor() {
+    console.log("chamou");
+    const nome = input_nome.value;
+    const email = input_email.value;
+    const senha = input_senha.value;
+    const tipoUsuario = 2;
+    console.log(nome);
+    console.log(email);
+    console.log(senha);
+    console.log(tipoUsuario);
+    console.log(sessionStorage.ID_INSTITUICAO_USUARIO);
+    fetch("/usuarios/inserirProfessor",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nome: nome,
+          email: email,
+          senha: senha,
+          tipoUsuario: tipoUsuario,
+          escola_id: sessionStorage.ID_INSTITUICAO_USUARIO
+        }),
+      })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+        window.location.reload();
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+  }
+
+  function deletarProfessormodal(id) {
+    console.log(id)
+  modal_container_adicionar.innerHTML = `
+    <div class="modal-container show">
+      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal">
+        <h1>Apagar Conta</h1>
+        <p style="text-align: center; margin: 20px 0;">
+          Tem certeza que deseja apagar sua conta? Esta ação <b>não poderá ser desfeita</b>.
+        </p>
+
+        <div class="boxButton" style="display: flex; justify-content: center; gap: 20px;">
+          <button class="btnCancelar" onclick="fecharModal()">Cancelar</button>
+          <button class="btnConfirmar" onclick="deletarProfessor(${id})">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+  function deletarProfessor(id) {
+    console.log("Opa");
+    fetch("/usuarios/deleteProfessores", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idProfessor: id })
+    });
+    alert("Professor deletado!");
+    window.location.reload();
+  }
+  function gerarSenha(tamanho) {
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let senha = '';
+    for (let i = 0; i < tamanho; i++) {
+      const indice = Math.floor(Math.random() * caracteres.length);
+      senha += caracteres[indice];
+    }
+    input_senha.value = senha;
+  }
+  
+  function atualizarProfessor(idProfessor) {
+  const nome = input_nome.value;
+  const email = input_email.value;
+  const senha = input_senha.value;
+
+  console.log("Atualizando professor:", idProfessor, nome, email, senha);
+
+  fetch(`/usuarios/atualizarProfessor/${idProfessor}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      nome: nome,
+      email: email,
+      senha: senha
+    }),
+  })
+    .then(function (resposta) {
+      if (resposta.ok) {
+        alert("Professor atualizado com sucesso!");
+        window.location.reload();
+      } else {
+        alert("Erro ao atualizar professor!");
+      }
+    })
+    .catch(function (erro) {
+      console.error(`#ERRO: ${erro}`);
+    });
+}
+function editarProfessor(id, nome, email, senha) {
+  console.log("abrindo modal de edição para professor:", id);
+
+  modal_container_adicionar.innerHTML = `
+    <div class="modal-container show">
+      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal">
+        <h1>Editar Professor</h1>
+        <div class="form_professor">
+          <div class="informacoes_professor">
+            
+            <div class="form-group">
+              <label for="input_nome">Nome do Professor:</label>
+              <input type="text" id="input_nome" value="${nome}">
+            </div>
+            
+            <div class="form-group">
+              <label for="input_email">E-mail:</label>
+              <input type="email" id="input_email" value="${email}">
+            </div>
+
+            <div class="form-group">
+              <label for="input_senha">Senha:</label>
+              <input type="text" id="input_senha" value="${senha || ''}">
+              <button onclick="gerarSenha(10)">Gerar senha aleatória</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="boxButton">
+          <button class="btnSalvar" onclick="atualizarProfessor(${id})">Salvar Alterações</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+</script>
