@@ -84,6 +84,32 @@ function deleteProfessor(idProfessor) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+function deleteUser(id) {
+    console.log("ACESSEI O USUARIO MODEL \n\n function deleteUser(): ", id);
+
+    var instrucaoSql = `
+        DELETE FROM usuario
+        WHERE id = ${id};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+function atualizarProfessor(id, nome, email, senha) {
+    console.log("ACESSEI O USUARIO MODEL: atualizarProfessor()", id, nome, email, senha);
+
+    const instrucaoSql = `
+        UPDATE usuario
+        SET nome = '${nome}',
+            email = '${email}',
+            senha = '${senha}'
+        WHERE id = ${id};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
     cadastrar,
@@ -91,5 +117,7 @@ module.exports = {
     listarProfessores,
     inserirProfessor,
     deleteProfessor,
+    deleteUser,
+    atualizarProfessor,
     escolaUser
 };

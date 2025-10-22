@@ -12,9 +12,9 @@
     <div id="loading" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
         <h2>Carregando dados...</h2>
     </div>
-    <h1 id="isGestor"></h1>
     <div class="container" id="conteudo">
-        <h2 class="titulo">Editar Perfil</h2>
+        <h1 id="isGestor"></h1>
+        <h2 class="titulo">Perfil</h2>
 
         <div class="foto-perfil">
             <img id="foto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="alterarFoto()"
@@ -22,8 +22,10 @@
             <input type="file" id="input_foto" accept="image/*" style="display:none">
         </div>
 
-        <button type="button" class="btn btn-editar" id="btn_editar" onclick="habilitarEdicao()">Editar</button>
-
+        <div class="box-ud">
+            <button type="button" class="btn btn-editar" id="btn_editar" onclick="habilitarEdicao()">Editar</button>
+        <button type="button" class="btn btn-apagar" id="btn_apagar" onclick="apagarGestor()">Apagar Contar</button>
+        </div>
         <form id="form_editar">
             <label for="nome">Nome</label>
             <input type="text" id="input_nome" disabled>
@@ -34,13 +36,6 @@
             <label for="instituicao">Instituição</label>
             <input type="text" id="input_instituicao" disabled>
 
-            <label for="tipo">Tipo de Usuário</label>
-            <select id="input_tipo" disabled>
-                <option value="1">Gestor</option>
-                <option value="2">Professor</option>
-                <option value="3">Aluno</option>
-            </select>
-
             <div class="botoes">
                 <button type="button" class="btn btn-salvar" onclick="atualizarDadoByUser()" disabled
                     id="btn_salvar">Salvar</button>
@@ -48,9 +43,11 @@
                     id="btn_cancelar">Cancelar</button>
             </div>
         </form>
+        <div id="modal_container_adicionar"></div>
     </div>
-
-    <script>
+</body>
+</html>
+  <script>
         const btnEditar = document.getElementById("btn_editar");
         window.onload = async () => {
 
@@ -66,7 +63,6 @@
 
                 input_nome.value = sessionStorage.NOME_USUARIO || "";
                 input_email.value = sessionStorage.EMAIL_USUARIO || "";
-                input_tipo.value = sessionStorage.ID_TIPO_USUARIO || "";
 
                 loading.style.display = "none";
                 conteudo.classList.add("mostrar");
@@ -88,7 +84,7 @@
         }
 
         function habilitarEdicao() {
-            const inputs = document.querySelectorAll("#form_editar input, #form_editar select");
+            const inputs = document.querySelectorAll("#form_editar input");
             const btnSalvar = document.getElementById("btn_salvar");
             const btnCancelar = document.getElementById("btn_cancelar");
             const btnEditar = document.getElementById("btn_editar");
@@ -101,7 +97,7 @@
 
         }
         function desabilitarEdicao() {
-            const inputs = document.querySelectorAll("#form_editar input, #form_editar select");
+            const inputs = document.querySelectorAll("#form_editar input");
             const btnSalvar = document.getElementById("btn_salvar");
             const btnCancelar = document.getElementById("btn_cancelar");
             for (var i = 0; i < 4; i++) {
@@ -144,7 +140,7 @@
             btnEditar.style = "display:block";
             btnEditar.textContent = "Editar";
             btnEditar.onclick = desabilitarEdicao;
-            const inputs = document.querySelectorAll("#form_editar input, #form_editar select");
+            const inputs = document.querySelectorAll("#form_editar input");
             const btnSalvar = document.getElementById("btn_salvar");
             const btnCancelar = document.getElementById("btn_cancelar");
             inputs.forEach(input => input.disabled = true);
@@ -155,7 +151,40 @@
         function alterarFoto() {
             input_foto.click();
         }
-    </script>
-</body>
+        function apagarGestor() {
+  modal_container_adicionar.innerHTML = `
+    <div class="modal-container show">
+      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal">
+        <h1>Apagar Conta</h1>
+        <p style="text-align: center; margin: 20px 0;">
+          Tem certeza que deseja apagar sua conta? Esta ação <b>não poderá ser desfeita</b>.
+        </p>
 
-</html>
+        <div class="boxButton" style="display: flex; justify-content: center; gap: 20px;">
+          <button class="btnCancelar" onclick="fecharModal()">Cancelar</button>
+          <button class="btnConfirmar" onclick="deletarUsuario(sessionStorage.ID_USUARIO)">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+function deletarUsuario(id) {
+    fetch("/usuarios/delete", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: id })
+    });
+      sessionStorage.EMAIL_USUARIO = undefined;
+     sessionStorage.NOME_USUARIO = undefined;
+     sessionStorage.ID_USUARIO = undefined;
+     sessionStorage.ID_INSTITUICAO_USUARIO = undefined;
+     sessionStorage.ID_TIPO_USUARIO = undefined;
+    window.location = "./index.html";
+  }
+
+  function fecharModal() {
+    modal_container_adicionar.innerHTML = ``;
+  }
+
+    </script>

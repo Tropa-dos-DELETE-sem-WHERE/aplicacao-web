@@ -186,7 +186,18 @@ function escolaUser(req, res) {
             );
     }
 }
+function deleteUser(req, res) {
+    var id = req.body.id;
 
+    usuarioModel.deleteUser(id)
+        .then(function (resultado) {
+            res.status(200).json({ mensagem: "Usuario deletado com sucesso!" });
+        })
+        .catch(function (erro) {
+            console.log("\nHouve um erro ao deletar o Usuario! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 
 function deleteProfessor(req, res) {
     var idProfessor = req.body.idProfessor;
@@ -200,6 +211,32 @@ function deleteProfessor(req, res) {
             res.status(500).json(erro.sqlMessage);
         });
 }
+function atualizarProfessor(req, res) {
+    const id = req.params.id;
+    const nome = req.body.nome;
+    const email = req.body.email;
+    const senha = req.body.senha;
+
+    if (!id) {
+        return res.status(400).send("O ID está undefined!");
+    } else if (!nome) {
+        return res.status(400).send("O nome está undefined!");
+    } else if (!email) {
+        return res.status(400).send("O email está undefined!");
+    } else if (!senha) {
+        return res.status(400).send("A senha está undefined!");
+    } else {
+        usuarioModel.atualizarProfessor(id, nome, email, senha)
+            .then((resultado) => {
+                res.json(resultado);
+            })
+            .catch((erro) => {
+                console.error("Erro:", erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     autenticar,
     cadastrar,
@@ -207,5 +244,7 @@ module.exports = {
     listarProfessores,
     inserirProfessor,
     deleteProfessor,
+    atualizarProfessor,
+    deleteUser,
     escolaUser
 }

@@ -11,6 +11,10 @@ router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
 
+router.delete("/delete", function(req, res) {
+    usuarioController.deleteUser(req, res);
+});
+
 router.put("/atualizarDadoByUser", function (req, res) {
     usuarioController.atualizarDadoByUser(req, res);
 });
@@ -29,6 +33,10 @@ router.delete("/deleteProfessores", function(req, res) {
 
 router.get("/escolasUser/:idUsuario", function(req, res) {
     usuarioController.escolaUser(req, res);
+});
+
+router.put("/atualizarProfessor/:id", function (req, res) {
+    usuarioController.atualizarProfessor(req, res);
 });
 
 module.exports = router;
