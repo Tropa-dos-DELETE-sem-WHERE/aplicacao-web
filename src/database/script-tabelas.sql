@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS educadata;
 USE educadata;
-SELECT * FROM usuario;
+
 -- -----------------------------------------------------
 -- Tabela Tipo de Escola
 -- -----------------------------------------------------
@@ -142,5 +142,4 @@ VALUES (
   '12000094',
   (SELECT id FROM tipoEscola WHERE tipo = 'estadual'),
   (SELECT id FROM UF WHERE uf = 'AC')
-  (SELECT id FROM escola WHERE nomeEscola = 'ESC COLEGIO CRISTAO CRUZEIRO')
 );
