@@ -2,6 +2,7 @@
     --azul-vivo: #1e90ff;
     --laranja-vivo: #ff6a34;
     --vermelho-vivo: #ff3b30;
+    --laranja-claro: #F27C35;
     --branco: #f3f3f3;
     --cinza: #ebebeb;
     --cinza-escuro: #4f4f4f;
@@ -25,7 +26,7 @@ aside, main{
 
 aside{
     width: 15vw;
-    background-color: #A9A9A9;
+    background-image: linear-gradient(var(--laranja-vivo), var(--laranja-claro));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,6 +36,7 @@ aside{
     img{
         width: 130px;
         height: 130px;
+        filter: invert(100%);
     }
 
     nav{
@@ -54,22 +56,23 @@ aside{
         text-decoration: none;
         font-size: 1.5rem;
         background-color: transparent;
-        border: 2px solid black;
         border-radius: 10px;
         width: 70%;
-        color: black;
+        color: var(--branco);
         font-weight: bold;
         transition: .3s;
     }
 
     a:hover{
+        outline: 0;
         transform: scale(1.05);
-        border:  2px solid var(--laranja-vivo);
+        border: 2px solid var(--branco);
+        background-color: var(--laranja-vivo);
     }
 }
 
 main{
     width: 85vw;
-    background-color: #D3D3D3;
+    background-color: var(--branco);
     padding: 20px;
 }

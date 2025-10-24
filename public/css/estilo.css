@@ -42,18 +42,17 @@ header nav ul {
 
 header nav ul li a {
   text-decoration: none;
-  background-color: var(--laranja-vivo);
   color: var(--branco);
   padding: 10px;
-  border: 2px solid var(--laranja-vivo);
   border-radius: 5px;
   font-size: 1.2rem;
-  transition: .3s;
+  transition: 0.3s;
+  font-weight: 500;
 }
 
 header nav ul li a:hover{
-  transform: scale(1.05);
-  background-color: transparent;
+  transform: scale(1.00);
+  background-color: var(--laranja-vivo);
   color: var(--branco);
   border: 2px solid var(--branco);
 }

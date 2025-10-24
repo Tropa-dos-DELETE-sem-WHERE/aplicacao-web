@@ -31,10 +31,12 @@ aside{
     align-items: center;
     padding: 40px 0 40px 0;
     gap: 40px;
+    background-image: linear-gradient(var(--laranja-vivo), var(--laranja-claro));
 
     img{
         width: 130px;
         height: 130px;
+        filter: invert(100%);
     }
 
     nav{
@@ -54,10 +56,9 @@ aside{
         text-decoration: none;
         font-size: 1.5rem;
         background-color: transparent;
-        border: 2px solid black;
         border-radius: 10px;
         width: 70%;
-        color: black;
+        color: var(--laranja-vivo);
         font-weight: bold;
         transition: .3s;
     }

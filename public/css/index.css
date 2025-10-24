@@ -99,6 +99,14 @@ main {
   z-index: 1;
 }
 
+.problemaSolucao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35); 
+  z-index: -1;
+}
+
 .problemaSolucao h1 {
   font-size: 2.5rem;
   color: var(--branco);
@@ -120,15 +128,16 @@ table {
 
 th,
 td {
-  padding: 16px 20px;
+  padding: 25px 20px;
   text-align: left;
+  font-size: 1.1rem;
 }
 
 th {
   background-color: var(--laranja-vivo);
   color: #fff;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 tr:nth-child(even) td {
@@ -243,7 +252,7 @@ tr:nth-child(even) td {
   gap: 100px;
   width: 100%;
   flex-wrap: wrap;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .card-passos {
@@ -292,6 +301,14 @@ tr:nth-child(even) td {
   background-repeat: no-repeat; 
   position: relative;          
   z-index: 1;
+}
+
+.contato::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35); 
+  z-index: -1;
 }
 
 
@@ -369,6 +386,18 @@ textarea:focus {
 
 .campo button:hover {
   transform: scale(1.03);
+}
+
+::-webkit-scrollbar {
+  width: 15px;             /* largura da barra lateral */
+  height: 10px;   
+  background-color: var(--branco);         /* altura da barra inferior (se existir) */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--laranja-claro);  /* cor principal */
+  border-radius: 5px;         /* cantos arredondados */
+  border: 2px solid #f0f0f0;  /* borda para destacar */
 }
 
 /* Responsividade */
