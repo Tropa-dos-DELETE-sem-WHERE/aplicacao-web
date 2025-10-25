@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EducaData</title>
+
+    <link rel="stylesheet" href="./css/logado.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+</head>
+<body>
+
+    <aside>
+        <img src="./assets/icons/escola.svg" alt="" srcset="">
+
+        <nav>
+                <a href="overview.html"> Overview</a>
+                <a href="dashboard.html"> Início</a>
+                <a href="#"> Suporte</a>
+                <a href="#"> Outros</a>
+                <a href="index.html">⬅ Sair</a>
+            </nav>
+            
+    </aside>
+
+    <main>
+
+        <h3>Dashboard</h3>
+
+        <div class="filter-container">
+            Filtro
+        </div>
+
+        <div class="kpi-container">
+            <div class="kpi">KPI</div>
+            <div class="kpi">KPI</div>
+            <div class="kpi">KPI</div>
+        </div>
+
+        <div class="graph-container">
+            <div class="graph" id="grafico1"></div>
+            <div class="graph" id="grafico2"></div>
+        </div>
+
+    </main>
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+
+    var Valores =  [30, 45, 60, 20, 90, 75, 55, 100, 85, 40, 65, 95]
+    const optionsGrafico1 = {
+      chart: {
+        type: 'line',
+        height: 350
+      },
+      series: [{
+        name: 'Teste',
+        data: Valores,
+      }],
+      xaxis: {
+        categories: [
+          'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+          'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+        ]
+      },
+      yaxis: {
+        min: 0,
+      },
+      colors: ['#3B82F6'], // azul suave
+      plotOptions: {
+        bar: {
+          borderRadius: 6,
+          horizontal: false,
+        }
+      },
+      dataLabels: {
+        enabled: true
+      },
+      title: {
+        text: 'Teste',
+        align: 'center'
+      }
+    };
+    const grafico1 = new ApexCharts(document.querySelector("#grafico1"), optionsGrafico1);
+    grafico1.render();
+
+    const optionsGrafico2 = {
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      series: [{
+        name: 'Teste',
+        data: [30, 45, 60, 20, 90, 75, 55, 100, 85, 40, 65, 95]
+      }],
+      xaxis: {
+        categories: [
+          'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+          'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+        ]
+      },
+      colors: ['#3B82F6'], // azul suave
+      plotOptions: {
+        bar: {
+          borderRadius: 6,
+          horizontal: false,
+        }
+      },
+      dataLabels: {
+        enabled: true
+      },
+      title: {
+        text: 'Teste',
+        align: 'center'
+      }
+    };
+    const grafico2 = new ApexCharts(document.querySelector("#grafico2"), optionsGrafico2);
+    grafico2.render();
+    
+
+    
+</script>

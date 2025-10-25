@@ -1,0 +1,52 @@
+    body{
+        margin: 0px;
+        overflow: hidden;
+    }
+    main{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    
+
+    h1{
+        font-size: 5rem;
+    }
+
+    .filter-container{
+        width: fit-content;
+        padding: 10px;
+        font-size: 25px;
+        border-radius: 10px;
+        height: 20px;
+    }
+
+    .kpi-container, .graph-container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 3px;
+        width: 100%;
+        height: 220px;
+    }
+
+    .kpi, .graph{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        border-radius: 10px;
+    }
+
+    .kpi{
+        width: 33%;
+        height: 50%;
+        background-color: #A9A9A9;
+    }
+
+    .graph{
+        width: 49.8%;
+        margin-top: 30px;       
+        height: 60vh;
+        background-color: #A9A9A9;
+    }
+}

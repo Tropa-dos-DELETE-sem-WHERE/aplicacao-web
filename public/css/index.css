@@ -10,45 +10,47 @@
 
 main {
   width: 100%;
-  height: 20vh;
   background-color: var(--branco);
   height: fit-content;
+}
+
+.introducao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35); 
+  z-index: -1;
 }
 
 .introducao {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: var(--branco);
   height: fit-content;
-  padding: 80px 0;
+  padding: 170px;
+  background-image: url("../assets/close-up-menina-carregar-pilha-livros-durante-leitura.jpg");
+  background-size: cover;     
+  background-position: center;  
+  background-repeat: no-repeat; 
+  position: relative;          
+  z-index: 1;
 }
 
-.img-container{
-  width: 30vw;
-  height: 45vh;
-  background-color: aqua;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  font-weight: 700;
-  border-radius: 15px;
-}
 
 .container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 40%;
+  width: 45%;
   height: fit-content;
-  background-color: var(--cor-cinza-claro);
+  background-color: var(--branco);
   border-radius: 10px;
-  padding: 30px;
+  padding: 40px;
   gap: 20px;
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  z-index: 2;
 }
 
 .container h1 {
@@ -71,6 +73,7 @@ main {
   font-size: 1.1rem;
   text-decoration: none;
   color: var(--branco);
+  font-weight: bold;
 }
 
 .container a:hover {
@@ -86,12 +89,28 @@ main {
   justify-content: center;
   flex-direction: column;
   height: fit-content;
-  padding: 70px;
+  padding: 100px;
   gap: 20px;
+  background-image: url("../assets/conceito-de-educacao-estudante-estudando-e-brainstorming-conceito-de-campus-perto-de-estudantes-discutindo-seu-assunto-em-livros-ou-livros-didaticos-foco-seletivo.jpg");
+  background-size: cover;     
+  background-position: center;  
+  background-repeat: no-repeat; 
+  position: relative;          
+  z-index: 1;
+}
+
+.problemaSolucao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35); 
+  z-index: -1;
 }
 
 .problemaSolucao h1 {
   font-size: 2.5rem;
+  color: var(--branco);
+  filter: drop-shadow(3px 3px 3px black);
 }
 
 /* Tabela */
@@ -109,15 +128,16 @@ table {
 
 th,
 td {
-  padding: 16px 20px;
+  padding: 25px 20px;
   text-align: left;
+  font-size: 1.1rem;
 }
 
 th {
   background-color: var(--laranja-vivo);
   color: #fff;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 tr:nth-child(even) td {
@@ -158,6 +178,7 @@ tr:nth-child(even) td {
   flex-wrap: wrap;
   width: 40vw;
   gap: 30px;
+
 }
 
 .container-cards{
@@ -167,12 +188,13 @@ tr:nth-child(even) td {
   flex-wrap: wrap;
   gap: 20px;
   width: 100%;
+  
 }
 
 .card {
   display: flex;
   width: 46%;
-  height: 15vh;
+  height: 20vh;
   border-radius: 10px;
   background-color: var(--branco);
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
@@ -191,6 +213,7 @@ tr:nth-child(even) td {
   align-items: center;
   justify-content: center;
   width: 30%;
+  border-right: solid 1px rgb(212, 212, 212);
 }
 
 .card-esquerda p {
@@ -214,8 +237,7 @@ tr:nth-child(even) td {
   gap: 20px;
   width: 100%;
   height: fit-content;
-  padding-top: 80px;
-  padding-bottom: 120px;
+  padding: 150px;
   background-color: var(--laranja-vivo);
 }
 
@@ -231,7 +253,7 @@ tr:nth-child(even) td {
   gap: 100px;
   width: 100%;
   flex-wrap: wrap;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .card-passos {
@@ -239,7 +261,7 @@ tr:nth-child(even) td {
   flex-direction: column;
   align-items: center;
   width: 17vw;
-  height: fit-content;
+  height: 45vh;
   background-color: var(--branco);
   color: var(--cinza-escuro);
   padding: 20px;
@@ -273,7 +295,21 @@ tr:nth-child(even) td {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding: 40px;
+  padding: 100px;
+  background-image: url("../assets/adolescente-sorridente-close-up-com-pilha-de-livros.jpg");
+  background-size: cover;     
+  background-position: center;  
+  background-repeat: no-repeat; 
+  position: relative;          
+  z-index: 1;
+}
+
+.contato::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35); 
+  z-index: -1;
 }
 
 
@@ -285,10 +321,13 @@ tr:nth-child(even) td {
   height: fit-content;
   background-color: var(--branco);
   color: black;
-  padding: 20px;
+  padding: 40px;
   gap: 10px;
   border-radius: 10px;
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+    box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
 }
@@ -304,10 +343,17 @@ button {
   height: 6vh;
   background-color: var(--branco);
   border: 2px solid var(--cinza-escuro);
-  color: var(--cinza-escuro);
   border-radius: 10px;
   padding-left: 10px;
   transition: 0.3s;
+}
+
+button{
+  color: var(--branco);
+}
+
+input{
+  color: black;
 }
 
 textarea{
@@ -315,7 +361,7 @@ textarea{
   height: 15vh;
   background-color: var(--branco);
   border: 2px solid var(--cinza-escuro);
-  color: var(--cinza-escuro);
+  color: black;
   border-radius: 10px;
   padding: 10px;
   transition: 0.3s;
@@ -341,6 +387,18 @@ textarea:focus {
 
 .campo button:hover {
   transform: scale(1.03);
+}
+
+::-webkit-scrollbar {
+  width: 15px;             /* largura da barra lateral */
+  height: 10px;   
+  background-color: var(--branco);         /* altura da barra inferior (se existir) */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--laranja-claro);  /* cor principal */
+  border-radius: 5px;         /* cantos arredondados */
+  border: 2px solid #f0f0f0;  /* borda para destacar */
 }
 
 /* Responsividade */

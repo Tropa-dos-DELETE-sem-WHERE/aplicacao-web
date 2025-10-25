@@ -1,0 +1,179 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #20232a;
+  color: #fff;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+main {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #333;
+  color: white;
+}
+
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.add-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.add-btn:hover {
+  background-color: #218838;
+}
+.modal {
+    position: relative;
+    overflow-y: auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    z-index: 2;
+    width: 80%;
+    height: 80%;
+  }
+  .modal-container.show{
+    opacity: 1;
+    pointer-events: auto;
+    display: flex;
+}
+.modal-container{
+position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.modal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+.modal {
+    position: relative;
+    overflow-y: auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    z-index: 2;
+    width: 80%;
+    height: 80%;
+  }
+.modal .box{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.modal .box span{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+   font-weight: bolder;
+   color: #c51c1c;
+}
+.modal .box .btn{
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tabela-professores td {
+  max-width: 180px;     
+  overflow: hidden;     
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+  vertical-align: middle;
+}
+
+#conteudo {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+#conteudo.mostrar {
+    display: block;
+    opacity: 1;
+}
+.semProfessores {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.2em;
+  color: #555;
+}

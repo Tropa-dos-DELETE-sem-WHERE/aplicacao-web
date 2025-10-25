@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="professores.css">
+  <link rel="stylesheet" href="./css/professores.css">
   <title>Lista de Professores</title>
 </head>
 
@@ -206,7 +206,7 @@
     window.location.reload();
   }
   function gerarSenha(tamanho) {
-    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%¨&()_';
     let senha = '';
     for (let i = 0; i < tamanho; i++) {
       const indice = Math.floor(Math.random() * caracteres.length);
