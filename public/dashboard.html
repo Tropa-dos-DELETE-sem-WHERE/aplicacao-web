@@ -31,10 +31,10 @@
 
     <main>
 
-        <h1>Dashboard</h1>
+        <h3>Dashboard</h3>
 
         <div class="filter-container">
-            <p>Filtro</p>
+            Filtro
         </div>
 
         <div class="kpi-container">
@@ -44,15 +44,88 @@
         </div>
 
         <div class="graph-container">
-            <div class="graph">GRÁFICO</div>
-            <div class="graph">GRÁFICO</div>
+            <div class="graph" id="grafico1"></div>
+            <div class="graph" id="grafico2"></div>
         </div>
 
     </main>
 
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <script>
 
+    var Valores =  [30, 45, 60, 20, 90, 75, 55, 100, 85, 40, 65, 95]
+    const optionsGrafico1 = {
+      chart: {
+        type: 'line',
+        height: 350
+      },
+      series: [{
+        name: 'Teste',
+        data: Valores,
+      }],
+      xaxis: {
+        categories: [
+          'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+          'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+        ]
+      },
+      yaxis: {
+        min: 0,
+      },
+      colors: ['#3B82F6'], // azul suave
+      plotOptions: {
+        bar: {
+          borderRadius: 6,
+          horizontal: false,
+        }
+      },
+      dataLabels: {
+        enabled: true
+      },
+      title: {
+        text: 'Teste',
+        align: 'center'
+      }
+    };
+    const grafico1 = new ApexCharts(document.querySelector("#grafico1"), optionsGrafico1);
+    grafico1.render();
+
+    const optionsGrafico2 = {
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      series: [{
+        name: 'Teste',
+        data: [30, 45, 60, 20, 90, 75, 55, 100, 85, 40, 65, 95]
+      }],
+      xaxis: {
+        categories: [
+          'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
+          'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+        ]
+      },
+      colors: ['#3B82F6'], // azul suave
+      plotOptions: {
+        bar: {
+          borderRadius: 6,
+          horizontal: false,
+        }
+      },
+      dataLabels: {
+        enabled: true
+      },
+      title: {
+        text: 'Teste',
+        align: 'center'
+      }
+    };
+    const grafico2 = new ApexCharts(document.querySelector("#grafico2"), optionsGrafico2);
+    grafico2.render();
+    
+
+    
 </script>

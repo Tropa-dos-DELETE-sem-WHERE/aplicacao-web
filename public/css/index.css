@@ -194,7 +194,7 @@ tr:nth-child(even) td {
 .card {
   display: flex;
   width: 46%;
-  height: 15vh;
+  height: 20vh;
   border-radius: 10px;
   background-color: var(--branco);
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
@@ -213,6 +213,7 @@ tr:nth-child(even) td {
   align-items: center;
   justify-content: center;
   width: 30%;
+  border-right: solid 1px rgb(212, 212, 212);
 }
 
 .card-esquerda p {
@@ -260,7 +261,7 @@ tr:nth-child(even) td {
   flex-direction: column;
   align-items: center;
   width: 17vw;
-  height: fit-content;
+  height: 45vh;
   background-color: var(--branco);
   color: var(--cinza-escuro);
   padding: 20px;
