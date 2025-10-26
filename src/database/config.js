@@ -8,6 +8,7 @@ var mySqlConfig = {
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT
 };
+console.log(host);
 
 function executar(instrucao) {
 
