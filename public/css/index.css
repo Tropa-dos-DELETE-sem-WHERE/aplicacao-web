@@ -2,7 +2,7 @@
   --azul-vivo: #1e90ff;
   --laranja-vivo: #ff6a34;
   --vermelho-vivo: #ff3b30;
-  --laranja-claro: #F27C35;
+  --laranja-claro: #f27c35;
   --branco: #f3f3f3;
   --cinza: #ebebeb;
   --cinza-escuro: #4f4f4f;
@@ -18,30 +18,29 @@ main {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35); 
+  background: rgba(0, 0, 0, 0.35);
   z-index: -1;
 }
 
 .introducao {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   height: fit-content;
-  padding: 170px;
+  padding: 70px;
   background-image: url("../assets/close-up-menina-carregar-pilha-livros-durante-leitura.jpg");
-  background-size: cover;     
-  background-position: center;  
-  background-repeat: no-repeat; 
-  position: relative;          
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
   z-index: 1;
 }
-
 
 .container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 45%;
+  width: 60%;
   height: fit-content;
   background-color: var(--branco);
   border-radius: 10px;
@@ -92,10 +91,10 @@ main {
   padding: 100px;
   gap: 20px;
   background-image: url("../assets/conceito-de-educacao-estudante-estudando-e-brainstorming-conceito-de-campus-perto-de-estudantes-discutindo-seu-assunto-em-livros-ou-livros-didaticos-foco-seletivo.jpg");
-  background-size: cover;     
-  background-position: center;  
-  background-repeat: no-repeat; 
-  position: relative;          
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
   z-index: 1;
 }
 
@@ -103,19 +102,19 @@ main {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35); 
+  background: rgba(0, 0, 0, 0.35);
   z-index: -1;
 }
 
 .problemaSolucao h1 {
-  font-size: 2.5rem;
+  font-size: 4rem;
   color: var(--branco);
   filter: drop-shadow(3px 3px 3px black);
 }
 
 /* Tabela */
 table {
-  width: 40%;
+  width: 70%;
   border-collapse: separate;
   border-spacing: 0;
   background: #fff;
@@ -130,14 +129,14 @@ th,
 td {
   padding: 25px 20px;
   text-align: left;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 
 th {
   background-color: var(--laranja-vivo);
   color: #fff;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.7rem;
 }
 
 tr:nth-child(even) td {
@@ -167,7 +166,7 @@ tr:nth-child(even) td {
 }
 
 .recursos h1 {
-  font-size: 3rem;
+  font-size: 4rem;
   color: var(--branco);
 }
 
@@ -176,25 +175,24 @@ tr:nth-child(even) td {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  width: 40vw;
+  width: 70%;
   gap: 30px;
-
 }
 
-.container-cards{
+.container-cards {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
   width: 100%;
-  
 }
 
 .card {
   display: flex;
   width: 46%;
   height: 20vh;
+  font-size: 1.3rem;
   border-radius: 10px;
   background-color: var(--branco);
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
@@ -205,7 +203,7 @@ tr:nth-child(even) td {
 
 .card:hover,
 .card-passos:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .card-esquerda {
@@ -234,7 +232,7 @@ tr:nth-child(even) td {
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 80px;
   width: 100%;
   height: fit-content;
   padding: 150px;
@@ -250,7 +248,7 @@ tr:nth-child(even) td {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 100px;
+  gap: 30px;
   width: 100%;
   flex-wrap: wrap;
   margin-top: 20px;
@@ -260,8 +258,9 @@ tr:nth-child(even) td {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 17vw;
-  height: 45vh;
+  width: 25vw;
+  height: 40vh;
+  font-size: 1.3rem;
   background-color: var(--branco);
   color: var(--cinza-escuro);
   padding: 20px;
@@ -278,29 +277,30 @@ tr:nth-child(even) td {
 
 .circulo {
   position: relative;
-  top: -45px;
+  top: -55px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.0rem;
+  font-size: 2rem;
   font-weight: bold;
-  width: 50px;
-  height: 50px;
-  background-color: var(--vermelho-vivo);
+  width: 70px;
+  height: 70px;
+  background-color: var(--cinza-escuro);
   color: var(--branco);
   border-radius: 50%;
 }
 
-.contato{
+.contato {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  width: inherit;
   padding: 100px;
   background-image: url("../assets/adolescente-sorridente-close-up-com-pilha-de-livros.jpg");
-  background-size: cover;     
-  background-position: center;  
-  background-repeat: no-repeat; 
-  position: relative;          
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
   z-index: 1;
 }
 
@@ -308,16 +308,15 @@ tr:nth-child(even) td {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35); 
+  background: rgba(0, 0, 0, 0.35);
   z-index: -1;
 }
-
 
 .credenciais {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 25vw;
+  width: 45%;
   height: fit-content;
   background-color: var(--branco);
   color: black;
@@ -327,7 +326,7 @@ tr:nth-child(even) td {
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
-    box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
 }
@@ -348,15 +347,15 @@ button {
   transition: 0.3s;
 }
 
-button{
+button {
   color: var(--branco);
 }
 
-input{
+input {
   color: black;
 }
 
-textarea{
+textarea {
   width: 100%;
   height: 15vh;
   background-color: var(--branco);
@@ -368,7 +367,7 @@ textarea{
 }
 
 input:focus,
-button:focus, 
+button:focus,
 textarea:focus {
   outline: 0;
   border: 2px solid var(--laranja-vivo);
@@ -390,21 +389,21 @@ textarea:focus {
 }
 
 ::-webkit-scrollbar {
-  width: 15px;             /* largura da barra lateral */
-  height: 10px;   
-  background-color: var(--branco);         /* altura da barra inferior (se existir) */
+  width: 15px;
+  height: 10px;
+  background-color: var(--cinza-escuro);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--laranja-claro);  /* cor principal */
-  border-radius: 5px;         /* cantos arredondados */
-  border: 2px solid #f0f0f0;  /* borda para destacar */
+  background-color: var(--laranja-claro);
+  border-radius: 5px;
+  border: 0px solid #f0f0f0;
 }
 
 /* Responsividade */
-@media (max-width: 600px) {
+@media (width <= 800px) {
   .introducao .container {
-    width: 70%;
+    width: 100vh;
   }
 
   .problemaSolucao {
@@ -427,6 +426,10 @@ textarea:focus {
     padding: 20px 0;
   }
 
+  .passos {
+    padding: 120px;
+  }
+
   .container-passos {
     display: flex;
     flex-direction: column;
@@ -434,6 +437,11 @@ textarea:focus {
   }
 
   .card-passos {
-    width: 50%;
+    width: 100%;
+    height: 35vh;
+  }
+
+  .credenciais {
+    width: 100%;
   }
 }
