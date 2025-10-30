@@ -9,7 +9,7 @@
     
 
     h1{
-        font-size: 5rem;
+        font-size: 2.5rem;
     }
 
     .filter-container{
@@ -18,35 +18,68 @@
         font-size: 25px;
         border-radius: 10px;
         height: 20px;
+        font-size: 1.3rem;
     }
 
-    .kpi-container, .graph-container{
+    .kpi-container{
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 3px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 15px 6px 0px 5px;
         width: 100%;
-        height: 220px;
+        height: 70px;
     }
 
-    .kpi, .graph{
+    .graph-container{
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        border-radius: 10px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin: 5px;
+        width: 100%;
+        height: 100%;
     }
 
     .kpi{
-        width: 33%;
-        height: 50%;
-        background-color: #A9A9A9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border-radius: 3px;
+        background-color: #f7f5f5;
+        padding: 5px;
+        gap: 5px;
+        box-shadow: 4px 3px 10px black;
     }
 
-    .graph{
-        width: 49.8%;
+    h2{
+        font-size: 1.5rem;
+    }
+
+    .graph1{
+        width: 70%;
         margin-top: 30px;       
-        height: 60vh;
-        background-color: #A9A9A9;
+        height: 40vh;
+        background-color: #f7f5f5;
+        box-shadow: 4px 3px 10px black;
+    }
+
+    .graph3{
+        width: 29.2%;
+        margin-top: 30px;       
+        height: 40vh;
+        background-color: #f7f5f5;
+        box-shadow: 4px 3px 10px black;
+    }
+
+    .graph2{
+        width: 100%;
+        margin-top: 30px;       
+        height: 35vh;
+        background-color: #f7f5f5;
+        box-shadow: 4px 3px 10px black;
     }
 }
