@@ -30,10 +30,33 @@
 
     <main>
 
-        <h3>Dashboard</h3>
+        <h3>Informações gerais sobre o ENEM por região</h3>
 
         <div class="filter-container">
-            Filtro
+            <label for="Região">Região</label>
+            <select id="Região">
+            <option value="Norte">Norte</option>
+            <option value="Sul">Sul</option>
+            <option value="Centro-Oeste">Centro-Oeste</option>
+            <option value="Sudeste">Sudeste</option>
+            <option value="Nordeste">Nordeste</option>
+            </select>
+
+           <label for="Estado">Estado</label>
+            <select id="Estado">
+            <option value="SP">SP</option>
+            <option value="RJ">RJ</option>
+            <option value="ES">ES</option>
+            <option value="MG">MG</option>
+           </select>
+
+           <label for="Código da Escola">Código da Escola</label>
+            <select id="Código da Escola">
+            <option value="001">001</option>
+            <option value="002">002</option>
+            <option value="003">003</option>
+            <option value="004">004</option>
+           </select>
         </div>
 
         <div class="kpi-container">
@@ -73,7 +96,7 @@
 
 <script>
 
-    var Valores =  [30, 45, 60, 20, 90, 75, 55, 100, 85, 40, 65, 95]
+    var Valores =  [300.5, 420.7, 560.5, 500.2, 460.1, 650.3, 702.4]
     const optionsGrafico1 = {
       chart: {
         type: 'line',
@@ -85,25 +108,25 @@
       }],
       xaxis: {
         categories: [
-          'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
-          'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+            '2019', '2020', '2021', '2022', '2023', '2024', 
+          '2025'
         ]
       },
       yaxis: {
         min: 0,
       },
-      colors: ['#3B82F6'], // azul suave
+      colors: ['#f48024'], // azul suave
       plotOptions: {
         bar: {
-          borderRadius: 6,
+          borderRadius: 1,
           horizontal: false,
         }
       },
       dataLabels: {
-        enabled: true
+        enabled: false
       },
       title: {
-        text: 'Teste',
+        text: 'Evolução da escola por ano  ',
         align: 'center'
       }
     };
@@ -116,19 +139,20 @@
         height: 300
       },
       series: [{
-        name: 'Teste',
-        data: [30, 45, 60, 20, 90, 75, 55, 100, 85, 40, 65, 95]
+        name: 'Nota Média',
+        data: [300.5, 420.7, 560.5, 500.2, 460.1, 650.3, 702.4]
       }],
       xaxis: {
         categories: [
-          'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
-          'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+          '2019', '2020', '2021', '2022', '2023', '2024', 
+          '2025'
         ]
       },
-      colors: ['#3B82F6'], // azul suave
+      colors: ['#33b2df'], 
       plotOptions: {
         bar: {
-          borderRadius: 6,
+          borderRadius: 1,
+          width: 30,
           horizontal: false,
         }
       },
@@ -136,7 +160,7 @@
         enabled: true
       },
       title: {
-        text: 'Teste',
+        text: 'Histograma das notas dos alunos por ano',
         align: 'center'
       }
     };
@@ -146,7 +170,7 @@
     
         var optionsGrafico3 = {
           series: [{
-          data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+          data: [400, 430, 448, 470, 540,]
         }],
           chart: {
           type: 'bar',
@@ -162,14 +186,14 @@
             },
           }
         },
-        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4', '#90ee7e',
-          '#f48024', '#69d2e7'
+        colors: ['#33b2df', '#d4526e', '#90ee7e', 
+        '#13d8aa','#f48024'
         ],
         dataLabels: {
           enabled: true,
           textAnchor: 'start',
           style: {
-            colors: ['#fff']
+            colors: ['white']
           },
           formatter: function (val, opt) {
             return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
@@ -180,12 +204,12 @@
           }
         },
         stroke: {
-          width: 1,
-          colors: ['#fff']
+          width: 3,
+          colors: ['white']
         },
         xaxis: {
-          categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-            'United States', 'China', 'India'
+          categories: ['Linguagens', 'Ciências Humanas', 
+          'Ciências da Natureza', 'Matemática', 'Redação'
           ],
         },
         yaxis: {
@@ -194,12 +218,12 @@
           }
         },
         title: {
-            text: 'Custom DataLabels',
+            text: 'Notas anuais de cada matéria',
             align: 'center',
             floating: true
         },
         subtitle: {
-            text: 'Category Names as DataLabels inside bars',
+            text: 'Nota Média',
             align: 'center',
         },
         tooltip: {

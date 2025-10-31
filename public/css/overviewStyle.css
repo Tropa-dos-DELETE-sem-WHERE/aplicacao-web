@@ -32,6 +32,7 @@ aside{
     padding: 40px 0 40px 0;
     gap: 40px;
     background-image: linear-gradient(var(--laranja-vivo), var(--laranja-claro));
+}
 
     img{
         width: 130px;
@@ -63,18 +64,18 @@ aside{
         transition: .3s;
     }
 
-    a:hover{
+    .navbar a:hover{
         transform: scale(1.05);
         border:  2px solid var(--laranja-vivo);
     }
-}
 
-main{
+    main{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 40px;
+    }
 
     h1{
         font-size: 2rem;
@@ -104,7 +105,7 @@ main{
         padding: 40px;
         background-color: #ebebeb;
         border-radius: 5px;
-        filter: drop-shadow(3px 4px 10px black);
+        box-shadow: 1px 3px 10px grey;
     }
 
     .option{
@@ -121,13 +122,15 @@ main{
     }
 
 
-    button, a{
+    button, .clique{
         width: 60%;
-        padding: 5px;
+        padding: 3px;
         margin: 2%;
-        color: #000;
-        background-color: #A9A9A9;
+        font-size: 1.0rem;
+        color: var(--branco);
+        background-image: -webkit-linear-gradient(var(--laranja-claro), var(--laranja-vivo));
         text-decoration: none;
+        border:#ff3b30;
         border-radius: 5px;
     }
 
@@ -135,8 +138,3 @@ main{
         transform: scale(1.05);
         border:  2px solid var(--laranja-vivo);
     }
-
-    a:hover{
-        color: var(--laranja-vivo);
-    }
-}

@@ -32,9 +32,10 @@ aside{
     align-items: center;
     padding: 40px 0 40px 0;
     gap: 40px;
+}
 
     img{
-        width: 130px;
+        width: 100px;
         height: 130px;
         filter: invert(100%);
     }
@@ -44,7 +45,7 @@ aside{
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 30px;
+        gap: 40px;
         width: 100%;
     }
 

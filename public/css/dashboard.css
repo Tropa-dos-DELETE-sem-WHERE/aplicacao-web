@@ -1,15 +1,20 @@
     body{
         margin: 0px;
         overflow: hidden;
+        font-family: Inter;
     }
+    
     main{
     display: flex;
     flex-direction: column;
     padding: 10px;
-    
+    }
 
-    h1{
-        font-size: 2.5rem;
+    h3{
+        font-size: 1.5rem;
+        text-align: center;
+        font-weight: 500;
+
     }
 
     .filter-container{
@@ -18,8 +23,19 @@
         font-size: 25px;
         border-radius: 10px;
         height: 20px;
-        font-size: 1.3rem;
+        font-size: 1.0rem;
+        margin-bottom: 1%;
+        font-weight: 500;
     }
+
+    select {
+        background-color: white;
+        padding: 5px;
+        border: none;
+        gap: 1%;
+    }
+
+
 
     .kpi-container{
         display: flex;
@@ -49,37 +65,38 @@
         justify-content: center;
         flex-direction: column;
         border-radius: 3px;
-        background-color: #f7f5f5;
+        background-color: white;
         padding: 5px;
         gap: 5px;
-        box-shadow: 4px 3px 10px black;
+        box-shadow: 1px 3px 10px grey;
     }
 
     h2{
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+         font-weight: 500;
     }
 
     .graph1{
         width: 70%;
         margin-top: 30px;       
-        height: 40vh;
-        background-color: #f7f5f5;
-        box-shadow: 4px 3px 10px black;
+        height: 30vh;
+        background-color: white;
+        box-shadow: 1px 3px 10px grey;
     }
 
     .graph3{
         width: 29.2%;
         margin-top: 30px;       
-        height: 40vh;
-        background-color: #f7f5f5;
-        box-shadow: 4px 3px 10px black;
+        height: 30vh;
+        background-color: white;
+        box-shadow: 1px 3px 10px grey;
     }
 
     .graph2{
         width: 100%;
         margin-top: 30px;       
-        height: 35vh;
-        background-color: #f7f5f5;
-        box-shadow: 4px 3px 10px black;
+        height: 30vh;
+        background-color: white;
+        box-shadow: 1px 3px 10px grey;
     }
-}
+

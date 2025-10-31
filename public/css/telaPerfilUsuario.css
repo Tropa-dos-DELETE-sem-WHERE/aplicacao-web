@@ -103,6 +103,8 @@ input:disabled, select:disabled {
     color: white;
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     gap: 5px;
     margin-bottom: 15px;
 }
