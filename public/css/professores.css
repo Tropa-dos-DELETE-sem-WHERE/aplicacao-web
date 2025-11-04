@@ -12,6 +12,7 @@ header {
   padding: 15px 0;
   font-size: 1.5em;
   font-weight: bold;
+  box-shadow: 1px 1px 10px gray;
 }
 
 main {
@@ -189,15 +190,18 @@ input{
 .boxButton button, .form-group button{
   color: white;
   border: none;
-  background: #ff6a34;
-  padding: 10px;
-  margin: 5px;
+  background-image:linear-gradient(#ff6a34, #F27C35);
+  padding: 15px;
+  margin: 8px;
   border-radius: 3px;
 }
 
 button:hover{
   transform: scale(1.03);
+}
 
+input:focus{
+  border-color: #ff6a34;
 }
 
 input:hover{

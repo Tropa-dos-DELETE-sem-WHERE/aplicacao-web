@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -79,17 +79,17 @@ input:disabled, select:disabled {
 }
 
 .btn-salvar {
-    background: #28a745;
+    background-image: -webkit-linear-gradient(#28a745, green);
     color: white;
 }
 
 .btn-cancelar {
-    background: #dc3545;
+    background-image: -webkit-linear-gradient(#dc3545, rgb(238, 51, 51));
     color: white;
 }
 
 .btn-editar {
-    background: #007bff;
+    background-image: -webkit-linear-gradient(#007bff, blue);
     color: white;
     display: flex;
     align-items: center;
@@ -99,7 +99,7 @@ input:disabled, select:disabled {
     margin-bottom: 15px;
 }
 .btn-apagar {
-    background: #dc3545;
+    background-image: -webkit-linear-gradient(#dc3545, rgb(238, 51, 51));
     color: white;
     display: flex;
     align-items: center;
@@ -161,6 +161,7 @@ position: fixed;
     position: absolute;
     width: 100%;
     height: 100%;
+    padding: 100px;
     background-color: rgba(0, 0, 0, 0.5);
     top: 0;
     left: 0;

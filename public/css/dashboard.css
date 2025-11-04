@@ -22,16 +22,40 @@ body{
     padding: 0;
     margin: 0;
     overflow: hidden;
-    gap: 80px;
 }
 
-  img{
-        width: 80px;
-        height: 80px;
-        filter: invert(100%);
-    }
+main{
+    height: 100%;
+    width: 100%;
+    padding: 0;
+     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 
-    
+}
+
+img{
+    width: 80px;
+    height: 80px;
+    filter: invert(100%);
+}
+
+.conteudo-principal{
+    width: 90%;
+   
+}
+
+.introdução{
+background-color: #ffffff;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .barra-lateral {
   width: 7.5%;
   height: 100vh;
@@ -120,7 +144,7 @@ label{
         justify-content: space-between;
         flex-wrap: wrap;
         flex-direction: row;
-        margin: 5px;
+        gap: 10px;
         width: 100%;
         height: 80%;
         transition: all 0.3s ease;

@@ -22,6 +22,7 @@
       <ul>
         <li><a href="overview.html"><i class="fas fa-home"></i></a></li>
         <li><a href="dashboard.html"><i class="fas fa-chart-line"></i></a></li>
+        <li><a href="metas.html"><i class="fas fa-calendar"></i></a></li>
         <li><a href="professores.html"><i class="fas fa-file-alt"></i></a></li>
         <li><a href="perfilUsuario.html"><i class="fas fa-cog"></i></a></li>
         <li><a href="index.html"><img src="assets/icons/opcao-de-sair.png" style="height: 80%; width: 40px;"></a></li>
@@ -31,9 +32,12 @@
 
     <main>
 
-        <h3>| Dashboard | Informações gerais sobre o ENEM por região |</h3>
-
-        <div class="filter-container">
+      <div class="introdução">   
+        <h3> Dashboard | Informações gerais sobre o ENEM por região </h3>
+      </div>
+     
+<div class="conteudo-principal">
+    <div class="filter-container">
             <label for="Região">Região</label>
             <select id="Região">
             <option value="#">Região</option>
@@ -83,8 +87,7 @@
             <div class="graph3" id="grafico3"></div>
             <div class="graph2" id="grafico2"></div>
         </div>
-
-         
+</div>    
 
     </main>
 
@@ -125,7 +128,12 @@
       },
       title: {
         text: 'Evolução da escola por ano  ',
-        align: 'center'
+        align: 'center',
+        style: {
+      fontSize: '20px',   // 🔹 aqui você aumenta o tamanho do título
+      fontWeight: 'bold',
+      color: '#000'
+    }
       }
     };
     const grafico1 = new ApexCharts(document.querySelector("#grafico1"), optionsGrafico1);
@@ -159,7 +167,12 @@
       },
       title: {
         text: 'Histograma das notas dos alunos por ano',
-        align: 'center'
+        align: 'center',
+        style: {
+      fontSize: '20px',   // 🔹 aqui você aumenta o tamanho do título
+      fontWeight: 'bold',
+      color: '#000'
+    }
       }
     };
     const grafico2 = new ApexCharts(document.querySelector("#grafico2"), optionsGrafico2);
@@ -218,11 +231,21 @@
         title: {
             text: 'Notas anuais de cada matéria',
             align: 'center',
-            floating: true
+            floating: true,
+            style: {
+      fontSize: '20px',   // 🔹 aqui você aumenta o tamanho do título
+      fontWeight: 'bold',
+      color: '#000'
+    }
         },
         subtitle: {
             text: 'Nota Média',
             align: 'center',
+            style: {
+      fontSize: '10px',   // 🔹 aqui você aumenta o tamanho do título
+      fontWeight: 'bold',
+      color: '#000'
+    }
         },
         tooltip: {
           theme: 'dark',
