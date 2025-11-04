@@ -27,12 +27,12 @@ main {
   align-items: center;
   justify-content: center;
   height: fit-content;
-  padding: 70px;
-  background-image: url("../assets/close-up-menina-carregar-pilha-livros-durante-leitura.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
+  padding: 170px;
+  background-image: url("../assets/imagens/foto1.webp");
+  background-size: cover;     
+  background-position: center;  
+  background-repeat: no-repeat; 
+  position: relative;          
   z-index: 1;
 }
 
@@ -65,7 +65,7 @@ main {
   align-items: center;
   justify-content: center;
   height: 7vh;
-  background-image: linear-gradient(var(--laranja-vivo), var(--laranja-claro));
+ background-image: linear-gradient( var(--laranja-claro),var(--laranja-vivo));
   border-radius: 7px;
   border: none;
   cursor: pointer;
@@ -73,6 +73,7 @@ main {
   text-decoration: none;
   color: var(--branco);
   font-weight: bold;
+   transition: all 0.3s ease;
 }
 
 .container a:hover {
@@ -90,11 +91,11 @@ main {
   height: fit-content;
   padding: 100px;
   gap: 20px;
-  background-image: url("../assets/conceito-de-educacao-estudante-estudando-e-brainstorming-conceito-de-campus-perto-de-estudantes-discutindo-seu-assunto-em-livros-ou-livros-didaticos-foco-seletivo.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
+  background-image: url("../assets/imagens/foto2.jpg");
+  background-size: cover;     
+  background-position: center;  
+  background-repeat: no-repeat; 
+  position: relative;          
   z-index: 1;
 }
 
@@ -109,7 +110,7 @@ main {
 .problemaSolucao h1 {
   font-size: 4rem;
   color: var(--branco);
-  filter: drop-shadow(3px 3px 3px black);
+  filter: drop-shadow(3px 3px 8px black);
 }
 
 /* Tabela */
@@ -271,21 +272,28 @@ tr:nth-child(even) td {
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
 }
 
-.card-passos p {
-  margin-top: 15px;
+.card-passos p{
+  text-align: center;
+  
 }
+
+.card-passos h2{
+  text-align: center;
+  margin-top: 20px;
+}
+
 
 .circulo {
   position: relative;
-  top: -55px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  margin-top: -45px;
+  font-size: 2.0rem;
   font-weight: bold;
-  width: 70px;
-  height: 70px;
-  background-color: var(--cinza-escuro);
+  width: 50px;
+  height: 50px;
+  background-image: linear-gradient(var(--laranja-vivo), #ffb74d);
   color: var(--branco);
   border-radius: 50%;
 }
@@ -296,11 +304,11 @@ tr:nth-child(even) td {
   justify-content: space-evenly;
   width: inherit;
   padding: 100px;
-  background-image: url("../assets/adolescente-sorridente-close-up-com-pilha-de-livros.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
+  background-image: url("../assets/imagens/foto3.webp");
+  background-size: cover;     
+  background-position: center;  
+  background-repeat: no-repeat; 
+  position: relative;          
   z-index: 1;
 }
 
@@ -375,7 +383,7 @@ textarea:focus {
 }
 
 .campo button {
-  background-color: var(--laranja-vivo);
+  background-image: linear-gradient( var(--laranja-claro),var(--laranja-vivo));
   border: none;
   margin-top: 10px;
   font-weight: bold;

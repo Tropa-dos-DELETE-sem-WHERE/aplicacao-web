@@ -15,60 +15,16 @@
     font-family: Inter;
 }
 
+  
+a{
+    text-decoration: none;
+    color: #fff;
+}
+
 body{
     display: flex;
     flex-direction: row;
-}
-
-aside, main{
-    height: 100vh;
-}
-
-aside{
-    width: 15vw;
-    background-image: linear-gradient(var(--laranja-vivo), var(--laranja-claro));
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 0 40px 0;
-    gap: 40px;
-
-    img{
-        width: 130px;
-        height: 130px;
-        filter: invert(100%);
-    }
-
-    nav{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 30px;
-        width: 100%;
-    }
-
-    a{
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 10px 0px 10px 20px;
-        text-decoration: none;
-        font-size: 1.5rem;
-        background-color: transparent;
-        border-radius: 10px;
-        width: 70%;
-        color: var(--branco);
-        font-weight: bold;
-        transition: .3s;
-    }
-
-    a:hover{
-        outline: 0;
-        transform: scale(1.05);
-        border: 2px solid var(--branco);
-        background-color: var(--laranja-vivo);
-    }
+        background-color: var(--branco);
 }
 
 main{
@@ -76,3 +32,50 @@ main{
     background-color: var(--branco);
     padding: 20px;
 }
+    nav{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 40px;
+        height: 100%;
+    }
+
+
+
+.barra-lateral {
+  width: 7.5%;
+  background: #ffb74d;
+  padding: 50px 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  transition: all 0.3s ease;
+}
+
+.barra-lateral ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  padding: 0;
+  margin: 0;
+}
+
+.barra-lateral ul li {
+  font-size: 30px;
+  color: #fff;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.barra-lateral ul li:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+  

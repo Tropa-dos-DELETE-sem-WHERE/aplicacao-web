@@ -3,6 +3,7 @@
 :root {
   --azul-vivo: #1e90ff;
   --laranja-vivo: #ff6a34;
+  --laranja-claro: #F27C35;
   --vermelho-vivo: #ff3b30;
   --branco: #f3f3f3;
   --cinza: #ebebeb;
@@ -19,7 +20,7 @@
 header {
   width: 100%;
   height: 13vh;
-  background-image: linear-gradient(var(--laranja-vivo), var(--vermelho-vivo));
+  background-image: linear-gradient( #ffac4d, var(--laranja-vivo));
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -48,11 +49,12 @@ header nav ul li a {
   font-size: 1.2rem;
   transition: 0.3s;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
-header nav ul li a:hover {
-  transform: scale(1);
-  background-color: var(--laranja-vivo);
+header nav ul li a:hover{
+  transform: scale(1.00);
+  background-color: var(--laranja-claro);
   color: var(--branco);
   border: 2px solid var(--branco);
 }
@@ -63,7 +65,7 @@ footer {
   justify-content: space-around;
   width: 100%;
   height: fit-content;
-  background-image: linear-gradient(var(--laranja-vivo), var(--vermelho-vivo));
+  background-image: linear-gradient(var(--laranja-vivo), #ffac4d);
   padding: 40px 20px;
 }
 
@@ -90,8 +92,8 @@ footer nav ul li a {
   transition: 0.3s;
 }
 
-footer nav ul li a:hover {
-  color: var(--laranja-vivo);
+footer nav ul li a:hover{
+  color: var(--vermelho-vivo);
 }
 
 /* Responsividade */
