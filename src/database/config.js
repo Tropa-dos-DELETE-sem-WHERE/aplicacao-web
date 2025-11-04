@@ -9,6 +9,7 @@ var mySqlConfig = {
     port: process.env.DB_PORT
 };
 
+
 function executar(instrucao) {
 
     if (process.env.AMBIENTE_PROCESSO !== "producao" && process.env.AMBIENTE_PROCESSO !== "desenvolvimento") {
@@ -28,6 +29,11 @@ function executar(instrucao) {
             resolve(resultados);
         });
         conexao.on('error', function (erro) {
+            console.log(mySqlConfig.host);
+            console.log(mySqlConfig.database);
+            console.log(mySqlConfig.user);
+            console.log(mySqlConfig.password);
+            console.log(mySqlConfig.port);
             return ("ERRO NO MySQL SERVER: ", erro.sqlMessage);
         });
     });
