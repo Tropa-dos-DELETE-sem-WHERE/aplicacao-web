@@ -1,7 +1,10 @@
-:root {
+ @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+   :root {
     --azul-vivo: #1e90ff;
     --laranja-vivo: #ff6a34;
     --vermelho-vivo: #ff3b30;
+    --laranja-claro: #F27C35;
     --branco: #f3f3f3;
     --cinza: #ebebeb;
     --cinza-escuro: #4f4f4f;
@@ -11,78 +14,84 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: Inter;
+    
 }
 
 body{
-    display: flex;
-    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    gap: 80px;
 }
 
-aside, main{
-    height: 100vh;
-}
-
-aside{
-    width: 15vw;
-    background-color: #A9A9A9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 0 40px 0;
-    gap: 40px;
-    background-image: linear-gradient(var(--laranja-vivo), var(--laranja-claro));
-}
-
-    img{
-        width: 130px;
-        height: 130px;
+ img{
+        width: 80px;
+        height: 80px;
         filter: invert(100%);
     }
 
-    nav{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 30px;
-        width: 100%;
-    }
 
-    a{
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 10px 0px 10px 20px;
-        text-decoration: none;
-        font-size: 1.5rem;
-        background-color: transparent;
-        border-radius: 10px;
-        width: 70%;
-        color: var(--laranja-vivo);
-        font-weight: bold;
-        transition: .3s;
-    }
+.barra-lateral {
+  width: 7.5%;
+  height: 100vh;
+  gap: 50px;
+  padding: 50px 0;
+  background: #ffb74d;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
 
-    .navbar a:hover{
-        transform: scale(1.05);
-        border:  2px solid var(--laranja-vivo);
-    }
+.barra-lateral ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.barra-lateral ul li {
+  font-size: 30px;
+  color: #fff;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.barra-lateral ul li:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+  
 
     main{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    }
+
+    .bem-vindo{
+        margin-bottom: 60px;
+        text-align: center;
+    }
+
+    .bem-vindo h1,h2{
+        margin: 20px;
+        font-family: 'Poppins', sans-serif;
     }
 
     h1{
-        font-size: 2rem;
+        font-size:2.5rem;
     }
 
     h2{
-        font-size: 1.5rem;
+        font-size: 1.3rem;
+       
+    }
+
+     h3{
+        font-size: 1.0rem;
+        font-weight: 500;
     }
 
     .options-container{
@@ -100,41 +109,51 @@ aside{
         justify-content: center;
         align-items: center;
         height: 100%;
-        width: 40%;
+        width: 80%;
         margin: 0 4%;
-        padding: 40px;
+        padding: 30px;
         background-color: #ebebeb;
-        border-radius: 5px;
+        border-radius: 15px;
         box-shadow: 1px 3px 10px grey;
+        transition: all 0.3s ease;
+    }
+
+    
+    .metas:hover{
+        transform: scale(1.05);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
     }
 
     .option{
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        text-align: center;
         height: 100%;
-        width: 40%;
-        padding: 10px;
-        font-size: 1.0rem;
+        width: 60%;
+        margin: 5px;
         color: #000;
         flex: 1 1 calc(33% - 50px); /* ocupando 1/3 da linha - gap do .options-container */;
+        font-family: 'Poppins', sans-serif;
     }
 
 
     button, .clique{
         width: 60%;
-        padding: 3px;
+        padding: 7px;
         margin: 2%;
         font-size: 1.0rem;
         color: var(--branco);
-        background-image: -webkit-linear-gradient(var(--laranja-claro), var(--laranja-vivo));
+        background-image: -webkit-linear-gradient(var(--laranja-claro), #ffb74d);
         text-decoration: none;
         border:#ff3b30;
         border-radius: 5px;
+        transition: all 0.3s ease;
     }
 
     button:hover{
         transform: scale(1.05);
         border:  2px solid var(--laranja-vivo);
     }
+
+

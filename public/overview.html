@@ -15,42 +15,46 @@
     rel="stylesheet">
 </head>
 <body>
-
-    <aside>
-        <img src="./assets/icons/escola.svg" alt="" srcset="">
-
-        <nav>
-                <a href="overview.html" class="navbar"> Início </a>
-                <a href="dashboard.html" class="navbar"> Gráficos </a>
-                <a href="professores.html" class="navbar"> Administração</a>
-                <a href="index.html" class="navbar">⬅ Sair</a>
-            </nav>
-            
-    </aside>
+    
+<aside class="barra-lateral">
+    <div class="logo"><img src="./assets/icons/escola.svg"></div>
+    <nav>
+      <ul>
+        <li><a href="overview.html"><i class="fas fa-home"></i></a></li>
+        <li><a href="dashboard.html"><i class="fas fa-chart-line"></i></a></li>
+        <li><a href="professores.html"><i class="fas fa-file-alt"></i></a></li>
+        <li><a href="perfilUsuario.html"><i class="fas fa-cog"></i></a></li>
+        <li><a href="index.html"><img src="assets/icons/opcao-de-sair.png" style="height: 80%; width: 40px;"></a></li>
+      </ul>
+    </nav>
+  </aside>
 
     <main>
+
+      <div class="bem-vindo">
         <h1>Seja bem-vindo!</h1>
         <h2>O que deseja ver hoje?</h2>
-
+      </div>
+      
         <div class="options-container">
 
             <div class="metas"> 
             <h2 class="option">Metas</h2>
-            <h2 class="option">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h2>
+            <h3 class="option">Defina suas metas e objetivos futuros para sua escola!</h3>
             <button><a href="#" class="clique">Veja Mais -> </a>
             </button>
             </div>
            
             <div class="metas"> 
             <h2 class="option">Gráficos</h2>
-            <h2 class="option">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h2>
+            <h3 class="option">Tenha acesso a gráficos exclusivos!</h3>
             <button><a href="dashboard.html" class="clique">Veja Mais -> </a>
             </button>
             </div>
 
             <div class="metas"> 
             <h2 class="option">Editar Perfil</h2>
-            <h2 class="option">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h2>
+            <h3 class="option">Edite seu perfil da maneira que desejar!</h3>
             <button><a href="perfilUsuario.html" class="clique">Veja Mais -> </a>
             </button>
             </div>

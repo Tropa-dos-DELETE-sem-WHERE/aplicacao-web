@@ -1,21 +1,95 @@
-    body{
-        margin: 0px;
-        overflow: hidden;
-        font-family: Inter;
-    }
+ @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+   :root {
+    --azul-vivo: #1e90ff;
+    --laranja-vivo: #ff6a34;
+    --vermelho-vivo: #ff3b30;
+    --laranja-claro: #F27C35;
+    --branco: #f3f3f3;
+    --cinza: #ebebeb;
+    --cinza-escuro: #4f4f4f;
+}
+
     
-    main{
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    gap: 80px;
+}
+
+  img{
+        width: 80px;
+        height: 80px;
+        filter: invert(100%);
     }
 
-    h3{
-        font-size: 1.5rem;
-        text-align: center;
-        font-weight: 500;
+    
+.barra-lateral {
+  width: 7.5%;
+  height: 100vh;
+  gap: 50px;
+  padding: 50px 0;
+  background: #ffb74d;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
 
+.barra-lateral ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  padding: 0;
+  margin: 0;
+}
+
+.barra-lateral ul li {
+  font-size: 30px;
+  color: #fff;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+
+.barra-lateral ul li:hover {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+h2{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+h3{
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+    
+select{
+    background-color: white;
+    padding: 5px;
+    border: none;
+    font-size: 1.0rem;
+    gap: 20px;
     }
+
+label{
+    font-size: 1.0rem;
+    gap: 20px;
+}
 
     .filter-container{
         width: fit-content;
@@ -28,14 +102,6 @@
         font-weight: 500;
     }
 
-    select {
-        background-color: white;
-        padding: 5px;
-        border: none;
-        gap: 1%;
-    }
-
-
 
     .kpi-container{
         display: flex;
@@ -43,9 +109,9 @@
         justify-content: space-between;
         flex-direction: row;
         flex-wrap: wrap;
-        margin: 15px 6px 0px 5px;
+        margin: 30px 5px 0px 5px;
         width: 100%;
-        height: 70px;
+        height: 110px;
     }
 
     .graph-container{
@@ -56,47 +122,72 @@
         flex-direction: row;
         margin: 5px;
         width: 100%;
-        height: 100%;
+        height: 80%;
+        transition: all 0.3s ease;
+    }
+
+    .graph1:hover, .graph2:hover,  .graph3:hover{
+        transform: scale(1.03);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
+       .kpi:hover{
+        transform: scale(1.05);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
     }
 
     .kpi{
+        text-align: center;
+        height: 90%;
+        width: 29%;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        border-radius: 3px;
         background-color: white;
         padding: 5px;
         gap: 5px;
-        box-shadow: 1px 3px 10px grey;
-    }
-
-    h2{
-        font-size: 1.2rem;
-         font-weight: 500;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
     }
 
     .graph1{
-        width: 70%;
-        margin-top: 30px;       
+        width: 70%;  
         height: 30vh;
         background-color: white;
-        box-shadow: 1px 3px 10px grey;
+        transition: all 0.3s ease;
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
     }
 
     .graph3{
-        width: 29.2%;
-        margin-top: 30px;       
+        width: 29.2%;    
         height: 30vh;
         background-color: white;
-        box-shadow: 1px 3px 10px grey;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
     }
 
     .graph2{
-        width: 100%;
-        margin-top: 30px;       
+        width: 100%;    
         height: 30vh;
         background-color: white;
-        box-shadow: 1px 3px 10px grey;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
     }
 
