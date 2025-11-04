@@ -13,8 +13,9 @@ body {
     height: 100vh;
 }
 
+
 .container {
-    width: 20%;
+    width: 27.5%;
     background: #fff;
     padding: 20px;
     border-radius: 15px;
@@ -102,6 +103,8 @@ input:disabled, select:disabled {
     color: white;
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     gap: 5px;
     margin-bottom: 15px;
 }

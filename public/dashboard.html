@@ -16,39 +16,232 @@
 </head>
 <body>
 
-    <aside>
-        <img src="./assets/icons/escola.svg" alt="" srcset="">
-
-        <nav>
-                <a href="#">📊 Overview</a>
-                <a href="#">📊 Início</a>
-                <a href="#">📊 Suporte</a>
-                <a href="#">📊 Outros</a>
-                <a href="index.html">⬅️ Sair</a>
-            </nav>
-            
-    </aside>
+<aside class="barra-lateral">
+    <div class="logo"><img src="./assets/icons/escola.svg"></div>
+    <nav>
+      <ul>
+        <li><a href="overview.html"><i class="fas fa-home"></i></a></li>
+        <li><a href="dashboard.html"><i class="fas fa-chart-line"></i></a></li>
+        <li><a href="professores.html"><i class="fas fa-file-alt"></i></a></li>
+        <li><a href="perfilUsuario.html"><i class="fas fa-cog"></i></a></li>
+        <li><a href="index.html"><img src="assets/icons/opcao-de-sair.png" style="height: 80%; width: 40px;"></a></li>
+      </ul>
+    </nav>
+  </aside>
 
     <main>
 
-        <h1>Dashboard</h1>
+        <h3>| Dashboard | Informações gerais sobre o ENEM por região |</h3>
 
         <div class="filter-container">
-            <p>Filtro</p>
+            <label for="Região">Região</label>
+            <select id="Região">
+            <option value="#">Região</option>
+            <option value="Norte">Norte</option>
+            <option value="Sul">Sul</option>
+            <option value="Centro-Oeste">Centro-Oeste</option>
+            <option value="Sudeste">Sudeste</option>
+            <option value="Nordeste">Nordeste</option>
+            </select>
+
+           <label for="Estado">Estado</label>
+            <select id="Estado">
+            <option value="#">Estado</option>
+            <option value="SP">SP</option>
+            <option value="RJ">RJ</option>
+            <option value="ES">ES</option>
+            <option value="MG">MG</option>
+           </select>
+
+           <label for="Código da Escola">Código da Escola</label>
+            <select id="Código da Escola">
+            <option value="#">Código</option>
+            <option value="001">001</option>
+            <option value="002">002</option>
+            <option value="003">003</option>
+            <option value="004">004</option>
+           </select>
         </div>
 
         <div class="kpi-container">
-            <div class="kpi">KPI</div>
-            <div class="kpi">KPI</div>
-            <div class="kpi">KPI</div>
+            <div class="kpi">
+              <h2>Área de conhecimento com maior nota</h2>
+              <h2 style="color: green;">Matemática</h2>
+            </div>
+            <div class="kpi">
+              <h2>Área de conhecimento com menor nota</h2>
+              <h2 style="color: red;">Linguagens</h2>
+            </div>
+            <div class="kpi">
+              <h2>Porcentagem de acerto geral</h2>
+              <h2>70.5%</h2>
+            </div>
         </div>
 
         <div class="graph-container">
-            <div class="graph">GRÁFICO</div>
-            <div class="graph">GRÁFICO</div>
+            <div class="graph1" id="grafico1"></div>
+            <div class="graph3" id="grafico3"></div>
+            <div class="graph2" id="grafico2"></div>
         </div>
+
+         
 
     </main>
 
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+
+    var Valores =  [300.5, 420.7, 560.5, 500.2, 460.1, 650.3, 702.4]
+    const optionsGrafico1 = {
+      chart: {
+        type: 'line',
+        height: 300
+      },
+      series: [{
+        name: 'Nota Média',
+        data: Valores,
+      }],
+      xaxis: {
+        categories: [
+            '2019', '2020', '2021', '2022', '2023', '2024', 
+          '2025'
+        ]
+      },
+      yaxis: {
+        min: 0,
+      },
+      colors: ['#f48024'], // azul suave
+      plotOptions: {
+        bar: {
+          borderRadius: 1,
+          horizontal: false,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      title: {
+        text: 'Evolução da escola por ano  ',
+        align: 'center'
+      }
+    };
+    const grafico1 = new ApexCharts(document.querySelector("#grafico1"), optionsGrafico1);
+    grafico1.render();
+
+    const optionsGrafico2 = {
+      chart: {
+        type: 'bar',
+        height: 300
+      },
+      series: [{
+        name: 'Nota Média',
+        data: [300.5, 420.7, 560.5, 500.2, 460.1, 650.3, 702.4]
+      }],
+      xaxis: {
+        categories: [
+          '2019', '2020', '2021', '2022', '2023', '2024', 
+          '2025'
+        ]
+      },
+      colors: ['#33b2df'], 
+      plotOptions: {
+        bar: {
+          borderRadius: 1,
+          width: 30,
+          horizontal: false,
+        }
+      },
+      dataLabels: {
+        enabled: true
+      },
+      title: {
+        text: 'Histograma das notas dos alunos por ano',
+        align: 'center'
+      }
+    };
+    const grafico2 = new ApexCharts(document.querySelector("#grafico2"), optionsGrafico2);
+    grafico2.render();
+
+    
+        var optionsGrafico3 = {
+          series: [{
+          data: [400, 430, 448, 470, 540,]
+        }],
+          chart: {
+          type: 'bar',
+          height: 300
+        },
+        plotOptions: {
+          bar: {
+            barHeight: '100%',
+            distributed: true,
+            horizontal: true,
+            dataLabels: {
+              position: 'bottom'
+            },
+          }
+        },
+        colors: ['#33b2df', '#d4526e', '#90ee7e', 
+        '#13d8aa','#f48024'
+        ],
+        dataLabels: {
+          enabled: true,
+          textAnchor: 'start',
+          style: {
+            colors: ['white']
+          },
+          formatter: function (val, opt) {
+            return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+          },
+          offsetX: 0,
+          dropShadow: {
+            enabled: true
+          }
+        },
+        stroke: {
+          width: 3,
+          colors: ['white']
+        },
+        xaxis: {
+          categories: ['Linguagens', 'Ciências Humanas', 
+          'Ciências da Natureza', 'Matemática', 'Redação'
+          ],
+        },
+        yaxis: {
+          labels: {
+            show: false
+          }
+        },
+        title: {
+            text: 'Notas anuais de cada matéria',
+            align: 'center',
+            floating: true
+        },
+        subtitle: {
+            text: 'Nota Média',
+            align: 'center',
+        },
+        tooltip: {
+          theme: 'dark',
+          x: {
+            show: false
+          },
+          y: {
+            title: {
+              formatter: function () {
+                return ''
+              }
+            }
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#grafico3"), optionsGrafico3);
+        chart.render();
+    
+
+    
+</script>

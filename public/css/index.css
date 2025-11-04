@@ -2,7 +2,7 @@
   --azul-vivo: #1e90ff;
   --laranja-vivo: #ff6a34;
   --vermelho-vivo: #ff3b30;
-  --laranja-claro: #F27C35;
+  --laranja-claro: #f27c35;
   --branco: #f3f3f3;
   --cinza: #ebebeb;
   --cinza-escuro: #4f4f4f;
@@ -10,45 +10,46 @@
 
 main {
   width: 100%;
-  height: 20vh;
   background-color: var(--branco);
   height: fit-content;
+}
+
+.introducao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -1;
 }
 
 .introducao {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  background-color: var(--branco);
-  height: fit-content;
-  padding: 80px 0;
-}
-
-.img-container{
-  width: 30vw;
-  height: 45vh;
-  background-color: aqua;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  font-weight: 700;
-  border-radius: 15px;
+  height: fit-content;
+  padding: 170px;
+  background-image: url("../assets/imagens/foto1.webp");
+  background-size: cover;     
+  background-position: center;  
+  background-repeat: no-repeat; 
+  position: relative;          
+  z-index: 1;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 40%;
+  width: 60%;
   height: fit-content;
-  background-color: var(--cor-cinza-claro);
+  background-color: var(--branco);
   border-radius: 10px;
-  padding: 30px;
+  padding: 40px;
   gap: 20px;
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  z-index: 2;
 }
 
 .container h1 {
@@ -64,13 +65,15 @@ main {
   align-items: center;
   justify-content: center;
   height: 7vh;
-  background-image: linear-gradient(var(--laranja-vivo), var(--laranja-claro));
+ background-image: linear-gradient( var(--laranja-claro),var(--laranja-vivo));
   border-radius: 7px;
   border: none;
   cursor: pointer;
   font-size: 1.1rem;
   text-decoration: none;
   color: var(--branco);
+  font-weight: bold;
+   transition: all 0.3s ease;
 }
 
 .container a:hover {
@@ -86,17 +89,33 @@ main {
   justify-content: center;
   flex-direction: column;
   height: fit-content;
-  padding: 70px;
+  padding: 100px;
   gap: 20px;
+  background-image: url("../assets/imagens/foto2.jpg");
+  background-size: cover;     
+  background-position: center;  
+  background-repeat: no-repeat; 
+  position: relative;          
+  z-index: 1;
+}
+
+.problemaSolucao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -1;
 }
 
 .problemaSolucao h1 {
-  font-size: 2.5rem;
+  font-size: 4rem;
+  color: var(--branco);
+  filter: drop-shadow(3px 3px 8px black);
 }
 
 /* Tabela */
 table {
-  width: 40%;
+  width: 70%;
   border-collapse: separate;
   border-spacing: 0;
   background: #fff;
@@ -109,15 +128,16 @@ table {
 
 th,
 td {
-  padding: 16px 20px;
+  padding: 25px 20px;
   text-align: left;
+  font-size: 1.3rem;
 }
 
 th {
   background-color: var(--laranja-vivo);
   color: #fff;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.7rem;
 }
 
 tr:nth-child(even) td {
@@ -147,7 +167,7 @@ tr:nth-child(even) td {
 }
 
 .recursos h1 {
-  font-size: 3rem;
+  font-size: 4rem;
   color: var(--branco);
 }
 
@@ -156,11 +176,11 @@ tr:nth-child(even) td {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  width: 40vw;
+  width: 70%;
   gap: 30px;
 }
 
-.container-cards{
+.container-cards {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -172,7 +192,8 @@ tr:nth-child(even) td {
 .card {
   display: flex;
   width: 46%;
-  height: 15vh;
+  height: 20vh;
+  font-size: 1.3rem;
   border-radius: 10px;
   background-color: var(--branco);
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
@@ -183,7 +204,7 @@ tr:nth-child(even) td {
 
 .card:hover,
 .card-passos:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .card-esquerda {
@@ -191,6 +212,7 @@ tr:nth-child(even) td {
   align-items: center;
   justify-content: center;
   width: 30%;
+  border-right: solid 1px rgb(212, 212, 212);
 }
 
 .card-esquerda p {
@@ -211,11 +233,10 @@ tr:nth-child(even) td {
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 80px;
   width: 100%;
   height: fit-content;
-  padding-top: 80px;
-  padding-bottom: 120px;
+  padding: 150px;
   background-color: var(--laranja-vivo);
 }
 
@@ -228,18 +249,19 @@ tr:nth-child(even) td {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 100px;
+  gap: 30px;
   width: 100%;
   flex-wrap: wrap;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .card-passos {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 17vw;
-  height: fit-content;
+  width: 25vw;
+  height: 40vh;
+  font-size: 1.3rem;
   background-color: var(--branco);
   color: var(--cinza-escuro);
   padding: 20px;
@@ -250,44 +272,68 @@ tr:nth-child(even) td {
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
 }
 
-.card-passos p {
-  margin-top: 15px;
+.card-passos p{
+  text-align: center;
+  
 }
+
+.card-passos h2{
+  text-align: center;
+  margin-top: 20px;
+}
+
 
 .circulo {
   position: relative;
-  top: -45px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: -45px;
   font-size: 2.0rem;
   font-weight: bold;
   width: 50px;
   height: 50px;
-  background-color: var(--vermelho-vivo);
+  background-image: linear-gradient(var(--laranja-vivo), #ffb74d);
   color: var(--branco);
   border-radius: 50%;
 }
 
-.contato{
+.contato {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding: 40px;
+  width: inherit;
+  padding: 100px;
+  background-image: url("../assets/imagens/foto3.webp");
+  background-size: cover;     
+  background-position: center;  
+  background-repeat: no-repeat; 
+  position: relative;          
+  z-index: 1;
 }
 
+.contato::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -1;
+}
 
 .credenciais {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 25vw;
+  width: 45%;
   height: fit-content;
   background-color: var(--branco);
   color: black;
-  padding: 20px;
+  padding: 40px;
   gap: 10px;
   border-radius: 10px;
+  box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
@@ -304,25 +350,32 @@ button {
   height: 6vh;
   background-color: var(--branco);
   border: 2px solid var(--cinza-escuro);
-  color: var(--cinza-escuro);
   border-radius: 10px;
   padding-left: 10px;
   transition: 0.3s;
 }
 
-textarea{
+button {
+  color: var(--branco);
+}
+
+input {
+  color: black;
+}
+
+textarea {
   width: 100%;
   height: 15vh;
   background-color: var(--branco);
   border: 2px solid var(--cinza-escuro);
-  color: var(--cinza-escuro);
+  color: black;
   border-radius: 10px;
   padding: 10px;
   transition: 0.3s;
 }
 
 input:focus,
-button:focus, 
+button:focus,
 textarea:focus {
   outline: 0;
   border: 2px solid var(--laranja-vivo);
@@ -330,7 +383,7 @@ textarea:focus {
 }
 
 .campo button {
-  background-color: var(--laranja-vivo);
+  background-image: linear-gradient( var(--laranja-claro),var(--laranja-vivo));
   border: none;
   margin-top: 10px;
   font-weight: bold;
@@ -343,10 +396,22 @@ textarea:focus {
   transform: scale(1.03);
 }
 
+::-webkit-scrollbar {
+  width: 15px;
+  height: 10px;
+  background-color: var(--cinza-escuro);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--laranja-claro);
+  border-radius: 5px;
+  border: 0px solid #f0f0f0;
+}
+
 /* Responsividade */
-@media (max-width: 600px) {
+@media (width <= 800px) {
   .introducao .container {
-    width: 70%;
+    width: 100vh;
   }
 
   .problemaSolucao {
@@ -369,6 +434,10 @@ textarea:focus {
     padding: 20px 0;
   }
 
+  .passos {
+    padding: 120px;
+  }
+
   .container-passos {
     display: flex;
     flex-direction: column;
@@ -376,6 +445,11 @@ textarea:focus {
   }
 
   .card-passos {
-    width: 50%;
+    width: 100%;
+    height: 35vh;
+  }
+
+  .credenciais {
+    width: 100%;
   }
 }
