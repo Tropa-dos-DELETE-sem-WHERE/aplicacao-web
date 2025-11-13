@@ -25,7 +25,7 @@
 
         <div class="box-ud">
             <button type="button" class="btn btn-editar" id="btn_editar" onclick="habilitarEdicao()">Editar</button>
-        <button type="button" class="btn btn-apagar" id="btn_apagar" onclick="apagarGestor()">Apagar Contar</button>
+        <button type="button" class="btn btn-apagar" id="btn_apagar" onclick="apagarGestor()">Apagar Conta</button>
         </div>
         <form id="form_editar">
             <label for="nome">Nome</label>
@@ -41,7 +41,7 @@
                 <button type="button" class="btn btn-salvar" onclick="atualizarDadoByUser()" disabled
                     id="btn_salvar">Salvar</button>
                 <button type="button" class="btn btn-cancelar" onclick="cancelar()" disabled
-                    id="btn_cancelar">Cancelar</button>
+                    id="btn_cancelar"><a href="overview.html" style="text-decoration: none; color: white;">Cancelar</a></button>
             </div>
         </form>
         <div id="modal_container_adicionar"></div>
@@ -138,6 +138,7 @@
         }
 
         function cancelar() {
+            window.location = "./overview.html";
             btnEditar.style = "display:block";
             btnEditar.textContent = "Editar";
             btnEditar.onclick = desabilitarEdicao;
@@ -146,7 +147,7 @@
             const btnCancelar = document.getElementById("btn_cancelar");
             inputs.forEach(input => input.disabled = true);
             btnSalvar.disabled = true;
-            btnCancelar.disabled = true;
+            btnCancelar.disabled = true;  
         }
 
         function alterarFoto() {
@@ -163,8 +164,8 @@
         </p>
 
         <div class="boxButton" style="display: flex; justify-content: center; gap: 20px;">
-          <button class="btnCancelar" onclick="fecharModal()">Cancelar</button>
-          <button class="btnConfirmar" onclick="deletarUsuario(sessionStorage.ID_USUARIO)">Confirmar</button>
+          <button class="btnCancelar" onclick="fecharModal()" style="background-color: #F27C35; color: white; padding: 10px; border:none; border-radius: 5px">Cancelar</button>
+          <button class="btnConfirmar" onclick="deletarUsuario(sessionStorage.ID_USUARIO)" style="background-color: #F27C35; color: white; padding: 10px; border:none; border-radius: 5px">Confirmar</button>
         </div>
       </div>
     </div>

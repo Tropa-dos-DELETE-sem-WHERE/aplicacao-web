@@ -1,17 +1,18 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: #f8f9fa;
   margin: 0;
   padding: 0;
 }
 
 header {
-  background-color: #20232a;
+  background-color: #ffb74d;
   color: #fff;
   text-align: center;
   padding: 15px 0;
   font-size: 1.5em;
   font-weight: bold;
+  box-shadow: 1px 1px 10px gray;
 }
 
 main {
@@ -74,7 +75,7 @@ th {
 .add-btn {
   display: inline-block;
   margin-bottom: 20px;
-  background-color: #28a745;
+  background-image: -webkit-linear-gradient(#28a745, green);
   color: white;
   text-decoration: none;
   padding: 10px 15px;
@@ -101,7 +102,7 @@ th {
     display: flex;
 }
 .modal-container{
-position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -120,13 +121,13 @@ position: fixed;
     z-index: 1;
   }
 .modal {
-    position: relative;
+    position: fixed;
     overflow-y: auto;
     background: white;
     padding: 2rem;
     border-radius: 10px;
     z-index: 2;
-    width: 80%;
+    width: 60%;
     height: 80%;
   }
 .modal .box{
@@ -176,4 +177,51 @@ position: fixed;
   margin-top: 40px;
   font-size: 1.2em;
   color: #555;
+}
+
+input{
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.boxButton button, .form-group button{
+  color: white;
+  border: none;
+  background-image:linear-gradient(#ff6a34, #F27C35);
+  padding: 15px;
+  margin: 8px;
+  border-radius: 3px;
+}
+
+button:hover{
+  transform: scale(1.03);
+}
+
+input:focus{
+  border-color: #ff6a34;
+}
+
+input:hover{
+  border-color: #ff6a34;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+}
+
+label{
+   font-size: 1.0rem;
+   margin: 5px 0;
+}
+
+.modal{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -46,7 +46,7 @@
     </div> -->
 
     <form class="cadastro-container">
-      <h1>Bem vindo(a) ao EducaData!</h1>
+      <h1>Bem-vindo ao EducaData!</h1>
       <div class="campo">
         <label for="nomeInstituicao">Nome da instituição:</label>
         <input type="text" id="input_nomeInstituicao" required>
@@ -73,9 +73,9 @@
         <button type="button" onclick="cadastrar()">Cadastrar -></button>
       </div>
 
-        <div id="div_aviso">
-          <h1 id="h1_aviso"></h1>
-        </div>
+      <div id="div_aviso">
+        <h1 id="h1_aviso"></h1>
+      </div>
     </form>
   </main>
 </body>
@@ -92,43 +92,41 @@
     const senha = input_senha.value;
     const confirmarSenha = input_repetirSenha.value;
     const tipoUsuario = '1';
-   if(senha === confirmarSenha)
-   {
-    h1_aviso.innerHTML = ``;
-     fetch("/usuarios/cadastrar", 
-     {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nomeInstituicaoServer: nomeInstituicao,
-        nomeUsuarioServer: nomeUsuario,
-        emailServer: email,
-        senhaServer: senha,
-        tipoUsuarioServer: tipoUsuario
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
-        if (resposta.status == 200) {
-          window.location = "./login.html";
-        }
-         if (resposta.status == 404) {
-          console.log("escola nao existe")
-           h1_aviso.innerHTML = `Instituição digitada não existe.`;
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  
-   }
-   else
-   {
-    console.log('diferentes')
+    if (senha === confirmarSenha) {
+      h1_aviso.innerHTML = ``;
+      fetch("/usuarios/cadastrar",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nomeInstituicaoServer: nomeInstituicao,
+            nomeUsuarioServer: nomeUsuario,
+            emailServer: email,
+            senhaServer: senha,
+            tipoUsuarioServer: tipoUsuario
+          }),
+        })
+        .then(function (resposta) {
+          console.log("resposta: ", resposta);
+          if (resposta.status == 200) {
+            window.location = "./login.html";
+          }
+          if (resposta.status == 404) {
+            console.log("escola nao existe")
+            h1_aviso.innerHTML = `Instituição digitada não existe.`;
+          }
+        })
+        .catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
+
+    }
+    else {
+      console.log('diferentes')
       h1_aviso.innerHTML = `Senhas devem ser iguais`;
-   }
+    }
   }
 
 </script>
