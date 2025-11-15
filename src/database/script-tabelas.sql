@@ -57,20 +57,15 @@ CREATE TABLE IF NOT EXISTS usuario (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS meta (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  tituloMeta VARCHAR(45) NOT NULL,
+  descMeta VARCHAR(255) NOT NULL,
+  dataExpiracao DATE NOT NULL,
   usuario_id INT NOT NULL,
+  statusMeta VARCHAR(30) IN("Em aberto","Concluídas"),
   FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Tabela chave-valor para Meta
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS metaAtributo (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  meta_id INT NOT NULL,
-  chave VARCHAR(45) NOT NULL,
-  valor VARCHAR(255) NOT NULL,
-  FOREIGN KEY (meta_id) REFERENCES meta(id)
-) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Tabela Filtro

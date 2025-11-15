@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="./css/logado.css" />
     <link rel="stylesheet" href="./css/metas.css" />
+    <link rel="stylesheet" href="./css/modal.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,7 +39,7 @@
       <div class="metasEmAberto-container">
         <div class="top-container">
           <h2>Em aberto</h2>
-          <button id="button-criar-meta">+ Criar meta</button>
+          <button id="button-criar-meta" onclick="modalMeta()">+ Criar meta</button>
         </div>
         <div class="metas-container">
 
@@ -169,5 +170,76 @@
         </div>
       </div>
     </main>
+      <div id="modal_container_adicionar"></div>
   </body>
 </html>
+<script>
+  function modalMeta()
+  {
+    console.log("chamou o modal")
+    modal_container_adicionar.innerHTML = `
+    <div class="modal-container show">
+      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal">
+        <h1>Criar uma nova meta</h1>
+        <div class="form_professor">
+          <div class="informacoes_professor">
+            <div class="group-row">
+              <div class="form-group tittle-meta">
+                <label for="input_nome">Titulo da sua meta:</label>
+                <input type="text" id="input_tituloMeta" placeholder="Ex: João Silva">
+              </div>
+              <div class="form-group date-meta">
+                <label for="input_email">Data limite da meta:</label>
+                <input type="date" id="input_dataLimite">
+              </div>  
+            </div>
+            
+            <div class="form-group">
+              <label for="input_email">Anotações sobre sua meta:</label>
+              <textarea type="email" id="input_anotacao" placeholder="Ex: Aumentar a media de acerto dos alunos em 10% nesse ano."></textarea>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="boxButton">
+          <button class="btnSalvar" onclick="inserirMeta()">Criar Nova Meta</button>
+        </div>
+      </div>
+    </div>
+  `;
+  }
+  function criarMeta()
+  {
+    event.preventDefault();
+    const tituloMeta = input_tituloMeta.value;
+    const dataLimite = input_dataLimite.value;
+    const anotacao = input_anotacao.value;
+    const idUsuario = sessionStorage.ID_USUARIO;
+      fetch("/metas/inserirMeta",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tituloMeta: tituloMeta,
+            dataLimite: dataLimite,
+            anotacao: anotacao,
+            idUsuario: idUsuario,
+            statusMeta : "Em aberto"
+          }),
+        })
+        .then(function (resposta) {
+          console.log("resposta: ", resposta);
+          if (resposta.status == 200) {
+            console.log(resposta);
+          }
+        })
+        .catch(function (resposta) {
+          console.log(`#ERRO: ${resposta}`);
+        });
+  }
+</script>
