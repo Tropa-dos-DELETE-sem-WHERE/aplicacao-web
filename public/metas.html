@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visão geral - EducaData</title>
 
-    <link rel="stylesheet" href="./css/logado.css" />
-    <link rel="stylesheet" href="./css/metas.css" />
-    <link rel="stylesheet" href="./css/modal.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visão geral - EducaData</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <aside class="barra-lateral">
+  <link rel="stylesheet" href="./css/logado.css" />
+  <link rel="stylesheet" href="./css/metas.css" />
+  <link rel="stylesheet" href="./css/modal.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <aside class="barra-lateral">
     <div class="logo"><img src="./assets/icons/escola.svg"></div>
     <nav>
       <ul>
@@ -30,153 +31,39 @@
       </ul>
     </nav>
   </aside>
+ <main>
+    <div class="cabecalho">
+      <h1>Metas</h1>
+    </div>
 
-    <main>
-      <div class="cabecalho">
-        <h1>Metas</h1>
-      </div>
 
-      <div class="metasEmAberto-container">
-        <div class="top-container">
-          <h2>Em aberto</h2>
-          <button id="button-criar-meta" onclick="modalMeta()">+ Criar meta</button>
-        </div>
-        <div class="metas-container">
+    <div class="filtro-container">
+      <label for="filtro-status">Filtrar por status:</label>
+      <select id="filtro-status" onchange="listarMetas()">
+        <option value="todas">Todas</option>
+        <option value="abertas">Em aberto</option>
+        <option value="concluidas">Concluídas</option>
+        <option value="expiradas">Expiradas</option>
+      </select>
+    </div>
+    <div class="top-container"> <button id="button-criar-meta" onclick="modalMeta()">+ Criar meta</button> </div>
 
-          <div class="meta">
-            <label class="checkbox-container">
-              <input type="checkbox" name="meta1" />
-              <span class="checkmark"></span>
-            </label>
+    <div class="metas-container" id="lista_metas">
+    </div>
+  </main>
+  <div id="modal_container_adicionar"></div>
+  <div class="modal-container" id="modalErro">
+</body>
 
-            <div class="meta-conteudo">
-              <h1>Nome da meta</h1>
-              <p>Descrição da meta</p>
-              <p>Prazo</p>
-            </div>
-            <button id="editar">Editar meta</button>
-            <button id="excluir">Excluir meta</button>
-          </div>
-
-          <div class="meta">
-            <label class="checkbox-container">
-              <input type="checkbox" name="meta1" />
-              <span class="checkmark"></span>
-            </label>
-
-            <div class="meta-conteudo">
-              <h1>Nome da meta</h1>
-              <p>Descrição da meta</p>
-              <p>Prazo</p>
-            </div>
-            <button id="editar">Editar meta</button>
-            <button id="excluir">Excluir meta</button>
-          </div>
-
-          <div class="meta">
-            <label class="checkbox-container">
-              <input type="checkbox" name="meta1" />
-              <span class="checkmark"></span>
-            </label>
-
-            <div class="meta-conteudo">
-              <h1>Nome da meta</h1>
-              <p>Descrição da meta</p>
-              <p>Prazo</p>
-            </div>
-            <button id="editar">Editar meta</button>
-            <button id="excluir">Excluir meta</button>
-          </div>
-
-          <div class="meta">
-            <label class="checkbox-container">
-              <input type="checkbox" name="meta1" />
-              <span class="checkmark"></span>
-            </label>
-
-            <div class="meta-conteudo">
-              <h1>Nome da meta</h1>
-              <p>Descrição da meta</p>
-              <p>Prazo</p>
-            </div>
-            <button id="editar">Editar meta</button>
-            <button id="excluir">Excluir meta</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="metasConcluidas-container">
-        <h2>Concluídas</h2>
-        <div class="metas-container">
-          <div class="meta">
-            <label class="checkbox-container">
-              <input type="checkbox" name="meta1" />
-              <span class="checkmark"></span>
-            </label>
-
-            <div class="meta-conteudo">
-              <h1>Nome da meta</h1>
-              <p>Descrição da meta</p>
-              <p>Prazo</p>
-            </div>
-            <button id="editar">Editar meta</button>
-            <button id="excluir">Excluir meta</button>
-          </div>
-
-          <div class="meta">
-            <label class="checkbox-container">
-              <input type="checkbox" name="meta1" />
-              <span class="checkmark"></span>
-            </label>
-
-            <div class="meta-conteudo">
-              <h1>Nome da meta</h1>
-              <p>Descrição da meta</p>
-              <p>Prazo</p>
-            </div>
-            <button id="editar">Editar meta</button>
-            <button id="excluir">Excluir meta</button>
-          </div>
-
-          <div class="meta">
-            <label class="checkbox-container">
-              <input type="checkbox" name="meta1" />
-              <span class="checkmark"></span>
-            </label>
-
-            <div class="meta-conteudo">
-              <h1>Nome da meta</h1>
-              <p>Descrição da meta</p>
-              <p>Prazo</p>
-            </div>
-            <button id="editar">Editar meta</button>
-            <button id="excluir">Excluir meta</button>
-          </div>
-
-          <div class="meta">
-            <label class="checkbox-container">
-              <input type="checkbox" name="meta1" />
-              <span class="checkmark"></span>
-            </label>
-
-            <div class="meta-conteudo">
-              <h1>Nome da meta</h1>
-              <p>Descrição da meta</p>
-              <p>Prazo</p>
-            </div>
-            <button id="editar">Editar meta</button>
-            <button id="excluir">Excluir meta</button>
-          </div>
-        </div>
-      </div>
-    </main>
-      <div id="modal_container_adicionar"></div>
-  </body>
-</html>
+</html> 
+<script src="js/verificaLogin.js"></script>
 <script>
-  function modalMeta()
-  {
-    console.log("chamou o modal")
+  window.onload = () => {
+    verificaLogin();
+    listarMetas();
+  }
+
+  function modalMeta() {
     modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
@@ -205,41 +92,264 @@
         </div>
 
         <div class="boxButton">
-          <button class="btnSalvar" onclick="inserirMeta()">Criar Nova Meta</button>
+          <button class="btnSalvar" onclick="criarMeta()">Criar Nova Meta</button>
         </div>
       </div>
     </div>
-  `;
+    
+    <div class="overlay-interno" id="overlayInterno"></div>
+    <div class="modal-erro" id="modalErro">
+      <span>⚠️ Atenção!</span>
+      <p>Os campos <strong>Título</strong> e <strong>Data limite</strong> não podem estar vazios.</p>
+      <div class="boxButtonErro">
+        <button class="btnSalvar" onclick="fecharModal('modalErro')">Ok</button>
+      </div>
+    </div>
+    `;
+    const hoje = new Date().toISOString().split("T")[0]; 
+  document.getElementById("input_dataLimite").setAttribute("min", hoje);
   }
-  function criarMeta()
-  {
+  function fecharModal() {
+    modal_container_adicionar.innerHTML = ``;
+  }
+  function criarMeta() {
     event.preventDefault();
     const tituloMeta = input_tituloMeta.value;
     const dataLimite = input_dataLimite.value;
     const anotacao = input_anotacao.value;
     const idUsuario = sessionStorage.ID_USUARIO;
-      fetch("/metas/inserirMeta",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            tituloMeta: tituloMeta,
-            dataLimite: dataLimite,
-            anotacao: anotacao,
-            idUsuario: idUsuario,
-            statusMeta : "Em aberto"
-          }),
-        })
-        .then(function (resposta) {
-          console.log("resposta: ", resposta);
-          if (resposta.status == 200) {
-            console.log(resposta);
-          }
-        })
-        .catch(function (resposta) {
-          console.log(`#ERRO: ${resposta}`);
-        });
+    fetch("/metas/inserirMeta",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tituloMeta: tituloMeta,
+          dataLimite: dataLimite,
+          anotacao: anotacao,
+          idUsuario: idUsuario,
+          statusMeta: "abertas"
+        }),
+      })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta.status);
+        if (resposta.status === 200) {
+          console.log(resposta);
+          location.reload();
+        } else if (resposta.status === 400) {
+          document.getElementById("overlayInterno").classList.add("show");
+          document.getElementById("modalErro").classList.add("show");
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta.status}`);
+      });
   }
+
+  function listarMetas() {
+    const filtro = document.getElementById("filtro-status").value;
+    console.log(filtro);
+    const idUsuario = sessionStorage.ID_USUARIO;
+    fetch(`/metas/listarMeta/${idUsuario}/${filtro}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": 'application/json'
+      }
+    }
+    )
+      .then(resposta => resposta.json())
+      .then(metas => {
+        console.log(metas);
+        //aqui defino variaveis pegando os elementos que tenham a classe .metas-container e estejam dentro de metasEmAberto-container e abaixo faço o mesmo para concluidas 
+        const container = document.getElementById("lista_metas");
+          container.innerHTML = "";
+        if(metas.length > 0)
+        {
+           metas.forEach((meta) => {
+          const htmlMeta = `
+          <div class="meta">
+            <label class="checkbox-container">
+              <input type="checkbox" 
+               name="meta${meta.id}" 
+               onchange="alterarStatus(${meta.id}, this.checked)" 
+               ${meta.statusMeta === "concluidas" ? "checked" : ""}/>
+              <span class="checkmark"></span>
+            </label>
+
+            <div class="meta-conteudo">
+              <h1>Titulo: ${meta.tituloMeta}</h1>
+              <b>Entre para fazer anotações...</b>
+              <p>Data limite: ${new Date(meta.dataExpiracao).toLocaleDateString("pt-BR")}</>
+            </div>
+
+            <button onclick="modalEditar(${meta.id}, '${meta.tituloMeta}', '${meta.descMeta}', '${meta.dataExpiracao}', '${meta.statusMeta}')" id="editar">Editar meta</button>
+            <button onclick="excluirMeta(${meta.id})" id="excluir">Excluir meta</button>
+          </div>
+        `;
+         //aqui estou usando o insertAdjacentHTML que aprendi no video https://www.youtube.com/watch?v=R_O7-6uWFR4, pois ele é ideal para inserir elementos dinamicamentes.
+          //ele espera a posição
+          //posições
+          //"beforebegin"  → antes do elemento
+          //"afterbegin"   → no início do elemento
+          //"beforeend"    → no final do elemento  é o que eu vou usar.
+          //"afterend"     → depois do elemento
+          // e esperar o html no meu caso eu psso o html que o biel criou mas com os dados do bd 
+          container.insertAdjacentHTML("beforeend", htmlMeta);
+        });
+        } else {
+           const htmlMeta  = `
+            <div class="semProfessores">
+              <p>Nenhuma Meta cadastrada até o momento com essa configurações.</p>
+              <p>Use o botão <strong>+ Criar Meta</strong> para adicionar uma.</p>
+            </div>
+          `;
+          container.insertAdjacentHTML("beforeend", htmlMeta);
+      }
+
+      });
+  }
+
+  function alterarStatus(idMeta, check) {
+    const idUsuario = sessionStorage.ID_USUARIO;
+    let meta = "abertas";
+    //aqui eu recebo o id da meta para pode sabe qual meta eu vou alter o status
+    //e check que vem como true ou false para eu saber se foi clicado ou não
+    if (check) {
+     meta = "concluidas"
+    }
+    
+    fetch(`/metas/atualizarStatusMeta/${idMeta}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      statusMeta: meta,
+      idUsuario : sessionStorage.ID_USUARIO
+    }),
+  })
+    .then(function (resposta) {
+      if (resposta.status === 200) {
+          console.log(resposta);
+          location.reload();
+        } else if (resposta.status === 400) {
+          document.getElementById("overlayInterno").classList.add("show");
+          document.getElementById("modalErro").classList.add("show");
+        }
+    })
+    .catch(function (erro) {
+      console.error(`#ERRO: ${erro}`);
+    });
+  }
+  function excluirMeta(id)
+  {
+    const idUsuario = sessionStorage.ID_USUARIO;
+    fetch("/metas/deletarMeta", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify
+      ({ 
+        idMeta: id,
+        idUsuario : idUsuario
+       })
+    });
+    alert("meta deletada com sucesso!");
+    window.location.reload();
+  }
+
+  function fecharModal(id) 
+  {
+      document.getElementById("overlayInterno").classList.remove("show");
+      document.getElementById("modalErro").classList.remove("show");
+  }
+
+  function modalEditar(id,tituloMeta,descMeta,dataExpiracao,statusMeta)
+  {
+    console.log("ID:", id);
+    console.log("Título:", tituloMeta);
+    console.log("Descrição:", descMeta);
+    console.log("Data:", dataExpiracao);
+    console.log("Status:", statusMeta);
+    modal_container_adicionar.innerHTML = `
+    <div class="modal-container show">
+      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal">
+        <h1>Edite sua Meta</h1>
+        <div class="form_professor">
+          <div class="informacoes_professor">
+            <div class="group-row">
+              <div class="form-group tittle-meta">
+                <label for="input_nome">Titulo da sua meta:</label>
+                <input type="text" id="input_tituloMeta" placeholder="Ex: Aumentar Notas" value="${tituloMeta}">
+              </div>
+              <div class="form-group date-meta">
+                <label for="input_email">Data limite da meta:</label>
+                <input type="date"  id="input_dataLimite" value="${new Date(dataExpiracao).toISOString().split('T')[0]}">
+              </div>  
+            </div>
+            
+            <div class="form-group">
+              <label for="input_email">Anotações sobre sua meta:</label>
+              <textarea type="email" id="input_anotacao" placeholder="Ex: Aumentar a media de acerto dos alunos em 10% nesse ano.">${descMeta}</textarea>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="boxButton">
+          <button class="btnSalvar" onclick="editarMeta(${id},'${tituloMeta}','${descMeta}','${dataExpiracao}','${statusMeta}')">Confirme Edição</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="overlay-interno" id="overlayInterno"></div>
+    <div class="modal-erro" id="modalErro">
+      <span>⚠️ Atenção!</span>
+      <p>Os campos <strong>Título</strong> e <strong>Data limite</strong> não podem estar vazios.</p>
+      <div class="boxButtonErro">
+        <button class="btnSalvar" onclick="fecharModal('modalErro')">Ok</button>
+      </div>
+    </div>
+    `;
+  const hoje = new Date().toISOString().split("T")[0]; 
+  document.getElementById("input_dataLimite").setAttribute("min", hoje);
+  }
+
+  function editarMeta(id,titulo,descMeta,dataExpiracao,statusMeta)
+  {
+    const tituloMeta =  input_tituloMeta.value;
+    const dataLimite = input_dataLimite.value == dataExpiracao ? dataExpiracao : input_dataLimite.value;
+    const anotacao = input_anotacao.value == descMeta ? descMeta : input_anotacao.value;
+    const idUsuario = sessionStorage.ID_USUARIO;
+    
+    fetch(`/metas/atualizarMeta/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      tituloMeta: tituloMeta,
+      anotacao: anotacao,
+      dataLimite: dataLimite,
+      statusMeta: "Em aberto",
+      idUsuario : idUsuario
+    }),
+  })
+    .then(function (resposta) {
+      if (resposta.status === 200) {
+          console.log(resposta);
+          location.reload();
+        } else if (resposta.status === 400) {
+          document.getElementById("overlayInterno").classList.add("show");
+          document.getElementById("modalErro").classList.add("show");
+        }
+    })
+    .catch(function (erro) {
+      console.error(`#ERRO: ${erro}`);
+    });
+
+  }
+
 </script>

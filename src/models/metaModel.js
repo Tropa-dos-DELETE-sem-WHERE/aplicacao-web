@@ -1,34 +1,51 @@
 var database = require("../database/config")
 
-function listar(){
-    console.log("acessei o selctall")
-    var instrucaoSql = 
+async function listarMetaByUsuario(idUsuario,status){
+     console.log("Dentro do Model de metas na função  listarMeta() aqui vou apenas receber os dados de um usuario X");
+     const atualizarExpiradas = `
+    UPDATE meta
+    SET statusMeta = 'expiradas'
+    WHERE usuario_id = ${idUsuario}
+      AND statusMeta = 'abertas'
+      AND dataExpiracao < CURDATE();
+  `;
+    await database.executar(atualizarExpiradas);
+    console.log("Executando a instrução SQL: \n" + atualizarExpiradas);
+    if(status == 'todas')
+    {
+        var instrucaoSql = 
     `
-        SELECT * FROM usuario where tipoUsuario_id = 2;
+       SELECT * FROM meta WHERE usuario_id = ${idUsuario};
     `;
+    }else{
+        var instrucaoSql = 
+    `
+       SELECT * FROM meta WHERE usuario_id = ${idUsuario} AND statusMeta = '${status}';
+    `;
+    }
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 
-function inserir(nome, email, senha, tipoUsuario, escola_id) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function inserirProfessor(): ", nome, email, senha, tipoUsuario, escola_id);
+function inserirMeta(tituloMeta, dataLimite, anotacao, idUsuario, statusMeta) {
+    console.log("Dentro do Model de metas na função  inserirMeta() passando os seguintes dados para o banco",tituloMeta, dataLimite, anotacao, idUsuario, statusMeta);
 
     var instrucaoSql = `
-        INSERT INTO usuario (nome, email, senha, escola_id, tipoUsuario_id)
-        VALUES ('${nome}', '${email}', '${senha}', ${escola_id},${tipoUsuario});
+        INSERT INTO meta (tituloMeta, descMeta, dataExpiracao, usuario_id, statusMeta)
+        VALUES ('${tituloMeta}', '${anotacao}', '${dataLimite}', '${idUsuario}','${statusMeta}');
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function apagar(idProfessor) {
-    console.log("ACESSEI O USUARIO MODEL \n\n function apagarProfessor(): ", idProfessor);
+function deletarMeta(idMeta,idUsuario) {
+    console.log("Dentro do Model de metas na função  deletarMeta() passando os seguintes dados para o banco",idMeta,idUsuario);
 
     var instrucaoSql = `
-        DELETE FROM usuario
-        WHERE id = ${idProfessor};
+        DELETE FROM meta
+        WHERE id = ${idMeta} AND usuario_id = ${idUsuario};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -45,24 +62,39 @@ function apagar(id) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
-function atualizar(id, nome, email, senha) {
-    console.log("ACESSEI O USUARIO MODEL: atualizarProfessor()", id, nome, email, senha);
+function atualizarMeta(tituloMeta, dataLimite, anotacao, idUsuario, statusMeta,idMeta) {
+    console.log("Dentro do Model de metas na função  atualizarMeta() passando os seguintes dados para o banco",tituloMeta, dataLimite, anotacao, idUsuario, statusMeta,idMeta);
 
     const instrucaoSql = `
-        UPDATE usuario
-        SET nome = '${nome}',
-            email = '${email}',
-            senha = '${senha}'
-        WHERE id = ${id};
+        UPDATE meta
+        SET tituloMeta = '${tituloMeta}',
+            descMeta = '${anotacao}',
+            dataExpiracao = '${dataLimite}',
+            statusMeta = '${statusMeta}'
+        WHERE usuario_id = ${idUsuario} AND id = ${idMeta};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+function atualizarStatusMeta(statusMeta,idMeta,idUsuario) {
+    console.log("Dentro do Model de metas na função  atualizarStatusMeta() passando os seguintes dados para o banco",statusMeta,idMeta,idUsuario);
+
+    const instrucaoSql = `
+        UPDATE meta
+        SET statusMeta = '${statusMeta}'
+        WHERE usuario_id = ${idUsuario} AND id = ${idMeta};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
+
 module.exports = {
-    atualizar,
-    listar,
-    inserir,
-    apagar
+    atualizarMeta,
+    listarMetaByUsuario,
+    inserirMeta,
+    deletarMeta,
+    atualizarStatusMeta
 };

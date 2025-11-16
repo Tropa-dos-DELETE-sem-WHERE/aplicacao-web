@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS educadata;
 USE educadata;
 
+select * from meta;
 -- -----------------------------------------------------
 -- Tabela Tipo de Escola
 -- -----------------------------------------------------
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS meta (
   descMeta VARCHAR(255) NOT NULL,
   dataExpiracao DATE NOT NULL,
   usuario_id INT NOT NULL,
-  statusMeta VARCHAR(30) IN("Em aberto","Concluídas"),
+  statusMeta ENUM("abertas", "concluidas","expiradas"),
   FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 ) ENGINE = InnoDB;
 
