@@ -4,20 +4,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/logado.css">
   <link rel="stylesheet" href="./css/professores.css">
-  <title>Lista de Professores</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" />
+  <title>Professores</title>
 </head>
 
 <body>
-  <header>Professores - Administração</header>
-   
-  <div id="loading" style="display: flex; justify-content: center; align-items: center; height: 90vh;">
+  <aside>
+    <div class="logo"><img src="./assets/icons/escola.svg"></div>
+
+    <h2>Bem-vindo, fulano!</h2>
+    <nav>
+      <ul>
+        <li><a href="overview.html" title="Overview">Overview</a></li>
+        <li><a href="dashboard.html" title="Dashboard">Dashboard</a></li>
+        <li><a href="metas.html" title="Metas">Metas</a></li>
+        <li><a href="professores.html" title="Professores">Professores</a></li>
+        <li><a href="perfilUsuario.html" title="Perfil">Perfil</a></li>
+        <li><a href="index.html" title="Sair">Sair</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div id="loading">
     <h2>Carregando dados...</h2>
   </div>
+  
   <main class="container" id="conteudo">
     <h2>Lista de Professores</h2>
     <button class="btn add-btn" onclick="adicionarProfessor()">+ Novo Professor</button>
-    <div id="div_container_professores"></div>
+    <div id="div_container_professores">
+      <table class="tabela-professores">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Escola</th>
+      <th colspan="2">Ações</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>João Silva</td>
+      <td>joao.silva@example.com</td>
+      <td>Escola Alpha</td>
+      <td class="actions"><button class="btn btn-edit">Editar</button></td>
+      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
+    </tr>
+
+    <tr>
+      <td>2</td>
+      <td>Maria Santos</td>
+      <td>maria.santos@example.com</td>
+      <td>Colégio Beta</td>
+      <td class="actions"><button class="btn btn-edit">Editar</button></td>
+      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
+    </tr>
+
+    <tr>
+      <td>3</td>
+      <td>Carlos Pereira</td>
+      <td>carlos.pereira@example.com</td>
+      <td>Escola Gamma</td>
+      <td class="actions"><button class="btn btn-edit">Editar</button></td>
+      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
+    </tr>
+
+    <tr>
+      <td>4</td>
+      <td>Ana Oliveira</td>
+      <td>ana.oliveira@example.com</td>
+      <td>Instituto Delta</td>
+      <td class="actions"><button class="btn btn-edit">Editar</button></td>
+      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
+    </tr>
+
+    <tr>
+      <td>5</td>
+      <td>Ricardo Torres</td>
+      <td>ricardo.torres@example.com</td>
+      <td>Centro Educacional Épsilon</td>
+      <td class="actions"><button class="btn btn-edit">Editar</button></td>
+      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
+    </tr>
+
+    <tr>
+      <td>6</td>
+      <td>Patrícia Mendes</td>
+      <td>patricia.mendes@example.com</td>
+      <td>Colégio Zeta</td>
+      <td class="actions"><button class="btn btn-edit">Editar</button></td>
+      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
+    </tr>
+
+    <tr>
+      <td>7</td>
+      <td>Bruno Araújo</td>
+      <td>bruno.araujo@example.com</td>
+      <td>Instituto Ômega</td>
+      <td class="actions"><button class="btn btn-edit">Editar</button></td>
+      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
+    </tr>
+
+    <tr>
+      <td>8</td>
+      <td>Sofia Martins</td>
+      <td>sofia.martins@example.com</td>
+      <td>Escola Sigma</td>
+      <td class="actions"><button class="btn btn-edit">Editar</button></td>
+      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
+    </tr>
+  </tbody>
+</table>
+
+    </div>
 
     <div id="modal_container_adicionar"></div>
   </main>
@@ -94,7 +203,7 @@
       </table>
     `;
       } else {
-          tabela = `
+        tabela = `
             <div class="semProfessores">
               <p>Nenhum professor cadastrado até o momento.</p>
               <p>Use o botão <strong>+ Novo Professor</strong> para adicionar um.</p>
@@ -179,7 +288,7 @@
 
   function deletarProfessormodal(id) {
     console.log(id)
-  modal_container_adicionar.innerHTML = `
+    modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
       <div class="modal">
@@ -195,7 +304,7 @@
       </div>
     </div>
   `;
-}
+  }
   function deletarProfessor(id) {
     console.log("Opa");
     fetch("/usuarios/deleteProfessores", {
@@ -215,41 +324,41 @@
     }
     input_senha.value = senha;
   }
-  
+
   function atualizarProfessor(idProfessor) {
-  const nome = input_nome.value;
-  const email = input_email.value;
-  const senha = input_senha.value;
+    const nome = input_nome.value;
+    const email = input_email.value;
+    const senha = input_senha.value;
 
-  console.log("Atualizando professor:", idProfessor, nome, email, senha);
+    console.log("Atualizando professor:", idProfessor, nome, email, senha);
 
-  fetch(`/usuarios/atualizarProfessor/${idProfessor}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      nome: nome,
-      email: email,
-      senha: senha
-    }),
-  })
-    .then(function (resposta) {
-      if (resposta.ok) {
-        alert("Professor atualizado com sucesso!");
-        window.location.reload();
-      } else {
-        alert("Erro ao atualizar professor!");
-      }
+    fetch(`/usuarios/atualizarProfessor/${idProfessor}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nome: nome,
+        email: email,
+        senha: senha
+      }),
     })
-    .catch(function (erro) {
-      console.error(`#ERRO: ${erro}`);
-    });
-}
-function editarProfessor(id, nome, email, senha) {
-  console.log("abrindo modal de edição para professor:", id);
+      .then(function (resposta) {
+        if (resposta.ok) {
+          alert("Professor atualizado com sucesso!");
+          window.location.reload();
+        } else {
+          alert("Erro ao atualizar professor!");
+        }
+      })
+      .catch(function (erro) {
+        console.error(`#ERRO: ${erro}`);
+      });
+  }
+  function editarProfessor(id, nome, email, senha) {
+    console.log("abrindo modal de edição para professor:", id);
 
-  modal_container_adicionar.innerHTML = `
+    modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
       <div class="modal">
@@ -281,6 +390,6 @@ function editarProfessor(id, nome, email, senha) {
       </div>
     </div>
   `;
-}
+  }
 
 </script>

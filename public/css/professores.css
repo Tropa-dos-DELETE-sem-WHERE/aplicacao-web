@@ -1,3 +1,22 @@
+:root {
+  --laranja: #ffb347;
+  --laranja-claro: #ffe0b3;
+  --azul: #5fa4e6;
+  --azul-claro: #80c1ff;
+  --verde: #6fcf97;
+  --verde-claro: #c9f4df;
+
+  --branco: #e5e7eb;
+  --cinza: #cccccc;
+  --cinza-escuro: #1f2937;
+
+  /* Botões e alerts */
+  --sucesso-verde: #22c55e;
+  --erro-vermelho: #ef4444;
+  --atencao-amarelo: #facc15;
+  --info-azul: #3b82f6;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #f8f9fa;
@@ -5,29 +24,26 @@ body {
   padding: 0;
 }
 
-header {
-  background-color: #ffb74d;
-  color: #fff;
-  text-align: center;
-  padding: 15px 0;
-  font-size: 1.5em;
-  font-weight: bold;
-  box-shadow: 1px 1px 10px gray;
-}
-
-main {
-  max-width: 1000px;
-  margin: 40px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+#loading{
+  position: absolute;
+  top: 50%;
+  right: 30%;
 }
 
 h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: var(--cinza-escuro);
+}
+
+#div_container_professores{
+  height: 80%;
+  overflow-y: scroll;
+}
+
+thead{
+  position: sticky;
+  top: 0;
 }
 
 table {
@@ -42,10 +58,13 @@ th, td {
 }
 
 th {
-  background-color: #333;
+  background-color: var(--cinza-escuro);
   color: white;
 }
 
+tr:hover{
+  background-color: #00000008;
+}
 
 .actions {
   display: flex;
@@ -63,33 +82,29 @@ th {
 }
 
 .btn-edit {
-  background-color: #ffc107;
-  color: #000;
+  background-color: var(--atencao-amarelo);
+  color: var(--cinza-escuro);
 }
 
 .btn-delete {
-  background-color: #dc3545;
-  color: white;
+  background-color: var(--erro-vermelho);
+  color: var(--branco);
 }
 
 .add-btn {
   display: inline-block;
   margin-bottom: 20px;
-  background-image: -webkit-linear-gradient(#28a745, green);
-  color: white;
-  text-decoration: none;
+  background-color: var(--info-azul);
+  color: var(--branco);
   padding: 10px 15px;
   border-radius: 6px;
   font-weight: bold;
 }
 
-.add-btn:hover {
-  background-color: #218838;
-}
 .modal {
     position: relative;
     overflow-y: auto;
-    background: white;
+    background: var(--branco);
     padding: 2rem;
     border-radius: 10px;
     z-index: 2;
@@ -123,7 +138,7 @@ th {
 .modal {
     position: fixed;
     overflow-y: auto;
-    background: white;
+    background: var(--branco);
     padding: 2rem;
     border-radius: 10px;
     z-index: 2;
@@ -146,7 +161,7 @@ th {
     align-items: center;
     font-size: 2rem;
    font-weight: bolder;
-   color: #c51c1c;
+   color: var(--erro-vermelho);
 }
 .modal .box .btn{
     width: 50%;
@@ -176,7 +191,7 @@ th {
   text-align: center;
   margin-top: 40px;
   font-size: 1.2em;
-  color: #555;
+  color: var(--cinza-escuro);
 }
 
 input{
@@ -188,7 +203,7 @@ input{
 }
 
 .boxButton button, .form-group button{
-  color: white;
+  color: var(--branco);
   border: none;
   background-image:linear-gradient(#ff6a34, #F27C35);
   padding: 15px;
@@ -224,4 +239,17 @@ label{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cinza, #e7e7e7);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--laranja);
+  border-radius: 10px;
 }
