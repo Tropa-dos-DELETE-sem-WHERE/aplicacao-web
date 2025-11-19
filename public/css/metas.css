@@ -117,8 +117,7 @@ img{
   gap: 15px;
 }
 
-.metasEmAberto-container,
-.metasConcluidas-container {
+.metas-container {
   display: flex;
   flex-direction: column;
   width: 90%;

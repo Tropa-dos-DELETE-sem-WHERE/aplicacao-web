@@ -1,4 +1,3 @@
-const e = require("express");
 var database = require("../database/config")
 
 function autenticar(email, senha) {
