@@ -4,189 +4,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/telaPerfilUsuario.css">
     <title>Editar Perfil</title>
+    <link rel="stylesheet" href="css/telaPerfilUsuario.css">
+    <link rel="stylesheet" href="css/logado.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
+
+    <aside>
+        <div class="logo"><img src="./assets/icons/escola.svg"></div>
+
+        <h2>Bem-vindo, fulano!</h2>
+        <nav>
+            <ul>
+                <li><a href="overview.html" title="Overview">Overview</a></li>
+                <li><a href="dashboard.html" title="Dashboard">Dashboard</a></li>
+                <li><a href="metas.html" title="Metas">Metas</a></li>
+                <li><a href="professores.html" title="Professores">Professores</a></li>
+                <li><a href="perfilUsuario.html" title="Perfil">Perfil</a></li>
+                <li><a href="index.html" title="Sair">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
+
     <div id="loading" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
         <h2>Carregando dados...</h2>
     </div>
-    
-    <div class="container" id="conteudo">
-        <h1 id="isGestor"></h1>
-        <h2 class="titulo">Perfil</h2>
 
-        <div class="foto-perfil">
-            <img id="foto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="alterarFoto()"
-                alt="Foto de Perfil">
-            <input type="file" id="input_foto" accept="image/*" style="display:none">
-        </div>
+    <main>
+        <div class="container" id="conteudo">
+            <h1 id="isGestor"></h1>
+            <h2 class="titulo">Perfil</h2>
 
-        <div class="box-ud">
-            <button type="button" class="btn btn-editar" id="btn_editar" onclick="habilitarEdicao()">Editar</button>
-        <button type="button" class="btn btn-apagar" id="btn_apagar" onclick="apagarGestor()">Apagar Conta</button>
-        </div>
-        <form id="form_editar">
-            <label for="nome">Nome</label>
-            <input type="text" id="input_nome" disabled>
-
-            <label for="email">E-mail</label>
-            <input type="email" id="input_email" disabled>
-
-            <label for="instituicao">Instituição</label>
-            <input type="text" id="input_instituicao" disabled>
-
-            <div class="botoes">
-                <button type="button" class="btn btn-salvar" onclick="atualizarDadoByUser()" disabled
-                    id="btn_salvar">Salvar</button>
-                <button type="button" class="btn btn-cancelar" onclick="cancelar()" disabled
-                    id="btn_cancelar"><a href="overview.html" style="text-decoration: none; color: white;">Cancelar</a></button>
+            <div class="foto-perfil">
+                <img id="foto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="alterarFoto()"
+                    alt="Foto de Perfil">
+                <input type="file" id="input_foto" accept="image/*" style="display:none">
             </div>
-        </form>
-        <div id="modal_container_adicionar"></div>
-    </div>
+
+            <div class="box-ud">
+                <button type="button" class="btn btn-editar" id="btn_editar" onclick="habilitarEdicao()">Editar</button>
+                <button type="button" class="btn btn-apagar" id="btn_apagar" onclick="apagarGestor()">Apagar
+                    Conta</button>
+            </div>
+            <form id="form_editar">
+                <label for="nome">Nome</label>
+                <input type="text" id="input_nome" disabled>
+
+                <label for="email">E-mail</label>
+                <input type="email" id="input_email" disabled>
+
+                <label for="instituicao">Instituição</label>
+                <input type="text" id="input_instituicao" disabled>
+
+                <div class="botoes">
+                    <button type="button" class="btn btn-salvar" onclick="atualizarDadoByUser()" disabled
+                        id="btn_salvar">Salvar</button>
+                    <button type="button" class="btn btn-cancelar" onclick="cancelar()" disabled id="btn_cancelar"><a
+                            href="overview.html" style="text-decoration: none; color: white;">Cancelar</a></button>
+                </div>
+            </form>
+            <div id="modal_container_adicionar"></div>
+        </div>
+    </main>
+
 </body>
+
 </html>
-  <script>
+<script>
+    const btnEditar = document.getElementById("btn_editar");
+    window.onload = async () => {
+
+        const loading = document.getElementById("loading");
+        const conteudo = document.getElementById("conteudo");
+
+        setTimeout(async () => {
+            await escolaUsuario();
+
+            sessionStorage.ID_TIPO_USUARIO == 1
+                ? isGestor.innerHTML = `<a href="professores.html">professores</a>`
+                : isGestor.innerHTML = "";
+
+            input_nome.value = sessionStorage.NOME_USUARIO || "";
+            input_email.value = sessionStorage.EMAIL_USUARIO || "";
+
+            loading.style.display = "none";
+            conteudo.classList.add("mostrar");
+        }, 1000);
+    };
+
+    function escolaUsuario() {
+        const idUsuario = sessionStorage.ID_USUARIO;
+        fetch(`/usuarios/escolasUser/${idUsuario}`)
+            .then(resposta => {
+                return resposta.json()
+            }).then(atributos => {
+                console.log(atributos)
+                input_instituicao.value = atributos[0].nomeEscola;
+            })
+            .catch(erro => {
+                console.error("Deu erro:", erro);
+            });
+    }
+
+    function habilitarEdicao() {
+        const inputs = document.querySelectorAll("#form_editar input");
+        const btnSalvar = document.getElementById("btn_salvar");
+        const btnCancelar = document.getElementById("btn_cancelar");
         const btnEditar = document.getElementById("btn_editar");
-        window.onload = async () => {
-
-            const loading = document.getElementById("loading");
-            const conteudo = document.getElementById("conteudo");
-
-            setTimeout(async () => {
-                await escolaUsuario();
-
-                sessionStorage.ID_TIPO_USUARIO == 1
-                    ? isGestor.innerHTML = `<a href="professores.html">professores</a>`
-                    : isGestor.innerHTML = "";
-
-                input_nome.value = sessionStorage.NOME_USUARIO || "";
-                input_email.value = sessionStorage.EMAIL_USUARIO || "";
-
-                loading.style.display = "none";
-                conteudo.classList.add("mostrar");
-            }, 1000);
-        };
-
-        function escolaUsuario() {
-            const idUsuario = sessionStorage.ID_USUARIO;
-            fetch(`/usuarios/escolasUser/${idUsuario}`)
-                .then(resposta => {
-                    return resposta.json()
-                }).then(atributos => {
-                    console.log(atributos)
-                    input_instituicao.value = atributos[0].nomeEscola;
-                })
-                .catch(erro => {
-                    console.error("Deu erro:", erro);
-                });
+        for (var i = 0; i < 4; i++) {
+            inputs[i].disabled = false;
         }
+        btnSalvar.disabled = false;
+        btnCancelar.disabled = false;
+        btnEditar.style = "display:none";
 
-        function habilitarEdicao() {
-            const inputs = document.querySelectorAll("#form_editar input");
-            const btnSalvar = document.getElementById("btn_salvar");
-            const btnCancelar = document.getElementById("btn_cancelar");
-            const btnEditar = document.getElementById("btn_editar");
-            for (var i = 0; i < 4; i++) {
-                inputs[i].disabled = false;
-            }
-            btnSalvar.disabled = false;
-            btnCancelar.disabled = false;
-            btnEditar.style = "display:none";
+    }
+    function desabilitarEdicao() {
+        const inputs = document.querySelectorAll("#form_editar input");
+        const btnSalvar = document.getElementById("btn_salvar");
+        const btnCancelar = document.getElementById("btn_cancelar");
+        for (var i = 0; i < 4; i++) {
+            inputs[i].disabled = false;
+        }
+        btnSalvar.disabled = true;
+        btnCancelar.disabled = true;
+        btnEditar.innerHTML = "Editar";
+        btnEditar.onclick = habilitarEdicao;
+    }
 
-        }
-        function desabilitarEdicao() {
-            const inputs = document.querySelectorAll("#form_editar input");
-            const btnSalvar = document.getElementById("btn_salvar");
-            const btnCancelar = document.getElementById("btn_cancelar");
-            for (var i = 0; i < 4; i++) {
-                inputs[i].disabled = false;
-            }
-            btnSalvar.disabled = true;
-            btnCancelar.disabled = true;
-            btnEditar.innerHTML = "Editar";
-            btnEditar.onclick = habilitarEdicao;
-        }
+    function atualizarDadoByUser() {
+        console.log("Entrou")
+        const nomeUsuario = input_nome.value;
+        const emailUsuario = input_email.value;
+        const id_instituicao = sessionStorage.ID_INSTITUICAO_USUARIO;
+        const id_usuario = sessionStorage.ID_USUARIO;
+        fetch("/usuarios/atualizarDadoByUser",
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    idInstituicaoServer: id_instituicao,
+                    nomeUsuarioServer: nomeUsuario,
+                    emailServer: emailUsuario,
+                    idUsuarioServer: id_usuario
+                }),
+            })
+            .then(function (resposta) {
+                console.log("Funcionouuuuuuuuuuuuuuu");
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }
 
-        function atualizarDadoByUser() {
-            console.log("Entrou")
-            const nomeUsuario = input_nome.value;
-            const emailUsuario = input_email.value;
-            const id_instituicao = sessionStorage.ID_INSTITUICAO_USUARIO;
-            const id_usuario = sessionStorage.ID_USUARIO;
-            fetch("/usuarios/atualizarDadoByUser",
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        idInstituicaoServer: id_instituicao,
-                        nomeUsuarioServer: nomeUsuario,
-                        emailServer: emailUsuario,
-                        idUsuarioServer: id_usuario
-                    }),
-                })
-                .then(function (resposta) {
-                    console.log("Funcionouuuuuuuuuuuuuuu");
-                })
-                .catch(function (resposta) {
-                    console.log(`#ERRO: ${resposta}`);
-                });
-        }
+    function cancelar() {
+        window.location = "./overview.html";
+        btnEditar.style = "display:block";
+        btnEditar.textContent = "Editar";
+        btnEditar.onclick = desabilitarEdicao;
+        const inputs = document.querySelectorAll("#form_editar input");
+        const btnSalvar = document.getElementById("btn_salvar");
+        const btnCancelar = document.getElementById("btn_cancelar");
+        inputs.forEach(input => input.disabled = true);
+        btnSalvar.disabled = true;
+        btnCancelar.disabled = true;
+    }
 
-        function cancelar() {
-            window.location = "./overview.html";
-            btnEditar.style = "display:block";
-            btnEditar.textContent = "Editar";
-            btnEditar.onclick = desabilitarEdicao;
-            const inputs = document.querySelectorAll("#form_editar input");
-            const btnSalvar = document.getElementById("btn_salvar");
-            const btnCancelar = document.getElementById("btn_cancelar");
-            inputs.forEach(input => input.disabled = true);
-            btnSalvar.disabled = true;
-            btnCancelar.disabled = true;  
-        }
-
-        function alterarFoto() {
-            input_foto.click();
-        }
-        function apagarGestor() {
-  modal_container_adicionar.innerHTML = `
+    function alterarFoto() {
+        input_foto.click();
+    }
+    function apagarGestor() {
+        modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
       <div class="modal">
         <h1>Apagar Conta</h1>
-        <p style="text-align: center; margin: 20px 0;">
-          Tem certeza que deseja apagar sua conta? Esta ação <b>não poderá ser desfeita</b>.
+        <p>
+          Tem certeza que deseja apagar sua conta? Essa ação <b>não poderá ser desfeita</b>.
         </p>
 
-        <div class="boxButton" style="display: flex; justify-content: center; gap: 20px;">
-          <button class="btnCancelar" onclick="fecharModal()" style="background-color: #F27C35; color: white; padding: 10px; border:none; border-radius: 5px">Cancelar</button>
-          <button class="btnConfirmar" onclick="deletarUsuario(sessionStorage.ID_USUARIO)" style="background-color: #F27C35; color: white; padding: 10px; border:none; border-radius: 5px">Confirmar</button>
+        <div class="boxButton">
+            <button class="btnConfirmar" onclick="deletarUsuario(sessionStorage.ID_USUARIO)">Confirmar</button>
+          <button class="btnCancelar" onclick="fecharModal()">Cancelar</button>
         </div>
       </div>
     </div>
   `;
-}
-function deletarUsuario(id) {
-    fetch("/usuarios/delete", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: id })
-    });
-      sessionStorage.EMAIL_USUARIO = undefined;
-     sessionStorage.NOME_USUARIO = undefined;
-     sessionStorage.ID_USUARIO = undefined;
-     sessionStorage.ID_INSTITUICAO_USUARIO = undefined;
-     sessionStorage.ID_TIPO_USUARIO = undefined;
-    window.location = "./index.html";
-  }
+    }
+    function deletarUsuario(id) {
+        fetch("/usuarios/delete", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: id })
+        });
+        sessionStorage.EMAIL_USUARIO = undefined;
+        sessionStorage.NOME_USUARIO = undefined;
+        sessionStorage.ID_USUARIO = undefined;
+        sessionStorage.ID_INSTITUICAO_USUARIO = undefined;
+        sessionStorage.ID_TIPO_USUARIO = undefined;
+        window.location = "./index.html";
+    }
 
-  function fecharModal() {
-    modal_container_adicionar.innerHTML = ``;
-  }
+    function fecharModal() {
+        modal_container_adicionar.innerHTML = ``;
+    }
 
-    </script>
+</script>
