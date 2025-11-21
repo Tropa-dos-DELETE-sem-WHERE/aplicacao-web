@@ -30,7 +30,7 @@ body {
   right: 30%;
 }
 
-h2 {
+#title {
   text-align: center;
   margin-bottom: 20px;
   color: var(--cinza-escuro);
@@ -81,23 +81,36 @@ tr:hover{
   font-size: 0.9em;
 }
 
+.btn-edit, .btn-delete{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 7vw;
+  height: fit-content;
+  gap: 5px;
+  font-size: 1rem;
+}
+
 .btn-edit {
-  background-color: var(--atencao-amarelo);
-  color: var(--cinza-escuro);
+  background-color: var(--info-azul);
+  color: var(--branco);
 }
 
 .btn-delete {
   background-color: var(--erro-vermelho);
-  color: var(--branco);
+  color: var(--cinza-escuro);
 }
 
 .add-btn {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
-  background-color: var(--info-azul);
+  background-color: var(--sucesso-verde);
   color: var(--branco);
   padding: 10px 15px;
+  gap: 5px;
   border-radius: 6px;
+  font-size: 1rem;
   font-weight: bold;
 }
 

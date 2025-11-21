@@ -22,12 +22,12 @@
     <h2>Bem-vindo, fulano!</h2>
     <nav>
       <ul>
-        <li><a href="overview.html" title="Overview">Overview</a></li>
-        <li><a href="dashboard.html" title="Dashboard">Dashboard</a></li>
-        <li><a href="metas.html" title="Metas">Metas</a></li>
-        <li><a href="professores.html" title="Professores">Professores</a></li>
-        <li><a href="perfilUsuario.html" title="Perfil">Perfil</a></li>
-        <li><a href="index.html" title="Sair">Sair</a></li>
+        <li><a href="overview.html" title="Overview"><img src="./assets/icons/inicio.svg" alt=""> Início</a></li>
+        <li><a href="dashboard.html" title="Dashboard"><img src="./assets/icons/dashboard.svg" alt="">Dashboard</a></li>
+        <li><a href="metas.html" title="Metas"><img src="./assets/icons/metas.svg" alt="">Metas</a></li>
+        <li><a href="professores.html" title="Professores"><img src="./assets/icons/professores.svg"alt="">Professores</a></li>
+        <li><a href="perfilUsuario.html" title="Perfil"><img src="./assets/icons/perfil.svg" alt="">Perfil</a></li>
+        <li><a href="index.html" title="Sair"><img src="./assets/icons/sair.svg" alt="">Sair</a></li>
       </ul>
     </nav>
   </aside>
@@ -35,96 +35,96 @@
   <div id="loading">
     <h2>Carregando dados...</h2>
   </div>
-  
+
   <main class="container" id="conteudo">
-    <h2>Lista de Professores</h2>
-    <button class="btn add-btn" onclick="adicionarProfessor()">+ Novo Professor</button>
+    <h2 id="title">Lista de Professores</h2>
+    <button class="btn add-btn" onclick="adicionarProfessor()"><img src="./assets/icons/add_prof.svg" alt=""> Novo Professor</button>
     <div id="div_container_professores">
       <table class="tabela-professores">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>Email</th>
-      <th>Escola</th>
-      <th colspan="2">Ações</th>
-    </tr>
-  </thead>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Escola</th>
+            <th colspan="2">Ações</th>
+          </tr>
+        </thead>
 
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>João Silva</td>
-      <td>joao.silva@example.com</td>
-      <td>Escola Alpha</td>
-      <td class="actions"><button class="btn btn-edit">Editar</button></td>
-      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
-    </tr>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>João Silva</td>
+            <td>joao.silva@example.com</td>
+            <td>Escola Alpha</td>
+            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
+            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
+          </tr>
 
-    <tr>
-      <td>2</td>
-      <td>Maria Santos</td>
-      <td>maria.santos@example.com</td>
-      <td>Colégio Beta</td>
-      <td class="actions"><button class="btn btn-edit">Editar</button></td>
-      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
-    </tr>
+          <tr>
+            <td>2</td>
+            <td>Maria Santos</td>
+            <td>maria.santos@example.com</td>
+            <td>Colégio Beta</td>
+            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
+            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
+          </tr>
 
-    <tr>
-      <td>3</td>
-      <td>Carlos Pereira</td>
-      <td>carlos.pereira@example.com</td>
-      <td>Escola Gamma</td>
-      <td class="actions"><button class="btn btn-edit">Editar</button></td>
-      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
-    </tr>
+          <tr>
+            <td>3</td>
+            <td>Carlos Pereira</td>
+            <td>carlos.pereira@example.com</td>
+            <td>Escola Gamma</td>
+            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
+            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
+          </tr>
 
-    <tr>
-      <td>4</td>
-      <td>Ana Oliveira</td>
-      <td>ana.oliveira@example.com</td>
-      <td>Instituto Delta</td>
-      <td class="actions"><button class="btn btn-edit">Editar</button></td>
-      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
-    </tr>
+          <tr>
+            <td>4</td>
+            <td>Ana Oliveira</td>
+            <td>ana.oliveira@example.com</td>
+            <td>Instituto Delta</td>
+            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
+            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
+          </tr>
 
-    <tr>
-      <td>5</td>
-      <td>Ricardo Torres</td>
-      <td>ricardo.torres@example.com</td>
-      <td>Centro Educacional Épsilon</td>
-      <td class="actions"><button class="btn btn-edit">Editar</button></td>
-      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
-    </tr>
+          <tr>
+            <td>5</td>
+            <td>Ricardo Torres</td>
+            <td>ricardo.torres@example.com</td>
+            <td>Centro Educacional Épsilon</td>
+            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
+            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
+          </tr>
 
-    <tr>
-      <td>6</td>
-      <td>Patrícia Mendes</td>
-      <td>patricia.mendes@example.com</td>
-      <td>Colégio Zeta</td>
-      <td class="actions"><button class="btn btn-edit">Editar</button></td>
-      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
-    </tr>
+          <tr>
+            <td>6</td>
+            <td>Patrícia Mendes</td>
+            <td>patricia.mendes@example.com</td>
+            <td>Colégio Zeta</td>
+            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
+            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
+          </tr>
 
-    <tr>
-      <td>7</td>
-      <td>Bruno Araújo</td>
-      <td>bruno.araujo@example.com</td>
-      <td>Instituto Ômega</td>
-      <td class="actions"><button class="btn btn-edit">Editar</button></td>
-      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
-    </tr>
+          <tr>
+            <td>7</td>
+            <td>Bruno Araújo</td>
+            <td>bruno.araujo@example.com</td>
+            <td>Instituto Ômega</td>
+            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
+            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
+          </tr>
 
-    <tr>
-      <td>8</td>
-      <td>Sofia Martins</td>
-      <td>sofia.martins@example.com</td>
-      <td>Escola Sigma</td>
-      <td class="actions"><button class="btn btn-edit">Editar</button></td>
-      <td class="actions"><button class="btn btn-delete">Excluir</button></td>
-    </tr>
-  </tbody>
-</table>
+          <tr>
+            <td>8</td>
+            <td>Sofia Martins</td>
+            <td>sofia.martins@example.com</td>
+            <td>Escola Sigma</td>
+            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
+            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
+          </tr>
+        </tbody>
+      </table>
 
     </div>
 

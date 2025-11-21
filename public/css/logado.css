@@ -71,6 +71,7 @@ nav {
 
   a {
     display: flex;
+    align-items: center;
     justify-content: flex-start;
     color: #fff;
     background-color: var(--cinza-escuro);
@@ -79,6 +80,7 @@ nav {
     font-size: 1.5rem;
     text-decoration: none;
     padding: 15px;
+    gap: 12px;
     border-radius: 10px;
     width: 100%;
     transition: 0.3s;
@@ -90,6 +92,10 @@ nav {
 
   a:hover {
     transform: scale(1.03);
-    border: 3px solid var(--atencao-amarelo);
+    border: 3px solid var(--branco);
+  }
+
+  img{
+    width: 30px;
   }
 }
