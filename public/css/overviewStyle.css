@@ -27,5 +27,51 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
+}
+
+#cards-container{
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  gap: 50px;
+
+  a{
+    text-decoration: none;
+    color: var(--cinza-escuro);
+  }
+}
+
+.card{
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  width: 20vw;
+  height: fit-content;
+  gap: 40px;
+  padding: 45px 0 45px 0;
+  border: 4px solid var(--laranja);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .2s;
+  box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.35);
+  -webkit-box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.35);
+  -moz-box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.35);
+
+  img{
+    width: 100px;
+    height: auto;
+  }
+  
+  h3{
+    font-size: 2rem;
+  }
+}
+
+.card:hover{
+  background-color: var(--laranja);
+  border: 4px solid var(--cinza-escuro);
+  transform: scale(1.05);
 }
