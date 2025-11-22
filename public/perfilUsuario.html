@@ -32,14 +32,8 @@
             </ul>
         </nav>
     </aside>
-
-    <div id="loading" style="display: flex; justify-content: center; align-items: center">
-        <h2>Carregando dados...</h2>
-    </div>
-
     <main>
-        <div class="container" id="conteudo">
-            <h1 id="isGestor"></h1>
+        <div class="container mostrar" id="conteudo">
             <h2 class="titulo">Perfil</h2>
 
             <div class="foto-perfil">
@@ -80,23 +74,9 @@
 <script>
     const btnEditar = document.getElementById("btn_editar");
     window.onload = async () => {
-
-        const loading = document.getElementById("loading");
         const conteudo = document.getElementById("conteudo");
-
-        setTimeout(async () => {
-            await escolaUsuario();
-
-            sessionStorage.ID_TIPO_USUARIO == 1
-                ? isGestor.innerHTML = `<a href="professores.html">professores</a>`
-                : isGestor.innerHTML = "";
-
-            input_nome.value = sessionStorage.NOME_USUARIO || "";
-            input_email.value = sessionStorage.EMAIL_USUARIO || "";
-
-            loading.style.display = "none";
-            conteudo.classList.add("mostrar");
-        }, 1000);
+        await escolaUsuario();
+        conteudo.classList.add("mostrar");
     };
 
     function escolaUsuario() {

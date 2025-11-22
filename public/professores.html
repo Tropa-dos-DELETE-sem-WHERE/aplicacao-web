@@ -32,11 +32,7 @@
     </nav>
   </aside>
 
-  <div id="loading">
-    <h2>Carregando dados...</h2>
-  </div>
-
-  <main class="container" id="conteudo">
+  <main class="container mostrar" id="conteudo">
     <h2 id="title">Lista de Professores</h2>
     <button class="btn add-btn" onclick="adicionarProfessor()"><img src="./assets/icons/add_prof.svg" alt=""> Novo Professor</button>
     <div id="div_container_professores">
@@ -52,77 +48,7 @@
         </thead>
 
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>João Silva</td>
-            <td>joao.silva@example.com</td>
-            <td>Escola Alpha</td>
-            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
-            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
-          </tr>
-
-          <tr>
-            <td>2</td>
-            <td>Maria Santos</td>
-            <td>maria.santos@example.com</td>
-            <td>Colégio Beta</td>
-            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
-            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
-          </tr>
-
-          <tr>
-            <td>3</td>
-            <td>Carlos Pereira</td>
-            <td>carlos.pereira@example.com</td>
-            <td>Escola Gamma</td>
-            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
-            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
-          </tr>
-
-          <tr>
-            <td>4</td>
-            <td>Ana Oliveira</td>
-            <td>ana.oliveira@example.com</td>
-            <td>Instituto Delta</td>
-            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
-            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
-          </tr>
-
-          <tr>
-            <td>5</td>
-            <td>Ricardo Torres</td>
-            <td>ricardo.torres@example.com</td>
-            <td>Centro Educacional Épsilon</td>
-            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
-            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
-          </tr>
-
-          <tr>
-            <td>6</td>
-            <td>Patrícia Mendes</td>
-            <td>patricia.mendes@example.com</td>
-            <td>Colégio Zeta</td>
-            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
-            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
-          </tr>
-
-          <tr>
-            <td>7</td>
-            <td>Bruno Araújo</td>
-            <td>bruno.araujo@example.com</td>
-            <td>Instituto Ômega</td>
-            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
-            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
-          </tr>
-
-          <tr>
-            <td>8</td>
-            <td>Sofia Martins</td>
-            <td>sofia.martins@example.com</td>
-            <td>Escola Sigma</td>
-            <td class="actions"><button class="btn btn-edit"><img src="./assets/icons/editar.svg"> Editar</button></td>
-            <td class="actions"><button class="btn btn-delete"><img src="./assets/icons/deletar.svg"> Excluir</button></td>
-          </tr>
+          
         </tbody>
       </table>
 
@@ -134,87 +60,72 @@
 
 </html>
 <script>
-  window.onload = async () => {
-    const loading = document.getElementById("loading");
-    const conteudo = document.getElementById("conteudo");
+    window.onload = () => {
+    carregarTabela();
+  }
 
-    setTimeout(() => {
-      carregarTabela();
-      loading.style.display = "none";
-      conteudo.classList.add("mostrar");
-    }, 500);
-  };
-  async function carregarTabela() {
-    try {
-      const resposta = await fetch("/usuarios/listarProfessores");
-      const professores = await resposta.json();
+  function carregarTabela() {
+  
+    const tbody = document.querySelector("#div_container_professores table tbody");
+    tbody.innerHTML = ""; 
 
-      let tabela = `
-      <table class="tabela-professores">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Escola</th>
-            <th colspan="2">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
-
-      if (professores.length > 0) {
-        for (const prof of professores) {
-          let nomeEscola = "—";
-
-          try {
-            const respostaEscola = await fetch(`/usuarios/escolasUser/${prof.id}`);
-            const dadosEscola = await respostaEscola.json();
-
-            if (dadosEscola.length > 0) {
-              nomeEscola = dadosEscola[0].nomeEscola;
-            }
-          } catch (erro) {
-            console.error(`Erro ao buscar escola do professor ${prof.id}:`, erro);
-          }
-
-          tabela += `
-        <tr>
-          <td>${prof.id}</td>
-          <td>${prof.nome}</td>
-          <td>${prof.email}</td>
-          <td>${nomeEscola}</td>
-          <td class="actions">
-            <button class="btn btn-edit" onclick="editarProfessor(${prof.id},'${prof.nome}','${prof.email}','${prof.senha}')">
-              Editar
-            </button>
-          </td>
-          <td class="actions">
-            <button class="btn btn-delete" onclick="deletarProfessormodal(${prof.id})">
-              Excluir
-            </button>
-          </td>
-        </tr>
-      `;
-        }
-
-        tabela += `
-        </tbody>
-      </table>
-    `;
-      } else {
-        tabela = `
-            <div class="semProfessores">
-              <p>Nenhum professor cadastrado até o momento.</p>
-              <p>Use o botão <strong>+ Novo Professor</strong> para adicionar um.</p>
-            </div>
-          `;
+    fetch("/usuarios/listarProfessores", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
       }
+    })
+      .then(resposta => resposta.json())
+      .then(professores => {
+        console.log(professores);
 
-      document.getElementById("div_container_professores").innerHTML = tabela;
-    } catch (erro) {
-      console.error("Erro ao carregar professores:", erro);
-    }
+        if (professores.length > 0) {
+          professores.forEach((prof) => {
+            let nomeEscola = "—";
+            fetch(`/usuarios/escolasUser/${prof.id}`)
+              .then(respostaEscola => respostaEscola.json())
+              .then(dadosEscola => {
+                if (dadosEscola.length > 0) {
+                  nomeEscola = dadosEscola[0].nomeEscola;
+                }
+
+                const htmlProf = `
+                  <tr>
+                    <td>${prof.id}</td>
+                    <td>${prof.nome}</td>
+                    <td>${prof.email}</td>
+                    <td>${nomeEscola}</td>
+                    <td class="actions">
+                      <button class="btn btn-edit" onclick="editarProfessor(${prof.id}, '${prof.nome}', '${prof.email}', '${prof.senha}')">
+                        <img src="./assets/icons/editar.svg"> Editar
+                      </button>
+                    </td>
+                    <td class="actions">
+                      <button class="btn btn-delete" onclick="deletarProfessormodal(${prof.id})">
+                        <img src="./assets/icons/deletar.svg"> Excluir
+                      </button>
+                    </td>
+                  </tr>
+                `;
+
+               
+                tbody.insertAdjacentHTML("beforeend", htmlProf);
+              });
+          });
+        } else {
+          const htmlSemProf = `
+            <tr>
+              <td colspan="6">
+                <div class="semProfessores">
+                  <p>Nenhum professor cadastrado até o momento.</p>
+                  <p>Use o botão <strong>+ Novo Professor</strong> para adicionar um.</p>
+                </div>
+              </td>
+            </tr>
+          `;
+          tbody.insertAdjacentHTML("beforeend", htmlSemProf);
+        }
+      });
   }
   function adicionarProfessor() {
     console.log("chamou o modal")
