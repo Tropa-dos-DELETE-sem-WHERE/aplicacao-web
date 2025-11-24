@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" href="./css/dashboard.css">
   <link rel="stylesheet" href="./css/logado.css">
+  <link rel="stylesheet" href="./css/modalFiltro.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +43,7 @@
     <div id="filtros-container">
 
       <div class="filtro">
-        <button><label for=""><i class="bi bi-funnel-fill"></i>Filtros</label></button>
+        <button onclick="modalFiltro()"><label for=""><i class="bi bi-funnel-fill"></i>Filtros</label></button>
       </div>
 
     </div>
@@ -59,7 +60,195 @@
       <div id="grafico2">grafico 2</div>
     </div>
   </main>
-
+  <div id="modal_container_adicionar"></div>
+  <div id="modal_container_adicionar_filtro"></div>
+  <div class="modal-container" id="modalErro">
 </body>
 
 </html>
+
+<script>
+    window.onload = async () => {
+      await listarMaterias();
+      await listarEstados();
+      await listarTiposEscola();
+    };
+function modalFiltro() {
+  modal_container_adicionar.innerHTML = `
+    <div class="modal-container show">
+      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal">
+        <button class="close-btn" onclick="fecharModal()">✖</button>
+        <div class="form_filtro">
+          <div class="novoFiltro">
+                 <button class="btn add-btn" onclick="modalAddFiltro()">
+                  <img src="./assets/icons/add_prof.svg" alt=""> Novo Filtro
+                </button>
+           </div>
+          <div id="lista-filtros"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  listarFiltros();
+}
+  function modalAddFiltro() {
+    modal_container_adicionar_filtro.innerHTML = `
+    <div class="modal-container show modal-add-filtro">
+      <div class="modal-overlay" onclick="fecharModalAdd()"></div>
+      <div class="modal modal-add">
+        <button class="close-btn" onclick="fecharModalAdd()">✖</button>
+        <h1 class="titulo-add-filtro">Criar um novo filtro</h1>
+        
+        <div class="form_add_filtro">
+          <div class="informacoes_add_filtro">
+            <div class="form-group-add">
+              <label for="input_nomeFiltro">Nome do filtro:</label>
+              <input type="text" id="input_nomeFiltro" placeholder="Ex: Filtro Matemática SP">
+            </div>
+
+            <div class="form-group-add">
+              <label for="select_materia">Matéria:</label>
+              <select id="select_materia"></select>
+            </div>
+
+            <div class="form-group-add">
+              <label for="select_tipoEscola">Tipo de Escola:</label>
+              <select id="select_tipoEscola"></select>
+            </div>
+
+            <div class="form-group-add">
+              <label for="select_estado">Estado (UF):</label>
+              <select id="select_estado"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="boxButtonAdd">
+          <button class="btnSalvarAdd" onclick="criarFiltro()">Salvar Filtro</button>
+        </div>
+      </div>
+    </div>
+  `;
+   listarMaterias();
+  listarEstados();
+  listarTiposEscola();
+  }
+  function fecharModal() {
+    modal_container_adicionar.innerHTML = ``;
+  }
+  function fecharModalAdd() {
+    modal_container_adicionar_filtro.innerHTML = ``;
+  }
+
+
+  function listarMaterias() {
+  fetch("/filtros/materias", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(resposta => resposta.json())
+  .then(dados => {
+    console.log("Materias recebidas:", dados);
+    const select = document.getElementById("select_materia");
+    select.innerHTML = ""; // limpa antes
+    dados.forEach(materia => {
+      const option = document.createElement("option");
+      option.value = materia.id;
+      option.textContent = materia.nome;
+      select.appendChild(option);
+    });
+  })
+  .catch(erro => {
+    console.error("Erro ao listar matérias:", erro);
+  });
+}
+
+function listarEstados() {
+  fetch("/filtros/estados", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(resposta => resposta.json())
+  .then(dados => {
+    console.log("Estados recebidos:", dados);
+    const select = document.getElementById("select_estado");
+    select.innerHTML = "";
+    dados.forEach(estado => {
+      const option = document.createElement("option");
+      option.value = estado.id;
+      option.textContent = estado.uf;
+      select.appendChild(option);
+    });
+  })
+  .catch(erro => {
+    console.error("Erro ao listar estados:", erro);
+  });
+}
+
+function listarTiposEscola() {
+  fetch("/filtros/tiposEscola", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(resposta => resposta.json())
+  .then(dados => {
+    console.log("Tipos de escola recebidos:", dados);
+    const select = document.getElementById("select_tipoEscola");
+    select.innerHTML = "";
+    dados.forEach(tipo => {
+      const option = document.createElement("option");
+      option.value = tipo.id;
+      option.textContent = tipo.tipo;
+      select.appendChild(option);
+    });
+  })
+  .catch(erro => {
+    console.error("Erro ao listar tipos de escola:", erro);
+  });
+}
+async function listarFiltros() {
+  const idUsuario = sessionStorage.ID_USUARIO;
+  const container = document.getElementById("lista-filtros");
+  container.innerHTML = ""; 
+    const resposta = await fetch(`/filtros/listar/${idUsuario}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    });
+    const dados = await resposta.json();
+    console.log("Filtros recebidos:", dados);
+    if (dados.length > 0) {
+      dados.forEach(filtro => {
+        const htmlFiltro = `
+      <div class="filtro-card">
+        <div class="filtro-header">
+          <h2>${filtro.nome}</h2>
+          <span class="status ${filtro.emUso === 'sim' ? 'ativo' : 'inativo'}">
+            ${filtro.emUso === 'sim' ? 'Em uso' : 'Inativo'}
+          </span>
+        </div>
+        <div class="filtro-body">
+          <p><strong>Matéria:</strong> ${filtro.materia}</p>
+          <p><strong>Tipo Escola:</strong> ${filtro.tipoEscola}</p>
+          <p><strong>Estado:</strong> ${filtro.estado}</p>
+        </div>
+        <div class="filtro-actions">
+          <button class="btn usar" onclick="usarFiltro(${filtro.id})">Usar</button>
+          <button class="btn editar" onclick="editarFiltro(${filtro.id})">Editar</button>
+          <button class="btn excluir" onclick="excluirFiltro(${filtro.id})">Excluir</button>
+        </div>
+      </div>
+    `
+        container.insertAdjacentHTML("beforeend", htmlFiltro);
+      });
+    } else {
+      const htmlVazio = `
+        <div class="semFiltros">
+          <p>Nenhum filtro cadastrado até o momento.</p>
+          <p>Use o botão <strong>+ Novo Filtro</strong> para adicionar um.</p>
+        </div>
+      `;
+      container.insertAdjacentHTML("beforeend", htmlVazio);
+    }
+}
+</script>
