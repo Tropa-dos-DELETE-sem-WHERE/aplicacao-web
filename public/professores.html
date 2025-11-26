@@ -43,7 +43,7 @@
             <th>Nome</th>
             <th>Email</th>
             <th>Escola</th>
-            <th colspan="2">Ações</th>
+            <th>Ações</th>
           </tr>
         </thead>
 
@@ -95,15 +95,15 @@
                     <td>${prof.nome}</td>
                     <td>${prof.email}</td>
                     <td>${nomeEscola}</td>
-                    <td class="actions">
+                    <td>
+                       <div class="actions">
                       <button class="btn btn-edit" onclick="editarProfessor(${prof.id}, '${prof.nome}', '${prof.email}', '${prof.senha}')">
                         <img src="./assets/icons/editar.svg"> Editar
                       </button>
-                    </td>
-                    <td class="actions">
                       <button class="btn btn-delete" onclick="deletarProfessormodal(${prof.id})">
                         <img src="./assets/icons/deletar.svg"> Excluir
                       </button>
+                         </div>
                     </td>
                   </tr>
                 `;
@@ -133,9 +133,13 @@
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
       <div class="modal">
-        <h1>Cadastrar Professor</h1>
+        <button class="close-btn" onclick="fecharModal()">✖</button>
         <div class="form_professor">
-          <div class="informacoes_professor">
+            <div class="informacoes_professor">
+            
+              <div class="form-group">
+                <h1>Cadastrar Professor</h1>
+              </div>
             <div class="form-group">
               <label for="input_nome">Nome do Professor:</label>
               <input type="text" id="input_nome" placeholder="Ex: João Silva">
@@ -148,11 +152,14 @@
 
             <div class="form-group">
               <label for="Escola">Senha:</label>
-              <input type="senha" id="input_senha" placeholder="Ex: ******"><button onclick="gerarSenha(10)">Gerar senha aleatoria</button>
+              <input type="senha" id="input_senha" placeholder="Ex: ******">
             </div>
           </div>
         </div>
 
+        <div class="boxButton">
+           <button onclick="gerarSenha(10)">Gerar senha aleatoria</button>
+        </div>
         <div class="boxButton">
           <button class="btnSalvar" onclick="inserirProfessor()">Cadastrar</button>
         </div>
@@ -203,14 +210,15 @@
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
       <div class="modal">
-        <h1>Apagar Conta</h1>
+        <button class="close-btn" onclick="fecharModal()">✖</button>
+        <h1>Excluir Conta</h1>
         <p style="text-align: center; margin: 20px 0;">
-          Tem certeza que deseja apagar sua conta? Esta ação <b>não poderá ser desfeita</b>.
+          Tem certeza que deseja excluir sua conta? Esta ação <b>não poderá ser desfeita</b>.
         </p>
 
         <div class="boxButton" style="display: flex; justify-content: center; gap: 20px;">
           <button class="btnCancelar" onclick="fecharModal()">Cancelar</button>
-          <button class="btnConfirmar" onclick="deletarProfessor(${id})">Confirmar</button>
+          <button class="btnConfirmar" onclick="deletarProfessor(${id})">Excluir    </button>
         </div>
       </div>
     </div>
@@ -273,10 +281,14 @@
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
       <div class="modal">
-        <h1>Editar Professor</h1>
+        <button class="close-btn" onclick="fecharModal()">✖</button>
         <div class="form_professor">
           <div class="informacoes_professor">
             
+            <div class="form-group">
+              <h1>Editar Professor</h1>
+            </div>
+
             <div class="form-group">
               <label for="input_nome">Nome do Professor:</label>
               <input type="text" id="input_nome" value="${nome}">
@@ -290,14 +302,15 @@
             <div class="form-group">
               <label for="input_senha">Senha:</label>
               <input type="text" id="input_senha" value="${senha || ''}">
-              <button onclick="gerarSenha(10)">Gerar senha aleatória</button>
             </div>
           </div>
         </div>
-
-        <div class="boxButton">
-          <button class="btnSalvar" onclick="atualizarProfessor(${id})">Salvar Alterações</button>
-        </div>
+            <div class="boxButton">
+              <button onclick="gerarSenha(10)">Gerar senha aleatória</button>
+            </div>
+            <div class="boxButton">
+              <button  onclick="atualizarProfessor(${id})">Salvar Alterações</button>
+            </div>
       </div>
     </div>
   `;

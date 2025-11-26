@@ -66,8 +66,9 @@
   function modalMeta() {
     modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
-      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal-overlay" onclick="fecharModalPrincipal()"></div>
       <div class="modal">
+        <button class="close-btn" onclick="fecharModalPrincipal()">✖</button>
         <h1>Criar uma nova meta</h1>
         <div class="form_professor">
           <div class="informacoes_professor">
@@ -264,6 +265,10 @@
       document.getElementById("modalErro").classList.remove("show");
   }
 
+   function fecharModalPrincipal() {
+    modal_container_adicionar.innerHTML = ``;
+  }
+
   function modalEditar(id,tituloMeta,descMeta,dataExpiracao,statusMeta)
   {
     console.log("ID:", id);
@@ -273,8 +278,9 @@
     console.log("Status:", statusMeta);
     modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
-      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal-overlay" onclick="fecharModalPrincipal()"></div>
       <div class="modal">
+        <button class="close-btn" onclick="fecharModalPrincipal()">✖</button>
         <h1>Edite sua Meta</h1>
         <div class="form_professor">
           <div class="informacoes_professor">

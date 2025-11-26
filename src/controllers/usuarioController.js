@@ -120,13 +120,13 @@ function inserirProfessor(req, res) {
     const tipoUsuario = req.body.tipoUsuario;
     const escola_id = req.body.escola_id;
 
-    if (nome == undefined) {
+    if (nome == "") {
         res.status(400).send("O nome está undefined!");
-    } else if (email == undefined) {
+    } else if (email == "") {
         res.status(400).send("O email está undefined!");
-    } else if (senha == undefined) {
+    } else if (senha == "") {
         res.status(400).send("A senha está undefined!");
-    } else if (tipoUsuario == undefined) {
+    } else if (tipoUsuario == "") {
         res.status(400).send("O tipo de usuário está undefined!");
     } else if (escola_id == undefined) {
         res.status(400).send("O ID da escola está undefined!");
