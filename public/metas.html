@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Visão geral - EducaData</title>
 
-  <link rel="stylesheet" href="./css/logado.css" />
   <link rel="stylesheet" href="./css/metas.css" />
+  <link rel="stylesheet" href="./css/logado.css" />
   <link rel="stylesheet" href="./css/modal.css" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,23 +18,24 @@
 </head>
 
 <body>
-  <aside class="barra-lateral">
+  <aside>
     <div class="logo"><img src="./assets/icons/escola.svg"></div>
+
+    <h2>Bem-vindo, fulano!</h2>
     <nav>
       <ul>
         <li><a href="overview.html" title="Overview"><img src="./assets/icons/inicio.svg" alt=""> Início</a></li>
         <li><a href="dashboard.html" title="Dashboard"><img src="./assets/icons/dashboard.svg" alt="">Dashboard</a></li>
         <li><a href="metas.html" title="Metas"><img src="./assets/icons/metas.svg" alt="">Metas</a></li>
-        <li><a href="professores.html" title="Professores"><img src="./assets/icons/professores.svg" alt="">Professores</a></li>
+        <li><a href="professores.html" title="Professores"><img src="./assets/icons/professores.svg"
+              alt="">Professores</a></li>
         <li><a href="perfilUsuario.html" title="Perfil"><img src="./assets/icons/perfil.svg" alt="">Perfil</a></li>
         <li><a href="index.html" title="Sair"><img src="./assets/icons/sair.svg" alt="">Sair</a></li>
       </ul>
     </nav>
   </aside>
- <main>
-    <div class="cabecalho">
-      <h1>Metas</h1>
-    </div>
+  <main>
+    <h1>Metas</h1>
 
 
     <div class="filtro-container">
@@ -55,7 +56,7 @@
   <div class="modal-container" id="modalErro">
 </body>
 
-</html> 
+</html>
 <!-- <script src="js/verificaLogin.js"></script> -->
 <!-- verificaLogin(); -->
 <script>
@@ -107,8 +108,8 @@
       </div>
     </div>
     `;
-    const hoje = new Date().toISOString().split("T")[0]; 
-  document.getElementById("input_dataLimite").setAttribute("min", hoje);
+    const hoje = new Date().toISOString().split("T")[0];
+    document.getElementById("input_dataLimite").setAttribute("min", hoje);
   }
   function fecharModal() {
     modal_container_adicionar.innerHTML = ``;
@@ -164,11 +165,10 @@
         console.log(metas);
         //aqui defino variaveis pegando os elementos que tenham a classe .metas-container e estejam dentro de metasEmAberto-container e abaixo faço o mesmo para concluidas 
         const container = document.getElementById("lista_metas");
-          container.innerHTML = "";
-        if(metas.length > 0)
-        {
-           metas.forEach((meta) => {
-          const htmlMeta = `
+        container.innerHTML = "";
+        if (metas.length > 0) {
+          metas.forEach((meta) => {
+            const htmlMeta = `
           <div class="meta">
             <label class="checkbox-container">
               <input type="checkbox" 
@@ -188,25 +188,25 @@
             <button onclick="excluirMeta(${meta.id})" id="excluir">Excluir meta</button>
           </div>
         `;
-         //aqui estou usando o insertAdjacentHTML que aprendi no video https://www.youtube.com/watch?v=R_O7-6uWFR4, pois ele é ideal para inserir elementos dinamicamentes.
-          //ele espera a posição
-          //posições
-          //"beforebegin"  → antes do elemento
-          //"afterbegin"   → no início do elemento
-          //"beforeend"    → no final do elemento  é o que eu vou usar.
-          //"afterend"     → depois do elemento
-          // e esperar o html no meu caso eu psso o html que o biel criou mas com os dados do bd 
-          container.insertAdjacentHTML("beforeend", htmlMeta);
-        });
+            //aqui estou usando o insertAdjacentHTML que aprendi no video https://www.youtube.com/watch?v=R_O7-6uWFR4, pois ele é ideal para inserir elementos dinamicamentes.
+            //ele espera a posição
+            //posições
+            //"beforebegin"  → antes do elemento
+            //"afterbegin"   → no início do elemento
+            //"beforeend"    → no final do elemento  é o que eu vou usar.
+            //"afterend"     → depois do elemento
+            // e esperar o html no meu caso eu psso o html que o biel criou mas com os dados do bd 
+            container.insertAdjacentHTML("beforeend", htmlMeta);
+          });
         } else {
-           const htmlMeta  = `
+          const htmlMeta = `
             <div class="semProfessores">
               <p>Nenhuma Meta cadastrada até o momento com essa configurações.</p>
               <p>Use o botão <strong>+ Criar Meta</strong> para adicionar uma.</p>
             </div>
           `;
           container.insertAdjacentHTML("beforeend", htmlMeta);
-      }
+        }
 
       });
   }
@@ -217,60 +217,57 @@
     //aqui eu recebo o id da meta para pode sabe qual meta eu vou alter o status
     //e check que vem como true ou false para eu saber se foi clicado ou não
     if (check) {
-     meta = "concluidas"
+      meta = "concluidas"
     }
-    
+
     fetch(`/metas/atualizarStatusMeta/${idMeta}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      statusMeta: meta,
-      idUsuario : sessionStorage.ID_USUARIO
-    }),
-  })
-    .then(function (resposta) {
-      if (resposta.status === 200) {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        statusMeta: meta,
+        idUsuario: sessionStorage.ID_USUARIO
+      }),
+    })
+      .then(function (resposta) {
+        if (resposta.status === 200) {
           console.log(resposta);
           location.reload();
         } else if (resposta.status === 400) {
           document.getElementById("overlayInterno").classList.add("show");
           document.getElementById("modalErro").classList.add("show");
         }
-    })
-    .catch(function (erro) {
-      console.error(`#ERRO: ${erro}`);
-    });
+      })
+      .catch(function (erro) {
+        console.error(`#ERRO: ${erro}`);
+      });
   }
-  function excluirMeta(id)
-  {
+  function excluirMeta(id) {
     const idUsuario = sessionStorage.ID_USUARIO;
     fetch("/metas/deletarMeta", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify
-      ({ 
-        idMeta: id,
-        idUsuario : idUsuario
-       })
+        ({
+          idMeta: id,
+          idUsuario: idUsuario
+        })
     });
     alert("meta deletada com sucesso!");
     window.location.reload();
   }
 
-  function fecharModal(id) 
-  {
-      document.getElementById("overlayInterno").classList.remove("show");
-      document.getElementById("modalErro").classList.remove("show");
+  function fecharModal(id) {
+    document.getElementById("overlayInterno").classList.remove("show");
+    document.getElementById("modalErro").classList.remove("show");
   }
 
-   function fecharModalPrincipal() {
+  function fecharModalPrincipal() {
     modal_container_adicionar.innerHTML = ``;
   }
 
-  function modalEditar(id,tituloMeta,descMeta,dataExpiracao,statusMeta)
-  {
+  function modalEditar(id, tituloMeta, descMeta, dataExpiracao, statusMeta) {
     console.log("ID:", id);
     console.log("Título:", tituloMeta);
     console.log("Descrição:", descMeta);
@@ -319,42 +316,41 @@
       </div>
     </div>
     `;
-  const hoje = new Date().toISOString().split("T")[0]; 
-  document.getElementById("input_dataLimite").setAttribute("min", hoje);
+    const hoje = new Date().toISOString().split("T")[0];
+    document.getElementById("input_dataLimite").setAttribute("min", hoje);
   }
 
-  function editarMeta(id,titulo,descMeta,dataExpiracao,statusMeta)
-  {
-    const tituloMeta =  input_tituloMeta.value;
+  function editarMeta(id, titulo, descMeta, dataExpiracao, statusMeta) {
+    const tituloMeta = input_tituloMeta.value;
     const dataLimite = input_dataLimite.value == dataExpiracao ? dataExpiracao : input_dataLimite.value;
     const anotacao = input_anotacao.value == descMeta ? descMeta : input_anotacao.value;
     const idUsuario = sessionStorage.ID_USUARIO;
-    
+
     fetch(`/metas/atualizarMeta/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      tituloMeta: tituloMeta,
-      anotacao: anotacao,
-      dataLimite: dataLimite,
-      statusMeta: "Em aberto",
-      idUsuario : idUsuario
-    }),
-  })
-    .then(function (resposta) {
-      if (resposta.status === 200) {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tituloMeta: tituloMeta,
+        anotacao: anotacao,
+        dataLimite: dataLimite,
+        statusMeta: "Em aberto",
+        idUsuario: idUsuario
+      }),
+    })
+      .then(function (resposta) {
+        if (resposta.status === 200) {
           console.log(resposta);
           location.reload();
         } else if (resposta.status === 400) {
           document.getElementById("overlayInterno").classList.add("show");
           document.getElementById("modalErro").classList.add("show");
         }
-    })
-    .catch(function (erro) {
-      console.error(`#ERRO: ${erro}`);
-    });
+      })
+      .catch(function (erro) {
+        console.error(`#ERRO: ${erro}`);
+      });
 
   }
 
