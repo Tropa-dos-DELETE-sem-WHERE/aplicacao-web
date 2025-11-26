@@ -1,7 +1,26 @@
+:root {
+  --laranja: #ffb347;
+  --laranja-claro: #ffe0b3;
+  --azul: #5fa4e6;
+  --azul-claro: #80c1ff;
+  --verde: #6fcf97;
+  --verde-claro: #c9f4df;
+
+  --branco: #e5e7eb;
+  --cinza: #cccccc;
+  --cinza-escuro: #1f2937;
+
+  /* Botões e alerts */
+  --sucesso-verde: #22c55e;
+  --erro-vermelho: #ef4444;
+  --atencao-amarelo: #facc15;
+  --info-azul: #3b82f6;
+}
+
 .modal {
     position: relative;
     overflow-y: auto;
-    background: white;
+    background: var(--branco);
     padding: 2rem;
     border-radius: 10px;
     z-index: 2;
@@ -35,7 +54,7 @@
 .modal {
     position: fixed;
     overflow-y: auto;
-    background: white;
+    background: var(--branco);
     padding: 2rem;
     border-radius: 10px;
     z-index: 2;
@@ -61,7 +80,7 @@
     align-items: center;
     font-size: 2rem;
    font-weight: bolder;
-   color: #c51c1c;
+   color:var(--erro-vermelho);
 }
 .modal .box .btn{
     width: 50%;
@@ -91,14 +110,14 @@
   text-align: center;
   margin-top: 40px;
   font-size: 1.2em;
-  color: #555;
+  color: var(--cinza-escuro);
 }
 
 input{
     width: 100%;
     padding: 8px;
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--cinza);
     border-radius: 6px;
 }
 
@@ -107,19 +126,20 @@ textarea{
     height: 220px;
     padding: 8px;
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--cinza);
     border-radius: 6px;
     resize: none;
     margin-bottom: 10px;
 }
 
 .boxButton button, .form-group button{
-  color: white;
+  color: var(--branco);
   border: none;
   background-image:linear-gradient(#ff6a34, #F27C35);
   padding: 15px;
   margin: 8px;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 button:hover{
@@ -127,11 +147,15 @@ button:hover{
 }
 
 input:focus{
-  border-color: #ff6a34;
+  outline-color: var(--laranja);
+}
+
+textarea:focus{
+  outline-color: var(--laranja);
 }
 
 input:hover{
-  border-color: #ff6a34;
+  border-color: var(--laranja);
 }
 
 .form-group{
@@ -175,7 +199,7 @@ input[type="datetime-local"]{
     width: 100%;
     padding: 8px;
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--cinza);
     border-radius: 6px;
 }
 
@@ -190,7 +214,7 @@ input[type="datetime-local"]{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #fff;
+  background: var(--branco);
   border-radius: 8px;
   padding: 20px;
   width: 70%;
@@ -223,7 +247,7 @@ input[type="datetime-local"]{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #fff;
+  background: var(--branco);
   border-radius: 8px;
   padding: 20px;
   width: 70%;
@@ -244,7 +268,7 @@ input[type="datetime-local"]{
 
 
 .boxButtonErro button{
-  color: white;
+  color:var(--branco);
   border: none;
   background-image:linear-gradient(#ff6a34, #F27C35);
   padding: 5px;
@@ -262,5 +286,5 @@ input[type="datetime-local"]{
   cursor: pointer;
 }
 .close-btn:hover {
-  color: red;
+  color: var(--erro-vermelho);
 }
