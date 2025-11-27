@@ -24,8 +24,8 @@
   padding: 2rem;
   border-radius: 10px;
   z-index: 2;
-  width: 50%;
-  height: 80%;
+  width: 40%;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -131,8 +131,8 @@
   padding: 2rem;
   border-radius: 10px;
   z-index: 2;
-  width: 30%;
-  max-height: 50%;
+  width: fit-content;
+  max-height: fit-content;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

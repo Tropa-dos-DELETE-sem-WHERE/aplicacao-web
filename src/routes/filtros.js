@@ -3,11 +3,12 @@ var router = express.Router();
 
 var filtrosController = require("../controllers/filtroController");
 
-router.delete("/deletar", function(req, res) {
-    filtrosController.deletar(req, res);
+
+router.delete("/deletarFiltro", function(req, res) {
+    filtrosController.deletarFiltro(req, res);
 });
 
-router.put("/atualizar/:id", function (req, res) {
+router.put("/atualizarFiltro/:id", function (req, res) {
     filtrosController.atualizar(req, res);
 });
 
@@ -15,7 +16,7 @@ router.patch("/atualizarStatus/:id", function (req, res) {
     filtrosController.atualizarStatus(req, res);
 });
 
-router.post("/inserir", function(req, res) {
+router.post("/inserirFiltro", function(req, res) {
     filtrosController.inserir(req, res);
 });
 

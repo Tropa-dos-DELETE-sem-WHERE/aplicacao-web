@@ -68,11 +68,6 @@
 </html>
 
 <script>
-    window.onload = async () => {
-      await listarMaterias();
-      await listarEstados();
-      await listarTiposEscola();
-    };
 function modalFiltro() {
   modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
@@ -130,10 +125,11 @@ function modalFiltro() {
       </div>
     </div>
   `;
-   listarMaterias();
-  listarEstados();
+  listarMaterias();
   listarTiposEscola();
+  listarEstados();
   }
+
   function fecharModal() {
     modal_container_adicionar.innerHTML = ``;
   }
@@ -143,7 +139,7 @@ function modalFiltro() {
 
 
   function listarMaterias() {
-  fetch("/filtros/materias", {
+  return  fetch("/filtros/materias", {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
@@ -151,7 +147,7 @@ function modalFiltro() {
   .then(dados => {
     console.log("Materias recebidas:", dados);
     const select = document.getElementById("select_materia");
-    select.innerHTML = ""; // limpa antes
+    select.innerHTML = ""; 
     dados.forEach(materia => {
       const option = document.createElement("option");
       option.value = materia.id;
@@ -165,7 +161,7 @@ function modalFiltro() {
 }
 
 function listarEstados() {
-  fetch("/filtros/estados", {
+  return  fetch("/filtros/estados", {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
@@ -187,7 +183,7 @@ function listarEstados() {
 }
 
 function listarTiposEscola() {
-  fetch("/filtros/tiposEscola", {
+  return fetch("/filtros/tiposEscola", {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
@@ -233,8 +229,8 @@ async function listarFiltros() {
           <p><strong>Estado:</strong> ${filtro.estado}</p>
         </div>
         <div class="filtro-actions">
-          <button class="btn usar" onclick="usarFiltro(${filtro.id})">Usar</button>
-          <button class="btn editar" onclick="editarFiltro(${filtro.id})">Editar</button>
+          <button class="btn usar" onclick="alterarStatus(${filtro.id})">Usar</button>
+          <button class="btn editar" onclick="modalEditarFiltro(${filtro.id},'${filtro.nome}',${filtro.idMateria},${filtro.idTipoEscola},${filtro.idEstado})">Editar</button>
           <button class="btn excluir" onclick="excluirFiltro(${filtro.id})">Excluir</button>
         </div>
       </div>
@@ -250,5 +246,166 @@ async function listarFiltros() {
       `;
       container.insertAdjacentHTML("beforeend", htmlVazio);
     }
+}
+function excluirFiltro(id)
+{
+    fetch("/filtros/deletarFiltro", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify
+      ({ 
+        idFiltro: id,
+        idUsuario : sessionStorage.ID_USUARIO
+       })
+    });
+    alert("meta deletada com sucesso!");
+    window.location.reload();
+}
+
+function alterarStatus(idFiltro) {
+    const idUsuario = sessionStorage.ID_USUARIO;  
+    fetch(`/filtros/atualizarStatus/${idFiltro}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      idUsuario : sessionStorage.ID_USUARIO
+    }),
+  })
+    .then(function (resposta) {
+      if (resposta.status === 200) {
+          console.log(resposta);
+          location.reload();
+        }
+    })
+    .catch(function (erro) {
+      console.error(`#ERRO: ${erro}`);
+    });
+  }
+
+  function criarFiltro()
+  {
+    const nomeFiltro = input_nomeFiltro.value;
+    const materia_id = select_materia.value;
+    const tipoEscola_id = select_tipoEscola.value;
+    const UF_id = select_estado.value;
+    const idUsuario = sessionStorage.ID_USUARIO;
+
+    fetch("/filtros/inserirFiltro", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            nomeFiltro: nomeFiltro,
+            materia_id: materia_id,
+            tipoEscola_id: tipoEscola_id,
+            UF_id: UF_id,
+            usuario_id: idUsuario,
+            emUso: "nao"
+        }),
+    })
+    .then(function (resposta) {
+        console.log("resposta: ", resposta.status);
+        if (resposta.status === 200) {
+            console.log(resposta);
+            location.reload();
+        } else if (resposta.status === 400) {
+            document.getElementById("overlayInterno").classList.add("show");
+            document.getElementById("modalErro").classList.add("show");
+        }
+    })
+    .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta.status}`);
+    });
+  }
+
+function modalEditarFiltro(id, nomeFiltro, materia_id, tipoEscola_id, UF_id) {
+  console.log(id, nomeFiltro, materia_id, tipoEscola_id, UF_id)
+  modal_container_adicionar_filtro.innerHTML = `
+    <div class="modal-container show modal-add-filtro">
+      <div class="modal-overlay" onclick="fecharModalAdd()"></div>
+      <div class="modal modal-add">
+        <button class="close-btn" onclick="fecharModalAdd()">✖</button>
+        <h1 class="titulo-add-filtro">Edite seu filtro</h1>
+        
+        <div class="form_add_filtro">
+          <div class="informacoes_add_filtro">
+            <div class="form-group-add">
+              <label for="input_nomeFiltro">Nome do filtro:</label>
+              <input type="text" id="input_nomeFiltro" value="${nomeFiltro}">
+            </div>
+
+            <div class="form-group-add">
+              <label for="select_materia">Matéria:</label>
+              <select id="select_materia"></select>
+            </div>
+
+            <div class="form-group-add">
+              <label for="select_tipoEscola">Tipo de Escola:</label>
+              <select id="select_tipoEscola"></select>
+            </div>
+
+            <div class="form-group-add">
+              <label for="select_estado">Estado (UF):</label>
+              <select id="select_estado"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="boxButtonAdd">
+          <button class="btnSalvarAdd" onclick="editarFiltro(${id})">Editar Filtro</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+ listarMaterias().then(() => {
+  document.getElementById("select_materia").value = materia_id;
+});
+
+listarTiposEscola().then(() => {
+  document.getElementById("select_tipoEscola").value = tipoEscola_id;
+});
+
+listarEstados().then(() => {
+  document.getElementById("select_estado").value = UF_id;
+});
+
+}
+
+function editarFiltro(id) {
+  const nomeFiltro = input_nomeFiltro.value;
+  const materia_id = select_materia.value;
+  const tipoEscola_id = select_tipoEscola.value;
+  const UF_id = select_estado.value;
+  const idUsuario = sessionStorage.ID_USUARIO;
+
+  if (!nomeFiltro || !materia_id || !tipoEscola_id || !UF_id) {
+    alert("Todos os campos devem ser preenchidos.");
+    return;
+  }
+
+  fetch(`/filtros/atualizarFiltro/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeFiltro,
+      materia_id,
+      tipoEscola_id,
+      UF_id,
+      idUsuario
+    }),
+  })
+    .then(resposta => {
+      if (resposta.status === 200) {
+        console.log("Filtro atualizado com sucesso!");
+        location.reload();
+      } else {
+        alert("Erro ao atualizar filtro.");
+      }
+    })
+    .catch(erro => console.error(`#ERRO: ${erro}`));
 }
 </script>

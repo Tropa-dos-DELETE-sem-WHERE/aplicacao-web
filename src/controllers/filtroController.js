@@ -2,46 +2,42 @@ const filtroModel = require("../models/filtroModel");
 
 function atualizar(req, res) {
     const id = req.params.id;
-    const titulo = req.body.titulo;
-    const dataLimite = req.body.dataLimite;
-    const anotacao = req.body.anotacao;
+    const nomeFiltro = req.body.nomeFiltro;
+    const materia_id = req.body.materia_id;
+    const tipoEscola_id = req.body.tipoEscola_id;
+    const UF_id = req.body.UF_id;
     const idUsuario = req.body.idUsuario;
-    const status = req.body.status;
-    console.log("Estou no controller passando os seguintes dados");
-    console.log(titulo);
-    console.log(dataLimite);
-    console.log(anotacao);
-    console.log(idUsuario);
-    console.log(status);
-    console.log(id);
-    filtroModel.atualizar(titulo, dataLimite, anotacao, idUsuario, status,id)
-        .then(
-            function (resultado) {
-                res.json(resultado);
+
+    console.log("Controller atualizar filtro recebendo:");
+    console.log("id:", id);
+    console.log("nomeFiltro:", nomeFiltro);
+    console.log("materia_id:", materia_id);
+    console.log("tipoEscola_id:", tipoEscola_id);
+    console.log("UF_id:", UF_id);
+    console.log("idUsuario:", idUsuario);
+
+    filtroModel.atualizar(nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, id)
+        .then(resultado => {
+            res.json(resultado);
+        })
+        .catch(erro => {
+            if (!nomeFiltro || !materia_id || !tipoEscola_id || !UF_id || !idUsuario || !id) {
+                res.status(400).send("Algum dos campos está vazio, preencha corretamente");
+            } else {
+                res.status(500).json(erro.sqlMessage);
             }
-        )
-        .catch(
-            function (erro) {
-                if(titulo == "" || dataLimite == "" || idUsuario == "" || id == "")
-                {
-                    res.status(400).send("Algum dos campos está vazio preencha corretamente");
-                }else{
-                    res.status(500).json(erro.sqlMessage);
-                }
-            }
-        );
+        });
 }
+
 function atualizarStatus(req, res) {
     const id = req.params.id;
-    const status = req.body.status;
     const idUsuario = req.body.idUsuario;
 
     console.log("Estou no controller passando os seguintes dados");
-    console.log(status);
     console.log(id);
     console.log(idUsuario);
 
-    filtroModel.atualizarStatus(status,id,idUsuario)
+    filtroModel.atualizarStatus(id,idUsuario)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -54,18 +50,22 @@ function atualizarStatus(req, res) {
         );
 }
 function inserir(req, res) {
-    const titulo = req.body.titulo;
-    const dataLimite = req.body.dataLimite;
-    const anotacao = req.body.anotacao;
-    const idUsuario = req.body.idUsuario;
-    const status = req.body.status;
+    const nomeFiltro = req.body.nomeFiltro;
+    const materia_id = req.body.materia_id;
+    const tipoEscola_id = req.body.tipoEscola_id;
+    const UF_id = req.body.UF_id;
+    const usuario_id = req.body.usuario_id;
+    const emUso = req.body.emUso;
+
     console.log("Estou no controller passando os seguintes dados");
-    console.log(titulo);
-    console.log(dataLimite);
-    console.log(anotacao);
-    console.log(idUsuario);
-    console.log(status);
-    filtroModel.inserir(titulo, dataLimite, anotacao, idUsuario, status)
+    console.log(nomeFiltro);
+    console.log(materia_id);
+    console.log(tipoEscola_id);
+    console.log(UF_id);
+    console.log(usuario_id);
+    console.log(emUso);
+
+    filtroModel.inserir(nomeFiltro, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -73,15 +73,15 @@ function inserir(req, res) {
         )
         .catch(
             function (erro) {
-                if(titulo == "" || dataLimite == "" || idUsuario == "")
-                {
-                    res.status(400).send("Algum dos campos está vazio preencha corretamente");
-                }else{
+                if (nomeFiltro == "" || materia_id == "" || tipoEscola_id == "" || UF_id == "" || usuario_id == "") {
+                    res.status(400).send("Algum dos campos está vazio, preencha corretamente");
+                } else {
                     res.status(500).json(erro.sqlMessage);
                 }
             }
         );
 }
+
 
 function listarFiltrosByUsuario(req, res) {
     const idUsuario = req.params.idUsuario;
@@ -107,8 +107,8 @@ function listarFiltrosByUsuario(req, res) {
 
 
 
-function deletar(req, res) {
-    const id = req.body.id;
+function deletarFiltro(req, res) {
+    const id = req.body.idFiltro;
     const idUsuario = req.body.idUsuario;
     console.log(id);
     if (idUsuario == undefined) {
@@ -116,7 +116,7 @@ function deletar(req, res) {
     }else if (idUsuario == undefined) {
         res.status(400).send("O idUsuario da  está undefined!");
     }else{
-        filtroModel.deletar(id,idUsuario)
+        filtroModel.deletarFiltro(id,idUsuario)
         .then(function() {
             res.status(200).json({ mensagem: " deletada com sucesso!" });
         })
@@ -167,7 +167,7 @@ function listarTiposEscola(req, res) {
 module.exports = {
     listarFiltrosByUsuario,
     inserir,
-    deletar,
+    deletarFiltro,
     atualizar,
     atualizarStatus,
     listarMaterias,

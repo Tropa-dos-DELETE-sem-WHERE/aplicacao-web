@@ -11,7 +11,10 @@ async function listarFiltrosByUsuario(idUsuario) {
     u.nome AS usuario,
     te.tipo AS tipoEscola,
     uf.uf AS estado,
-    m.nome AS materia
+    m.nome AS materia,
+    te.id AS idTipoEscola,
+    uf.id AS idEstado,
+    m.id AS idMateria
     FROM filtro f
     JOIN usuario u ON f.usuario_id = u.id
     JOIN tipoEscola te ON f.tipoEscola_id = te.id
@@ -26,66 +29,65 @@ async function listarFiltrosByUsuario(idUsuario) {
 
 
 
-function inserir(titulo, dataLimite, anotacao, idUsuario, status) {
-    console.log("Dentro do Model de s na função  inserir() passando os seguintes dados para o banco",titulo, dataLimite, anotacao, idUsuario, status);
+function inserir(nomeFiltro, materia_id, tipoEscola_id, UF_id, usuario_id, emUso) {
+    console.log("Dentro do Model de filtros na função inserir() passando os seguintes dados para o banco:",
+        nomeFiltro, materia_id, tipoEscola_id, UF_id, usuario_id, emUso);
 
     var instrucaoSql = `
-        INSERT INTO  (titulo, desc, dataExpiracao, usuario_id, status)
-        VALUES ('${titulo}', '${anotacao}', '${dataLimite}', '${idUsuario}','${status}');
+        INSERT INTO filtro (nome, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
+        VALUES ('${nomeFiltro}', '${materia_id}', '${tipoEscola_id}', '${UF_id}', '${usuario_id}', '${emUso}');
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function deletar(id,idUsuario) {
-    console.log("Dentro do Model de s na função  deletar() passando os seguintes dados para o banco",id,idUsuario);
+function deletarFiltro(id,idUsuario) {
+    console.log("Dentro do Model de FILTRO na função  deletarFiltro() passando os seguintes dados para o banco",id,idUsuario);
 
     var instrucaoSql = `
-        DELETE FROM 
+        DELETE FROM filtro
         WHERE id = ${id} AND usuario_id = ${idUsuario};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
-function apagar(id) {
-    console.log("ACESSEI O USUARIO MODEL \n\n function apagarUser(): ", id);
 
-    var instrucaoSql = `
-        apagar FROM usuario
-        WHERE id = ${id};
-    `;
-
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-function atualizar(titulo, dataLimite, anotacao, idUsuario, status,id) {
-    console.log("Dentro do Model de s na função  atualizar() passando os seguintes dados para o banco",titulo, dataLimite, anotacao, idUsuario, status,id);
+function atualizar(nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, id) {
+    console.log("Model atualizar filtro recebendo:", nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, id);
 
     const instrucaoSql = `
-        UPDATE 
-        SET titulo = '${titulo}',
-            desc = '${anotacao}',
-            dataExpiracao = '${dataLimite}',
-            status = '${status}'
+        UPDATE filtro
+        SET nome = '${nomeFiltro}',
+            materia_id = ${materia_id},
+            tipoEscola_id = ${tipoEscola_id},
+            UF_id = ${UF_id}
         WHERE usuario_id = ${idUsuario} AND id = ${id};
     `;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando SQL:\n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
-function atualizarStatus(status,id,idUsuario) {
-    console.log("Dentro do Model de s na função  atualizarStatus() passando os seguintes dados para o banco",status,id,idUsuario);
+async function atualizarStatus(id,idUsuario) {
+    console.log("Dentro do Model de Filtros na função  atualizarStatus() passando os seguintes dados para o banco",id,idUsuario);
 
     const instrucaoSql = `
-        UPDATE 
-        SET status = '${status}'
+        UPDATE filtro
+        SET emUso = 'nao'
+        WHERE usuario_id = ${idUsuario};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    await database.executar(instrucaoSql);
+
+     const instrucaoSql2 = `
+        UPDATE filtro
+        SET emUso = 'sim'
         WHERE usuario_id = ${idUsuario} AND id = ${id};
     `;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql2);
+    return await database.executar(instrucaoSql2);
 }
 
 async function listarMaterias() {
@@ -119,7 +121,7 @@ module.exports = {
     atualizar,
     listarFiltrosByUsuario,
     inserir,
-    deletar,
+    deletarFiltro,
     atualizarStatus,
     listarMaterias,
     listarEstados,
