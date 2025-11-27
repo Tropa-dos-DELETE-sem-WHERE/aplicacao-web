@@ -49,16 +49,25 @@ CREATE TABLE IF NOT EXISTS meta (
   FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS materia (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(50) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS filtro (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(30) NOT NULL,
+  emUso ENUM('sim','nao'),
   usuario_id INT NOT NULL,
   tipoEscola_id INT NOT NULL,
+  materia_id INT NOT NULL,
   UF_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
   FOREIGN KEY (tipoEscola_id) REFERENCES tipoEscola(id),
+  FOREIGN KEY (materia_id) REFERENCES materia(id),
   FOREIGN KEY (UF_id) REFERENCES UF(id)
 ) ENGINE = InnoDB;
+
 
 CREATE TABLE IF NOT EXISTS slack (
   idslack INT AUTO_INCREMENT PRIMARY KEY,
@@ -82,6 +91,13 @@ CREATE TABLE IF NOT EXISTS logs (
   FOREIGN KEY (tipoLog_id) REFERENCES tipoLog(idtipoLog)
 ) ENGINE = InnoDB;
 
+
+INSERT INTO materia (nome) VALUES
+('Ciências da Natureza'),
+('Ciências Humanas'),
+('Linguagens e Códigos'),
+('Matemática'),
+('Redação');
 
 INSERT INTO tipoEscola (tipo) VALUES ('Estadual');
 INSERT INTO tipoEscola (tipo) VALUES ('Municipal');
@@ -125,7 +141,7 @@ INSERT INTO escola (nomeEscola,codigoEscola, tipoEscola_id, UF_id)
 VALUES (
   'ESC COLEGIO CRISTAO CRUZEIRO',
   '12000094',
-  (SELECT id FROM tipoEscola WHERE tipo = 'estadual'),
+  (SELECT id FROM tipoEscola WHERE tipo = 'Estadual'),
   (SELECT id FROM UF WHERE uf = 'AC')
 );
 

@@ -9,24 +9,42 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-async function cadastrar(nomeInstituicao,nomeUsuario,email,senha,tipoUsuario) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nomeInstituicao, nomeUsuario, email,senha,tipoUsuario);
-    const id_escola = `SELECT id FROM escola WHERE nomeEscola = '${nomeInstituicao}';`;
-    const res = await database.executar(id_escola);
-    console.log('id escola' + id_escola);
-    console.log("res : "+res);
-    if(res.length === 0)
-    {
-        const erro = new Error("Não existe essa escola");
-        erro.tipo = "escola_nao_encontrada";
-        throw erro;
-    }
-    var instrucaoSql = `
-    INSERT INTO usuario (nome,email,senha,escola_id,tipoUsuario_id) VALUES ('${nomeUsuario}','${email}','${senha}',(SELECT id FROM escola WHERE nomeEscola = '${nomeInstituicao}'),'${tipoUsuario}');
-    `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario) {
+  console.log("ACESSEI O USUARIO MODEL");
+
+  const sqlEscola = `SELECT id, UF_id, tipoEscola_id FROM escola WHERE nomeEscola = '${nomeInstituicao}';`;
+  const resEscola = await database.executar(sqlEscola);
+
+  if (resEscola.length === 0) {
+    const erro = new Error("Não existe essa escola");
+    erro.tipo = "escola_nao_encontrada";
+    throw erro;
+  }
+
+  const escola = resEscola[0];
+  const escolaId = escola.id;
+  const ufId = escola.UF_id;
+  const tipoEscolaId = escola.tipoEscola_id;
+
+  const sqlUsuario = `
+    INSERT INTO usuario (nome,email,senha,escola_id,tipoUsuario_id)
+    VALUES ('${nomeUsuario}','${email}','${senha}',${escolaId},'${tipoUsuario}');
+  `;
+  console.log("Executando SQL usuário:\n" + sqlUsuario);
+  await database.executar(sqlUsuario);
+
+  const sqlUsuarioId = `SELECT id FROM usuario WHERE email = '${email}' AND escola_id = ${escolaId};`;
+  const usuarioRes = await database.executar(sqlUsuarioId);
+  const usuarioId = usuarioRes[0].id;
+
+  const sqlFiltro = `
+    INSERT INTO filtro (nome, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
+    VALUES ('Filtro Padrão', ${1}, ${tipoEscolaId}, ${ufId}, ${usuarioId}, 'sim');
+  `;
+  console.log("Executando SQL filtro:\n" + sqlFiltro);
+  return await database.executar(sqlFiltro);
 }
+
 
 function atualizarDadoByUser(idInstituicao,nomeUsuario,email,idUsuario) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function atualizarDadoByUser(): ",idInstituicao,nomeUsuario,email,idUsuario)
