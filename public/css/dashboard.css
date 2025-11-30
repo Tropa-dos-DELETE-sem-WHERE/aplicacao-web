@@ -65,14 +65,34 @@ main {
 .kpi{
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  flex-direction: column;
   text-align: center;
   font-size: 1.3rem;
   width: 23%;
   height: 22vh;
   background-color: var(--cinza);
-  border: 2px solid var(--cinza-escuro);
   border-radius: 10px;
+}
+
+.kpi h1{
+  font-size: 26px;
+}
+
+.kpi h2{
+  font-size: 23px;
+}
+
+.textos{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.textos h1{
+   font-size: 26px;
 }
 
 #graficos-container{
@@ -82,14 +102,24 @@ main {
   height: 50vh;
 }
 
-#grafico1, #grafico2{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 49%;
+.grafico-wrapper {
+  width: 48%;
   height: 100%;
   background-color: var(--cinza);
-  border: 2px solid var(--cinza-escuro);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.grafico-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+canvas#grafico1, canvas#grafico2{
+  text-align: center;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: var(--cinza);
   font-size: 1.3rem;
   border-radius: 10px;
 }

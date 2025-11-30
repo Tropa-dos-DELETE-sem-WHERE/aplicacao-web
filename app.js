@@ -20,6 +20,7 @@ var usuarioRouter = require("./src/routes/usuarios");
 var avisosRouter = require("./src/routes/avisos");
 var metasRouter = require("./src/routes/metas");
 var filtrosRouter = require("./src/routes/filtros");
+var dashboardRouter = require("./src/routes/dashboard");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,6 +33,7 @@ app.use("/usuarios", usuarioRouter);
 app.use("/avisos", avisosRouter);
 app.use("/metas", metasRouter);
 app.use("/filtros", filtrosRouter);
+app.use("/dashboard", dashboardRouter);
 
 
 app.listen(PORTA_APP, function () {

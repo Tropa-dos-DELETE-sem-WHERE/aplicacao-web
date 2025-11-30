@@ -135,7 +135,7 @@ INSERT INTO UF (id, uf) VALUES (53, 'DF'); -- Distrito Federal
 INSERT INTO tipoUsuario (tipo) VALUES 
 ('gestor'),
 ('professor'),
-('aluno');
+('aluno');  
 
 INSERT INTO escola (nomeEscola,codigoEscola, tipoEscola_id, UF_id)
 VALUES (
