@@ -74,11 +74,12 @@ main {
   align-items: center;
   justify-content: center;
   height: 7vh;
-  background-color: var(--laranja);
+  background-color: var(--laranja-claro);
+  border: 2px solid var(--laranja-claro);
   border-radius: 7px;
   border: none;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   text-decoration: none;
   color: var(--cinza-escuro);
   font-weight: bold;
@@ -88,7 +89,7 @@ main {
 .container a:hover {
   outline: 0;
   border: 2px solid var(--cinza-escuro);
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .problemaSolucao {
@@ -143,7 +144,7 @@ td {
 }
 
 th {
-  background-color: var(--laranja-vivo);
+  background-color: var(--laranja);
   color: #fff;
   font-weight: 600;
   font-size: 1.7rem;
@@ -154,12 +155,12 @@ tr:nth-child(even) td {
 }
 
 .problema {
-  color: #dc2626;
+  color: var(--erro-vermelho);
   font-weight: bold;
 }
 
 .solucao {
-  color: #10b981;
+  color: var(--sucesso-verde);
   font-weight: bold;
 }
 
@@ -170,14 +171,14 @@ tr:nth-child(even) td {
   flex-direction: row-reverse;
   width: 100%;
   height: fit-content;
-  background-color: var(--laranja-vivo);
+  background-color: var(--laranja-claro);
   padding: 100px 0;
   gap: 200px;
 }
 
 .recursos h1 {
   font-size: 4rem;
-  color: var(--branco);
+  color: var(--cinza-escuro);
 }
 
 .recursos-container {
@@ -203,8 +204,9 @@ tr:nth-child(even) td {
   width: 46%;
   height: 20vh;
   font-size: 1.3rem;
+  border: 2px solid var(--verde);
   border-radius: 10px;
-  background-color: var(--branco);
+  background-color: var(--verde);
   box-shadow: -10px 10px 20px 3px rgba(108, 108, 108, 0.5);
   -webkit-box-shadow: -10px 10px 20px 3px rgba(108, 108, 108, 0.5);
   -moz-box-shadow: -10px 10px 20px 3px rgba(108, 108, 108, 0.5);
@@ -214,6 +216,7 @@ tr:nth-child(even) td {
 .card:hover,
 .card-passos:hover {
   transform: scale(1.01);
+  border: 2px solid var(--cinza-escuro);
 }
 
 .card-esquerda {
@@ -251,11 +254,11 @@ tr:nth-child(even) td {
   width: 100%;
   height: fit-content;
   padding: 150px;
-  background-color: var(--laranja-vivo);
+  background-color: var(--laranja-claro);
 }
 
 .passos h1 {
-  color: var(--branco);
+  color: var(--cinza-escuro);
   font-size: 3rem;
 }
 
@@ -263,7 +266,7 @@ tr:nth-child(even) td {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 50px;
   width: 100%;
   flex-wrap: wrap;
   margin-top: 20px;
@@ -274,21 +277,25 @@ tr:nth-child(even) td {
   flex-direction: column;
   align-items: center;
   width: 25vw;
-  height: 28vh;
+  height: 25vh;
   font-size: 1.3rem;
-  background-color: var(--branco);
+  background-color: var(--verde);
   color: var(--cinza-escuro);
   padding: 20px;
+  border: 2px solid var(--verde);
   border-radius: 15px;
   transition: 0.3s;
   box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -webkit-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+
+  .container-textos{
+    margin-top: 20px;
+  }
 }
 
 .card-passos p {
   text-align: center;
-  margin-top: 10px;
 }
 
 .card-passos h2 {
@@ -391,7 +398,7 @@ input:focus,
 button:focus,
 textarea:focus {
   outline: 0;
-  border: 2px solid var(--laranja-vivo);
+  border: 2px solid var(--laranja);
   transform: scale(1.03);
 }
 
@@ -417,8 +424,6 @@ textarea:focus {
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--laranja);
-  border-radius: 5px;
-  border: 0px solid #f0f0f0;
 }
 
 /* Responsividade */
