@@ -1,11 +1,20 @@
 :root {
-  --azul-vivo: #1e90ff;
-  --laranja-vivo: #ff6a34;
-  --vermelho-vivo: #ff3b30;
-  --laranja-claro: #f27c35;
-  --branco: #f3f3f3;
-  --cinza: #ebebeb;
-  --cinza-escuro: #4f4f4f;
+  --laranja: #f6b76a;
+  --laranja-claro: #fce5c0;
+  --azul: #78a8d1;
+  --azul-claro: #d88ef6;
+  --verde: #91c7a9;
+  --verde-claro: #dcefe3;
+
+  --branco: #f9fafb;
+  --cinza: #e5e7eb;
+  --cinza-escuro: #1f2937;
+
+  /* Botões */
+  --sucesso-verde: #22c55e;
+  --erro-vermelho: #ef4444;
+  --atencao-amarelo: #facc15;
+  --info-azul: #3b82f6;
 }
 
 main {
@@ -29,10 +38,10 @@ main {
   height: fit-content;
   padding: 170px;
   background-image: url("../assets/imagens/foto1.webp");
-  background-size: cover;     
-  background-position: center;  
-  background-repeat: no-repeat; 
-  position: relative;          
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
   z-index: 1;
 }
 
@@ -65,20 +74,20 @@ main {
   align-items: center;
   justify-content: center;
   height: 7vh;
- background-image: linear-gradient( var(--laranja-claro),var(--laranja-vivo));
+  background-color: var(--laranja);
   border-radius: 7px;
   border: none;
   cursor: pointer;
   font-size: 1.1rem;
   text-decoration: none;
-  color: var(--branco);
+  color: var(--cinza-escuro);
   font-weight: bold;
-   transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .container a:hover {
   outline: 0;
-  border: 2px solid var(--laranja-vivo);
+  border: 2px solid var(--cinza-escuro);
   transform: scale(1.03);
 }
 
@@ -92,10 +101,10 @@ main {
   padding: 100px;
   gap: 20px;
   background-image: url("../assets/imagens/foto2.jpg");
-  background-size: cover;     
-  background-position: center;  
-  background-repeat: no-repeat; 
-  position: relative;          
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
   z-index: 1;
 }
 
@@ -196,15 +205,15 @@ tr:nth-child(even) td {
   font-size: 1.3rem;
   border-radius: 10px;
   background-color: var(--branco);
-  box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
-  -webkit-box-shadow: -10px 10px 47px 0px rgba(108, 108, 108, 0.75);
-  -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
+  box-shadow: -10px 10px 20px 3px rgba(108, 108, 108, 0.5);
+  -webkit-box-shadow: -10px 10px 20px 3px rgba(108, 108, 108, 0.5);
+  -moz-box-shadow: -10px 10px 20px 3px rgba(108, 108, 108, 0.5);
   transition: 0.3s;
 }
 
 .card:hover,
 .card-passos:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
 
 .card-esquerda {
@@ -212,7 +221,12 @@ tr:nth-child(even) td {
   align-items: center;
   justify-content: center;
   width: 30%;
-  border-right: solid 1px rgb(212, 212, 212);
+  border-right: solid 1px var(--cinza-escuro);
+}
+
+.card-esquerda img {
+  width: 50px;
+  height: auto;
 }
 
 .card-esquerda p {
@@ -260,7 +274,7 @@ tr:nth-child(even) td {
   flex-direction: column;
   align-items: center;
   width: 25vw;
-  height: 40vh;
+  height: 28vh;
   font-size: 1.3rem;
   background-color: var(--branco);
   color: var(--cinza-escuro);
@@ -272,16 +286,15 @@ tr:nth-child(even) td {
   -moz-box-shadow: -10px 10px 47px 9px rgba(108, 108, 108, 0.75);
 }
 
-.card-passos p{
+.card-passos p {
   text-align: center;
-  
+  margin-top: 10px;
 }
 
-.card-passos h2{
+.card-passos h2 {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
-
 
 .circulo {
   position: relative;
@@ -289,11 +302,11 @@ tr:nth-child(even) td {
   align-items: center;
   justify-content: center;
   margin-top: -45px;
-  font-size: 2.0rem;
+  font-size: 2rem;
   font-weight: bold;
   width: 50px;
   height: 50px;
-  background-image: linear-gradient(var(--laranja-vivo), #ffb74d);
+  background-color: var(--cinza-escuro);
   color: var(--branco);
   border-radius: 50%;
 }
@@ -305,10 +318,10 @@ tr:nth-child(even) td {
   width: inherit;
   padding: 100px;
   background-image: url("../assets/imagens/foto3.webp");
-  background-size: cover;     
-  background-position: center;  
-  background-repeat: no-repeat; 
-  position: relative;          
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
   z-index: 1;
 }
 
@@ -383,7 +396,7 @@ textarea:focus {
 }
 
 .campo button {
-  background-image: linear-gradient( var(--laranja-claro),var(--laranja-vivo));
+  background-color: var(--sucesso-verde);
   border: none;
   margin-top: 10px;
   font-weight: bold;
@@ -403,7 +416,7 @@ textarea:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--laranja-claro);
+  background-color: var(--laranja);
   border-radius: 5px;
   border: 0px solid #f0f0f0;
 }
