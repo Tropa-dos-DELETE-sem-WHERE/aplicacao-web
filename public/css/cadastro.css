@@ -90,7 +90,7 @@ input {
 input:focus,
 button:focus {
   outline: 0;
-  border: 2px solid var(--laranja-vivo);
+  border: 2px solid var(--laranja);
   transform: scale(1.01);
 }
 

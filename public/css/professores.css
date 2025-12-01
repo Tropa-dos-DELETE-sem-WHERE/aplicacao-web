@@ -57,6 +57,12 @@ th, td {
   border-bottom: 1px solid #ddd;
 }
 
+td{
+  background-color: var(--cinza);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
 th {
   background-color: var(--cinza-escuro);
   color: white;
@@ -206,46 +212,35 @@ tr:hover{
   font-size: 1.2em;
   color: var(--cinza-escuro);
 }
-.form-group h1
-{
-  margin-bottom: 20px;
+
+.form_professor{
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
 }
 
-.form-group input
-{
-  margin-bottom: 20px;
+.informacoes_professor{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
 
 input{
     width: 100%;
+    height: 5vh;
     padding: 8px;
-    margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 6px;
 }
 
-.boxButton button, .form-group button{
-  color: var(--branco);
-  border: none;
-  background-image:linear-gradient(#ff6a34, #F27C35);
-  padding: 15px;
-  margin: 8px;
-  border-radius: 3px;
-}
+.boxButton{
+  width: 100%;
 
-button:hover{
-  transform: scale(1.03);
+  button{
+    width: 100%;
+    margin: 0;
+  }
 }
-
-input:focus{
-  border-color: #ff6a34;
-}
-
-input:hover{
-  border-color: #ff6a34;
-}
-
 
 label{
    font-size: 1.0rem;
@@ -261,10 +256,6 @@ label{
 
 ::-webkit-scrollbar {
   width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--cinza, #e7e7e7);
 }
 
 ::-webkit-scrollbar-thumb {
