@@ -12,7 +12,7 @@ function autenticar(email, senha) {
 async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario) {
   console.log("ACESSEI O USUARIO MODEL");
 
-  const sqlEscola = `SELECT id, UF_id, tipoEscola_id FROM escola WHERE nomeEscola = '${nomeInstituicao}';`;
+  const sqlEscola = `SELECT codigoEscola, UF_id, tipoEscola_id FROM escola WHERE nomeEscola = '${nomeInstituicao}';`;
   const resEscola = await database.executar(sqlEscola);
 
   if (resEscola.length === 0) {
@@ -22,7 +22,7 @@ async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario
   }
 
   const escola = resEscola[0];
-  const escolaId = escola.id;
+  const escolaId = escola.codigoEscola;
   const ufId = escola.UF_id;
   const tipoEscolaId = escola.tipoEscola_id;
 
@@ -71,7 +71,7 @@ function escolaUser(idUsuario){
     var instrucaoSql = 
     `
         SELECT e.* FROM usuario as u
-        JOIN escola as e ON u.escola_id = e.id
+        JOIN escola as e ON u.escola_id = e.codigoEscola
         where u.id = ${idUsuario};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
