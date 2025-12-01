@@ -55,11 +55,12 @@ select{
   width: fit-content;
   height: fit-content;
   padding: 7px 10px;
-  border: none;
+  border: 2px solid var(--info-azul);
   background-color: var(--info-azul);
   color: var(--branco);
   border-radius: 5px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
 }
 
