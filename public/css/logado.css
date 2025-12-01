@@ -32,7 +32,7 @@ body {
 main {
   width: 80vw;
   height: 100vh;
-  background-color: var(--branco);
+  background-color: var(--laranja-claro);
   padding: 20px;
 }
 

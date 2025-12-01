@@ -57,6 +57,12 @@ th, td {
   border-bottom: 1px solid #ddd;
 }
 
+td{
+  background-color: var(--cinza);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
 th {
   background-color: var(--cinza-escuro);
   color: white;
@@ -250,10 +256,6 @@ label{
 
 ::-webkit-scrollbar {
   width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--cinza, #e7e7e7);
 }
 
 ::-webkit-scrollbar-thumb {

@@ -181,7 +181,7 @@ p {
 ::-webkit-scrollbar {
   width: 10px;
   height: 7px;
-  background-color: var(--branco);
+  background-color: var(--laranja-claro);
 }
 
 ::-webkit-scrollbar-thumb {
