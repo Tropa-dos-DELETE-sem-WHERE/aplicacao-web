@@ -1,10 +1,10 @@
+drop database educadata;
 CREATE DATABASE IF NOT EXISTS educadata;
 USE educadata;
 
-
 CREATE TABLE IF NOT EXISTS tipoEscola (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  tipo ENUM('Estadual','Municipal','Federal') NOT NULL
+  tipo ENUM('Estadual','Municipal','Federal', 'Privada') NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS UF (
@@ -13,14 +13,18 @@ CREATE TABLE IF NOT EXISTS UF (
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS escola (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  codigoEscola INT PRIMARY KEY,
   nomeEscola VARCHAR(100) NOT NULL,
-  codigoEscola VARCHAR(45) NOT NULL,
   tipoEscola_id INT NOT NULL,
   UF_id INT NOT NULL,
   FOREIGN KEY (tipoEscola_id) REFERENCES tipoEscola(id),
   FOREIGN KEY (UF_id) REFERENCES UF(id)
 ) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS materia (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(50) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS tipoUsuario (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,7 +38,7 @@ CREATE TABLE IF NOT EXISTS usuario (
   senha VARCHAR(255) NOT NULL,
   escola_id INT NOT NULL,
   tipoUsuario_id INT NOT NULL,
-  FOREIGN KEY (escola_id) REFERENCES escola(id),
+  FOREIGN KEY (escola_id) REFERENCES escola(codigoEscola),
   FOREIGN KEY (tipoUsuario_id) REFERENCES tipoUsuario(id)
 ) ENGINE = InnoDB;
 
@@ -52,11 +56,15 @@ CREATE TABLE IF NOT EXISTS meta (
 
 CREATE TABLE IF NOT EXISTS filtro (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(30) NOT NULL,
+  emUso ENUM('sim','nao'),
   usuario_id INT NOT NULL,
   tipoEscola_id INT NOT NULL,
+  materia_id INT NOT NULL,
   UF_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
   FOREIGN KEY (tipoEscola_id) REFERENCES tipoEscola(id),
+  FOREIGN KEY (materia_id) REFERENCES materia(id),
   FOREIGN KEY (UF_id) REFERENCES UF(id)
 ) ENGINE = InnoDB;
 
@@ -66,14 +74,14 @@ CREATE TABLE IF NOT EXISTS slack (
   canal VARCHAR(45) NOT NULL,
   mensagem VARCHAR(255) NOT NULL,
   escola_id INT NOT NULL,
-  FOREIGN KEY (escola_id) REFERENCES escola(id)
+  FOREIGN KEY (escola_id) REFERENCES escola(codigoEscola)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS tipoLog (
   idtipoLog INT AUTO_INCREMENT PRIMARY KEY,
   tipo ENUM('erro', 'sucesso','aviso') NOT NULL
 ) ENGINE = InnoDB;
-
+select * from tipoLog;
 CREATE TABLE IF NOT EXISTS logs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   descricao VARCHAR(255) NOT NULL,
@@ -82,10 +90,10 @@ CREATE TABLE IF NOT EXISTS logs (
   FOREIGN KEY (tipoLog_id) REFERENCES tipoLog(idtipoLog)
 ) ENGINE = InnoDB;
 
-
 INSERT INTO tipoEscola (tipo) VALUES ('Estadual');
 INSERT INTO tipoEscola (tipo) VALUES ('Municipal');
 INSERT INTO tipoEscola (tipo) VALUES ('Federal');
+INSERT INTO tipoEscola (tipo) VALUES ('Privada');
 
 INSERT INTO UF (id, uf) VALUES (11, 'RO'); -- Rondônia
 INSERT INTO UF (id, uf) VALUES (12, 'AC'); -- Acre
@@ -116,6 +124,12 @@ INSERT INTO UF (id, uf) VALUES (52, 'GO'); -- Goiás
 INSERT INTO UF (id, uf) VALUES (53, 'DF'); -- Distrito Federal
 
 
+INSERT INTO materia (nome) VALUES
+('Ciências da Natureza'),
+('Ciências Humanas'),
+('Linguagens e Códigos'),
+('Matemática'),
+('Redação');
 INSERT INTO tipoUsuario (tipo) VALUES 
 ('gestor'),
 ('professor'),
@@ -137,18 +151,26 @@ INSERT INTO tipoLog (tipo) VALUES ('aviso');
 CREATE TABLE IF NOT EXISTS registro  (
     idregistro int primary key auto_increment,
     ano int,
-    codigo_uf_escola varchar(10),
-    codigo_municipio_escola varchar(10),
-    codigo_escola_educacenso varchar(20),
-    nome_escola_educacenso varchar(100),
-    taxa_participacao decimal(5,2),
-    media_cn decimal(5,2),
-    media_ch decimal(5,2),
-    media_lp decimal(5,2),
-    media_mt decimal(5,2),
-    media_red decimal(5,2),
-    media_obj decimal(5,2),
-    media_tot decimal(5,2),
+    nota_cn decimal(6,2),
+    nota_ch decimal(6,2),
+    nota_lp decimal(6,2),
+    nota_mt decimal(6,2),
+    nota_red decimal(6,2),
 	escola_id INT NOT NULL,
-  FOREIGN KEY (escola_id) REFERENCES escola(id)
+  FOREIGN KEY (escola_id) REFERENCES escola(codigoEscola)
 );
+
+CREATE TABLE IF NOT EXISTS estatistica_macro (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ano INT NOT NULL,
+    categoria VARCHAR(20) NOT NULL, -- Categoria: 'BRASIL', 'FEDERAL', 'ESTADUAL', 'MUNICIPAL', 'PRIVADA'
+    mediana_cn DECIMAL(6,2),
+    mediana_ch DECIMAL(6,2),
+    mediana_lp DECIMAL(6,2),
+    mediana_mt DECIMAL(6,2),
+    mediana_red DECIMAL(6,2),
+    UNIQUE KEY unique_ano_categoria (ano, categoria)
+);
+select * from logs;
+select * from estatistica_macro;
+select * from registro;

@@ -1,18 +1,26 @@
+:root {
+  --laranja: #f6b76a;
+  --laranja-claro: #fce5c0;
+  --azul: #78a8d1;
+  --azul-claro: #d88ef6;
+  --verde: #91c7a9;
+  --verde-claro: #dcefe3;
+
+  --branco: #f9fafb;
+  --cinza: #e5e7eb;
+  --cinza-escuro: #1f2937;
+
+  /* Botões */
+  --sucesso-verde: #22c55e;
+  --erro-vermelho: #ef4444;
+  --atencao-amarelo: #facc15;
+  --info-azul: #3b82f6;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-:root {
-  --azul-vivo: #1e90ff;
-  --laranja-vivo: #ff6a34;
-  --laranja-claro: #F27C35;
-  --vermelho-vivo: #ff3b30;
-  --branco: #f3f3f3;
-  --cinza: #ebebeb;
-  --cinza-escuro: #4f4f4f;
-  --preto: #000;
 }
 
 main {
@@ -75,18 +83,19 @@ button {
 }
 input {
   color: var(--preto) !important;
-  height: 5vh !important;
+  height: 6vh !important;
+  font-size: 1rem;
 }
 
 input:focus,
 button:focus {
   outline: 0;
   border: 2px solid var(--laranja-vivo);
-  transform: scale(1.03);
+  transform: scale(1.01);
 }
 
 .campo button {
-  background-image: linear-gradient( var(--laranja-claro),var(--laranja-vivo));
+  background-color: var(--sucesso-verde);
   border: none;
   margin-top: 10px;
   font-weight: bold;
@@ -96,7 +105,18 @@ button:focus {
 }
 
 .campo button:hover {
-  transform: scale(1.03);
+  transform: scale(1.01);
+}
+
+#mensagem{
+  display: none;
+  margin-top: 10px;
+  padding: 10px 0 10px 10px;
+  background-color: #ef444450;
+  border: 2px solid #ef4444;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 #div_aviso {
