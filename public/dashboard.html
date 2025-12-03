@@ -51,23 +51,23 @@
     <div id="kpis-container">
       <div class="kpi" id="kpi-maior-mediana">
       <h1>Maior mediana de notas</h1>
-      <h2></h2>
-      <h3></h3>
+      <h2 id="kpi-maior-nome"></h2>
+      <h3 id="kpi-maior-valor"></h3>
     </div>
       <div class="kpi" id="kpi-menor-mediana">
         <h1>Menor mediana de notas</h1>
-        <h2></h2>
-        <h3></h3>
+        <h2 id="kpi-menor-nome"></h2>
+        <h3 id="kpi-menor-valor"></h3>
       </div>
       <div class="kpi" id="kpi-maior-dif">
         <h1>Maior diferença entre escola e Brasil</h1>
-        <h2></h2>
-        <h3></h3>
+        <h2 id="kpi-maior-dif-nome"></h2>
+        <h3 id="kpi-maior-dif-valor"></h3>
       </div>
       <div class="kpi" id="kpi-menor-dif">
         <h1>Menor diferença entre escola e Brasil</h1>
-        <h2></h2>
-        <h3></h3>
+        <h2 id="kpi-menor-dif-nome"></h2>
+        <h3 id="kpi-menor-dif-valor"></h3>
       </div>
     </div>
  
@@ -99,56 +99,194 @@
 
 <script>
 
-function carregarKPIs(idEscola) { 
- async function carregarKPIs() {
-  const idEscola = 12000094; // pode trocar futuramente com sessionStorage
-
+async function carregarKPIs(idEscola) {
+  // busca medianas da escola e do Brasil e popula os KPIs
   const resposta = await fetch(`/dashboard/medianas/${idEscola}`);
   const dados = await resposta.json();
 
   const materias = {
-    "Ciências da Natureza": dados.mediana_cn,
-    "Ciências Humanas": dados.mediana_ch,
-    "Linguagens": dados.mediana_lp,
-    "Matemática": dados.mediana_mt,
-    "Redação": dados.mediana_red
+    "Ciências da Natureza": Number(dados.mediana_cn) || 0,
+    "Ciências Humanas": Number(dados.mediana_ch) || 0,
+    "Linguagens": Number(dados.mediana_lp) || 0,
+    "Matemática": Number(dados.mediana_mt) || 0,
+    "Redação": Number(dados.mediana_red) || 0
   };
 
   const maior = Object.entries(materias).reduce((a, b) => a[1] > b[1] ? a : b);
   const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
 
   document.getElementById("kpi-maior-nome").innerText = maior[0];
-  document.getElementById("kpi-maior-valor").innerText = `Total de ${maior[1]} pontos`;
+  document.getElementById("kpi-maior-valor").innerText = `${maior[1]} pontos`;
 
   document.getElementById("kpi-menor-nome").innerText = menor[0];
-  document.getElementById("kpi-menor-valor").innerText = `Total de ${menor[1]} pontos`;
+  document.getElementById("kpi-menor-valor").innerText = `${menor[1]} pontos`;
 
   const respostaBrasil = await fetch(`/dashboard/medianas-brasil`);
   const brasil = await respostaBrasil.json();
 
   const diffs = {
-    "Ciências da Natureza": (dados.mediana_cn - brasil.mediana_cn),
-    "Ciências Humanas": (dados.mediana_ch - brasil.mediana_ch),
-    "Linguagens": (dados.mediana_lp - brasil.mediana_lp),
-    "Matemática": (dados.mediana_mt - brasil.mediana_mt),
-    "Redação": (dados.mediana_red - brasil.mediana_red)
+    "Ciências da Natureza": (materias["Ciências da Natureza"] - (Number(brasil.mediana_cn) || 0)),
+    "Ciências Humanas": (materias["Ciências Humanas"] - (Number(brasil.mediana_ch) || 0)),
+    "Linguagens": (materias["Linguagens"] - (Number(brasil.mediana_lp) || 0)),
+    "Matemática": (materias["Matemática"] - (Number(brasil.mediana_mt) || 0)),
+    "Redação": (materias["Redação"] - (Number(brasil.mediana_red) || 0))
   };
 
   const maiorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) > Math.abs(b[1]) ? a : b);
   const menorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) < Math.abs(b[1]) ? a : b);
 
   document.getElementById("kpi-maior-dif-nome").innerText = maiorDif[0];
-  document.getElementById("kpi-maior-dif-valor").innerText =
-    `${maiorDif[1] > 0 ? maiorDif[1] : -maiorDif[1]} pontos maior que o Brasil`;
+  document.getElementById("kpi-maior-dif-valor").innerText = `${Math.abs(maiorDif[1])} pontos ${maiorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
 
   document.getElementById("kpi-menor-dif-nome").innerText = menorDif[0];
-  document.getElementById("kpi-menor-dif-valor").innerText =
-    `${menorDif[1] > 0 ? menorDif[1] : -menorDif[1]} pontos maior que o Brasil`;
+  document.getElementById("kpi-menor-dif-valor").innerText = `${Math.abs(menorDif[1])} pontos ${menorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
 }
 
-carregarKPIs();
-
+// obter filtro ativo do usuário (emUso = 'sim')
+async function obterFiltroAtivo() {
+  const idUsuario = sessionStorage.ID_USUARIO;
+  if (!idUsuario) return null;
+  try {
+    const res = await fetch(`/filtros/listar/${idUsuario}`);
+    const dados = await res.json();
+    const ativo = dados.find(f => f.emUso === 'sim');
+    return ativo || null;
+  } catch (e) {
+    console.error('Erro ao obter filtros:', e);
+    return null;
   }
+}
+
+async function carregarDashboardComFiltro() {
+  const filtro = await obterFiltroAtivo();
+
+  // determina a escola do usuário (sempre usada para KPIs)
+  const escolaUsuario = sessionStorage.ID_INSTITUICAO_USUARIO ? Number(sessionStorage.ID_INSTITUICAO_USUARIO) : 12000094;
+  // carregar KPIs sempre com as notas da escola do usuário
+  carregarKPIs(escolaUsuario);
+
+  if (filtro) {
+    // usar endpoints com query params para histograma/medianas
+    const qs = [];
+    if (filtro.idMateria) qs.push(`materia_id=${filtro.idMateria}`);
+    if (filtro.idTipoEscola) qs.push(`tipoEscola_id=${filtro.idTipoEscola}`);
+    if (filtro.idEstado) qs.push(`UF_id=${filtro.idEstado}`);
+    const query = qs.length ? '?' + qs.join('&') : '';
+
+    carregarHistogramaQuery(query);
+    carregarMedianas(escolaUsuario);
+  } else {
+    carregarHistograma(escolaUsuario);
+    carregarMedianas(escolaUsuario);
+  }
+}
+
+// wrappers that call the new endpoints with query string
+function carregarHistogramaQuery(query) {
+  // Build URL for comparativo endpoint
+  const idEscolaUsuario = sessionStorage.ID_INSTITUICAO_USUARIO;
+  if (!idEscolaUsuario) {
+    console.error('ID_INSTITUICAO_USUARIO não está disponível');
+    return;
+  }
+
+  // Monta query com id da escola
+  let queryComparativo = `?idEscolaUsuario=${idEscolaUsuario}`;
+  
+  // Se houver query params adicionais (materia_id, tipoEscola_id, UF_id), adiciona
+  if (query) {
+    const params = query.startsWith('?') ? query.substring(1) : query;
+    queryComparativo += params ? '&' + params : '';
+  }
+
+  fetch(`/dashboard/histogramaComparativo${queryComparativo}`)
+    .then(res => res.json())
+    .then(dados => {
+      const grafico1 = document.getElementById("grafico1").getContext("2d");
+      if (graficoHistograma) graficoHistograma.destroy();
+      graficoHistograma = new Chart(grafico1, {
+        type: 'bar',
+        data: { 
+          labels: dados.bins, 
+          datasets: [
+            { 
+              label: 'Filtro Ativo', 
+              data: dados.dataFiltro, 
+              backgroundColor: '#3498db',
+              borderWidth: 1 
+            },
+            { 
+              label: 'Sua Escola', 
+              data: dados.dataEscola, 
+              backgroundColor: '#e74c3c',
+              borderWidth: 1 
+            }
+          ] 
+        },
+        options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+      });
+    })
+    .catch(erro => console.error("Erro ao carregar histograma comparativo:", erro));
+}
+
+function carregarMedianasQuery(query) {
+  fetch(`/dashboard/medianas${query}`)
+    .then(res => res.json())
+    .then(dados => {
+      const grafico2 = document.getElementById("grafico2").getContext("2d");
+      if (graficoMedianas) graficoMedianas.destroy();
+      graficoMedianas = new Chart(grafico2, {
+        type: 'pie',
+        data: { labels: dados.labels, datasets: [{ label: 'Distribuição de % por área de conhecimento', data: dados.values, backgroundColor: ["#007bff","#ffc107","#dc3545","#28a745","#6f42c1"], borderColor: "#ffffff", borderWidth: 1 }] },
+        options: { maintainAspectRatio: false }
+      });
+    })
+    .catch(erro => console.error("Erro ao carregar medianas:", erro));
+}
+
+async function carregarKPIsQuery(query) {
+  try {
+    const resposta = await fetch(`/dashboard/medianas${query}`);
+    const dados = await resposta.json();
+
+    const materias = {
+      "Ciências da Natureza": Number(dados.mediana_cn) || 0,
+      "Ciências Humanas": Number(dados.mediana_ch) || 0,
+      "Linguagens": Number(dados.mediana_lp) || 0,
+      "Matemática": Number(dados.mediana_mt) || 0,
+      "Redação": Number(dados.mediana_red) || 0
+    };
+
+    const maior = Object.entries(materias).reduce((a, b) => a[1] > b[1] ? a : b);
+    const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
+
+    document.getElementById("kpi-maior-nome").innerText = maior[0];
+    document.getElementById("kpi-maior-valor").innerText = `${maior[1]} pontos`;
+    document.getElementById("kpi-menor-nome").innerText = menor[0];
+    document.getElementById("kpi-menor-valor").innerText = `${menor[1]} pontos`;
+
+    const respostaBrasil = await fetch(`/dashboard/medianas-brasil`);
+    const brasil = await respostaBrasil.json();
+
+    const diffs = {
+      "Ciências da Natureza": (materias["Ciências da Natureza"] - (Number(brasil.mediana_cn) || 0)),
+      "Ciências Humanas": (materias["Ciências Humanas"] - (Number(brasil.mediana_ch) || 0)),
+      "Linguagens": (materias["Linguagens"] - (Number(brasil.mediana_lp) || 0)),
+      "Matemática": (materias["Matemática"] - (Number(brasil.mediana_mt) || 0)),
+      "Redação": (materias["Redação"] - (Number(brasil.mediana_red) || 0))
+    };
+
+    const maiorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) > Math.abs(b[1]) ? a : b);
+    const menorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) < Math.abs(b[1]) ? a : b);
+
+    document.getElementById("kpi-maior-dif-nome").innerText = maiorDif[0];
+    document.getElementById("kpi-maior-dif-valor").innerText = `${Math.abs(maiorDif[1])} pontos ${maiorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
+    document.getElementById("kpi-menor-dif-nome").innerText = menorDif[0];
+    document.getElementById("kpi-menor-dif-valor").innerText = `${Math.abs(menorDif[1])} pontos ${menorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
+  } catch (e) {
+    console.error('Erro ao carregar KPIs com filtro:', e);
+  }
+}
 
 //  const grafico1 = document.getElementById('grafico1');
 
@@ -276,6 +414,10 @@ function carregarMedianas(idEscola) {
       console.error("Erro ao carregar medianas:", erro);
     });
 }
+
+// chamar carregamento dos gráficos ao abrir a página
+// carregar com base no filtro ativo (ou fallback)
+carregarDashboardComFiltro();
 
 
 function modalFiltro() {
