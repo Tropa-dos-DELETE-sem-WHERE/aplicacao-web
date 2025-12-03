@@ -70,7 +70,9 @@ main {
 #kpis-container{
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
+  height: 28vh;
 }
 
 .kpi{
@@ -79,11 +81,12 @@ main {
   justify-content: space-evenly;
   flex-direction: column;
   text-align: center;
-  font-size: 1.3rem;
-  width: 23%;
-  height: 22vh;
-  background-color: var(--cinza);
+  font-size: 1rem;
+  width: 22%;
+  height: 100%;
+  background-color: #ffeac9;
   border-radius: 10px;
+  padding: 5px;
 }
 
 .kpi h1{
@@ -110,15 +113,20 @@ main {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 50vh;
+  height: 40vh;
 }
 
 .grafico-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   width: 48%;
   height: 100%;
-  background-color: var(--cinza);
+  background-color: #ffeac9;
   border-radius: 10px;
   padding: 10px;
+  padding-top: 20px;
 }
 
 .grafico-wrapper canvas {
@@ -130,7 +138,7 @@ canvas#grafico1, canvas#grafico2{
   text-align: center;
   width: 100% !important;
   height: 100% !important;
-  background-color: var(--cinza);
+  background-color: #ffeac9;
   font-size: 1.3rem;
   border-radius: 10px;
 }

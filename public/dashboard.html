@@ -45,42 +45,38 @@
 
     <div id="kpis-container">
       <div class="kpi" id="kpi-maior-mediana">
-      <h1>Maior mediana de notas</h1>
-      <h2></h2>
-      <h3></h3>
-    </div>
+        <h3>Maior mediana de notas</h3>
+        <h2></h2>
+        <h3></h3>
+      </div>
       <div class="kpi" id="kpi-menor-mediana">
-        <h1>Menor mediana de notas</h1>
+        <h3>Menor mediana de notas</h3>
         <h2></h2>
         <h3></h3>
       </div>
       <div class="kpi" id="kpi-maior-dif">
-        <h1>Maior diferença entre escola e Brasil</h1>
+        <h3>Maior diferença entre escola e Brasil</h3>
         <h2></h2>
         <h3></h3>
       </div>
       <div class="kpi" id="kpi-menor-dif">
-        <h1>Menor diferença entre escola e Brasil</h1>
+        <h3>Menor diferença entre escola e Brasil</h3>
         <h2></h2>
         <h3></h3>
       </div>
     </div>
- 
-    
-    <div class="textos">
-      <h1>Histograma de notas dos alunos</h1>
-      <h1>Distribuição de % por área de conhecimento</h1>
-    </div>
-  
+
     <div id="graficos-container">
       <div class="grafico-wrapper">
-         <canvas id="grafico1"></canvas>
+        <h2>Histograma de notas dos alunos</h2>
+        <canvas id="grafico1"></canvas>
       </div>
       <div class="grafico-wrapper">
-         <canvas id="grafico2"></canvas>
+        <h2>Distribuição de % por área de conhecimento</h2>
+        <canvas id="grafico2"></canvas>
       </div>
     </div>
-    
+
   </main>
   <div id="modal_container_adicionar"></div>
   <div id="modal_container_adicionar_filtro"></div>
@@ -94,58 +90,58 @@
 
 <script>
 
-function carregarKPIs(idEscola) { 
- async function carregarKPIs() {
-  const idEscola = 12000094; // pode trocar futuramente com sessionStorage
+  function carregarKPIs(idEscola) {
+    async function carregarKPIs() {
+      const idEscola = 12000094; // pode trocar futuramente com sessionStorage
 
-  const resposta = await fetch(`/dashboard/medianas/${idEscola}`);
-  const dados = await resposta.json();
+      const resposta = await fetch(`/dashboard/medianas/${idEscola}`);
+      const dados = await resposta.json();
 
-  const materias = {
-    "Ciências da Natureza": dados.mediana_cn,
-    "Ciências Humanas": dados.mediana_ch,
-    "Linguagens": dados.mediana_lp,
-    "Matemática": dados.mediana_mt,
-    "Redação": dados.mediana_red
-  };
+      const materias = {
+        "Ciências da Natureza": dados.mediana_cn,
+        "Ciências Humanas": dados.mediana_ch,
+        "Linguagens": dados.mediana_lp,
+        "Matemática": dados.mediana_mt,
+        "Redação": dados.mediana_red
+      };
 
-  const maior = Object.entries(materias).reduce((a, b) => a[1] > b[1] ? a : b);
-  const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
+      const maior = Object.entries(materias).reduce((a, b) => a[1] > b[1] ? a : b);
+      const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
 
-  document.getElementById("kpi-maior-nome").innerText = maior[0];
-  document.getElementById("kpi-maior-valor").innerText = `Total de ${maior[1]} pontos`;
+      document.getElementById("kpi-maior-nome").innerText = maior[0];
+      document.getElementById("kpi-maior-valor").innerText = `Total de ${maior[1]} pontos`;
 
-  document.getElementById("kpi-menor-nome").innerText = menor[0];
-  document.getElementById("kpi-menor-valor").innerText = `Total de ${menor[1]} pontos`;
+      document.getElementById("kpi-menor-nome").innerText = menor[0];
+      document.getElementById("kpi-menor-valor").innerText = `Total de ${menor[1]} pontos`;
 
-  const respostaBrasil = await fetch(`/dashboard/medianas-brasil`);
-  const brasil = await respostaBrasil.json();
+      const respostaBrasil = await fetch(`/dashboard/medianas-brasil`);
+      const brasil = await respostaBrasil.json();
 
-  const diffs = {
-    "Ciências da Natureza": (dados.mediana_cn - brasil.mediana_cn),
-    "Ciências Humanas": (dados.mediana_ch - brasil.mediana_ch),
-    "Linguagens": (dados.mediana_lp - brasil.mediana_lp),
-    "Matemática": (dados.mediana_mt - brasil.mediana_mt),
-    "Redação": (dados.mediana_red - brasil.mediana_red)
-  };
+      const diffs = {
+        "Ciências da Natureza": (dados.mediana_cn - brasil.mediana_cn),
+        "Ciências Humanas": (dados.mediana_ch - brasil.mediana_ch),
+        "Linguagens": (dados.mediana_lp - brasil.mediana_lp),
+        "Matemática": (dados.mediana_mt - brasil.mediana_mt),
+        "Redação": (dados.mediana_red - brasil.mediana_red)
+      };
 
-  const maiorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) > Math.abs(b[1]) ? a : b);
-  const menorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) < Math.abs(b[1]) ? a : b);
+      const maiorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) > Math.abs(b[1]) ? a : b);
+      const menorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) < Math.abs(b[1]) ? a : b);
 
-  document.getElementById("kpi-maior-dif-nome").innerText = maiorDif[0];
-  document.getElementById("kpi-maior-dif-valor").innerText =
-    `${maiorDif[1] > 0 ? maiorDif[1] : -maiorDif[1]} pontos maior que o Brasil`;
+      document.getElementById("kpi-maior-dif-nome").innerText = maiorDif[0];
+      document.getElementById("kpi-maior-dif-valor").innerText =
+        `${maiorDif[1] > 0 ? maiorDif[1] : -maiorDif[1]} pontos maior que o Brasil`;
 
-  document.getElementById("kpi-menor-dif-nome").innerText = menorDif[0];
-  document.getElementById("kpi-menor-dif-valor").innerText =
-    `${menorDif[1] > 0 ? menorDif[1] : -menorDif[1]} pontos maior que o Brasil`;
-}
+      document.getElementById("kpi-menor-dif-nome").innerText = menorDif[0];
+      document.getElementById("kpi-menor-dif-valor").innerText =
+        `${menorDif[1] > 0 ? menorDif[1] : -menorDif[1]} pontos maior que o Brasil`;
+    }
 
-carregarKPIs();
+    carregarKPIs();
 
   }
 
-//  const grafico1 = document.getElementById('grafico1');
+  //  const grafico1 = document.getElementById('grafico1');
 
   // new Chart(grafico1, {
   //   type: 'bar',
@@ -167,44 +163,44 @@ carregarKPIs();
   //   }
   // });
 
-let graficoHistograma;
+  let graficoHistograma;
 
-function carregarHistograma(idEscola) {
-  fetch(`/dashboard/histograma/${idEscola}`)
-    .then(resposta => resposta.json())
-    .then(dados => {
+  function carregarHistograma(idEscola) {
+    fetch(`/dashboard/histograma/${idEscola}`)
+      .then(resposta => resposta.json())
+      .then(dados => {
 
-      const grafico1 = document.getElementById("grafico1").getContext("2d");
+        const grafico1 = document.getElementById("grafico1").getContext("2d");
 
-      if (graficoHistograma) {
-        graficoHistograma.destroy();
-      }
+        if (graficoHistograma) {
+          graficoHistograma.destroy();
+        }
 
-      graficoHistograma = new Chart(grafico1, {
-        type: 'bar',
-        data: {
-          labels: dados.bins,        
-          datasets: [{
-            label: 'Histograma de notas dos alunos',
-            data: dados.values,     
-            borderWidth: 1
-          }]
-        },
-        options: {
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true
+        graficoHistograma = new Chart(grafico1, {
+          type: 'bar',
+          data: {
+            labels: dados.bins,
+            datasets: [{
+              label: 'Histograma de notas dos alunos',
+              data: dados.values,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
             }
           }
-        }
-      });
+        });
 
-    })
-    .catch(erro => {
-      console.error("Erro ao carregar histograma:", erro);
-    });
-}
+      })
+      .catch(erro => {
+        console.error("Erro ao carregar histograma:", erro);
+      });
+  }
 
 
   // const grafico2 = document.getElementById('grafico2');
@@ -229,52 +225,52 @@ function carregarHistograma(idEscola) {
   //   }
   // });
 
-let graficoMedianas; 
+  let graficoMedianas;
 
-function carregarMedianas(idEscola) {
-  fetch(`/dashboard/medianas/${idEscola}`)
-    .then(resposta => resposta.json())
-    .then(dados => {
+  function carregarMedianas(idEscola) {
+    fetch(`/dashboard/medianas/${idEscola}`)
+      .then(resposta => resposta.json())
+      .then(dados => {
 
-      const grafico2 = document.getElementById("grafico2").getContext("2d");
+        const grafico2 = document.getElementById("grafico2").getContext("2d");
 
-      // destruir gráfico anterior caso exista
-      if (graficoMedianas) {
-        graficoMedianas.destroy();
-      }
-
-      graficoMedianas = new Chart(grafico2, {
-        type: 'pie',
-        data: {
-          labels: dados.labels, 
-          datasets: [{
-            label: 'Distribuição de % por área de conhecimento',
-            data: dados.values,  
-            backgroundColor: [
-              "#007bff", // Matemática
-              "#ffc107", // Linguagens
-              "#dc3545", // Humanas
-              "#28a745", // Natureza
-              "#6f42c1"  // Redação
-            ],
-            borderColor: "#ffffff",
-            borderWidth: 1
-          }]
-        },
-        options: {
-          maintainAspectRatio: false
+        // destruir gráfico anterior caso exista
+        if (graficoMedianas) {
+          graficoMedianas.destroy();
         }
+
+        graficoMedianas = new Chart(grafico2, {
+          type: 'pie',
+          data: {
+            labels: dados.labels,
+            datasets: [{
+              label: 'Distribuição de % por área de conhecimento',
+              data: dados.values,
+              backgroundColor: [
+                "#007bff", // Matemática
+                "#ffc107", // Linguagens
+                "#dc3545", // Humanas
+                "#28a745", // Natureza
+                "#6f42c1"  // Redação
+              ],
+              borderColor: "#ffffff",
+              borderWidth: 1
+            }]
+          },
+          options: {
+            maintainAspectRatio: false
+          }
+        });
+
+      })
+      .catch(erro => {
+        console.error("Erro ao carregar medianas:", erro);
       });
-
-    })
-    .catch(erro => {
-      console.error("Erro ao carregar medianas:", erro);
-    });
-}
+  }
 
 
-function modalFiltro() {
-  modal_container_adicionar.innerHTML = `
+  function modalFiltro() {
+    modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
       <div class="modal">
@@ -290,8 +286,8 @@ function modalFiltro() {
       </div>
     </div>
   `;
-  listarFiltros();
-}
+    listarFiltros();
+  }
   function modalAddFiltro() {
     modal_container_adicionar_filtro.innerHTML = `
     <div class="modal-container show modal-add-filtro">
@@ -330,9 +326,9 @@ function modalFiltro() {
       </div>
     </div>
   `;
-  listarMaterias();
-  listarTiposEscola();
-  listarEstados();
+    listarMaterias();
+    listarTiposEscola();
+    listarEstados();
   }
 
   function fecharModal() {
@@ -344,74 +340,74 @@ function modalFiltro() {
 
 
   function listarMaterias() {
-  return  fetch("/filtros/materias", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(resposta => resposta.json())
-  .then(dados => {
-    console.log("Materias recebidas:", dados);
-    const select = document.getElementById("select_materia");
-    select.innerHTML = ""; 
-    dados.forEach(materia => {
-      const option = document.createElement("option");
-      option.value = materia.id;
-      option.textContent = materia.nome;
-      select.appendChild(option);
-    });
-  })
-  .catch(erro => {
-    console.error("Erro ao listar matérias:", erro);
-  });
-}
+    return fetch("/filtros/materias", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(resposta => resposta.json())
+      .then(dados => {
+        console.log("Materias recebidas:", dados);
+        const select = document.getElementById("select_materia");
+        select.innerHTML = "";
+        dados.forEach(materia => {
+          const option = document.createElement("option");
+          option.value = materia.id;
+          option.textContent = materia.nome;
+          select.appendChild(option);
+        });
+      })
+      .catch(erro => {
+        console.error("Erro ao listar matérias:", erro);
+      });
+  }
 
-function listarEstados() {
-  return  fetch("/filtros/estados", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(resposta => resposta.json())
-  .then(dados => {
-    console.log("Estados recebidos:", dados);
-    const select = document.getElementById("select_estado");
-    select.innerHTML = "";
-    dados.forEach(estado => {
-      const option = document.createElement("option");
-      option.value = estado.id;
-      option.textContent = estado.uf;
-      select.appendChild(option);
-    });
-  })
-  .catch(erro => {
-    console.error("Erro ao listar estados:", erro);
-  });
-}
+  function listarEstados() {
+    return fetch("/filtros/estados", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(resposta => resposta.json())
+      .then(dados => {
+        console.log("Estados recebidos:", dados);
+        const select = document.getElementById("select_estado");
+        select.innerHTML = "";
+        dados.forEach(estado => {
+          const option = document.createElement("option");
+          option.value = estado.id;
+          option.textContent = estado.uf;
+          select.appendChild(option);
+        });
+      })
+      .catch(erro => {
+        console.error("Erro ao listar estados:", erro);
+      });
+  }
 
-function listarTiposEscola() {
-  return fetch("/filtros/tiposEscola", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(resposta => resposta.json())
-  .then(dados => {
-    console.log("Tipos de escola recebidos:", dados);
-    const select = document.getElementById("select_tipoEscola");
-    select.innerHTML = "";
-    dados.forEach(tipo => {
-      const option = document.createElement("option");
-      option.value = tipo.id;
-      option.textContent = tipo.tipo;
-      select.appendChild(option);
-    });
-  })
-  .catch(erro => {
-    console.error("Erro ao listar tipos de escola:", erro);
-  });
-}
-async function listarFiltros() {
-  const idUsuario = sessionStorage.ID_USUARIO;
-  const container = document.getElementById("lista-filtros");
-  container.innerHTML = ""; 
+  function listarTiposEscola() {
+    return fetch("/filtros/tiposEscola", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(resposta => resposta.json())
+      .then(dados => {
+        console.log("Tipos de escola recebidos:", dados);
+        const select = document.getElementById("select_tipoEscola");
+        select.innerHTML = "";
+        dados.forEach(tipo => {
+          const option = document.createElement("option");
+          option.value = tipo.id;
+          option.textContent = tipo.tipo;
+          select.appendChild(option);
+        });
+      })
+      .catch(erro => {
+        console.error("Erro ao listar tipos de escola:", erro);
+      });
+  }
+  async function listarFiltros() {
+    const idUsuario = sessionStorage.ID_USUARIO;
+    const container = document.getElementById("lista-filtros");
+    container.innerHTML = "";
     const resposta = await fetch(`/filtros/listar/${idUsuario}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" }
@@ -451,46 +447,44 @@ async function listarFiltros() {
       `;
       container.insertAdjacentHTML("beforeend", htmlVazio);
     }
-}
-function excluirFiltro(id)
-{
+  }
+  function excluirFiltro(id) {
     fetch("/filtros/deletarFiltro", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify
-      ({ 
-        idFiltro: id,
-        idUsuario : sessionStorage.ID_USUARIO
-       })
+        ({
+          idFiltro: id,
+          idUsuario: sessionStorage.ID_USUARIO
+        })
     });
     alert("meta deletada com sucesso!");
     window.location.reload();
-}
+  }
 
-function alterarStatus(idFiltro) {
-    const idUsuario = sessionStorage.ID_USUARIO;  
+  function alterarStatus(idFiltro) {
+    const idUsuario = sessionStorage.ID_USUARIO;
     fetch(`/filtros/atualizarStatus/${idFiltro}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      idUsuario : sessionStorage.ID_USUARIO
-    }),
-  })
-    .then(function (resposta) {
-      if (resposta.status === 200) {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        idUsuario: sessionStorage.ID_USUARIO
+      }),
+    })
+      .then(function (resposta) {
+        if (resposta.status === 200) {
           console.log(resposta);
           location.reload();
         }
-    })
-    .catch(function (erro) {
-      console.error(`#ERRO: ${erro}`);
-    });
+      })
+      .catch(function (erro) {
+        console.error(`#ERRO: ${erro}`);
+      });
   }
 
-  function criarFiltro()
-  {
+  function criarFiltro() {
     const nomeFiltro = input_nomeFiltro.value;
     const materia_id = select_materia.value;
     const tipoEscola_id = select_tipoEscola.value;
@@ -498,37 +492,37 @@ function alterarStatus(idFiltro) {
     const idUsuario = sessionStorage.ID_USUARIO;
 
     fetch("/filtros/inserirFiltro", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            nomeFiltro: nomeFiltro,
-            materia_id: materia_id,
-            tipoEscola_id: tipoEscola_id,
-            UF_id: UF_id,
-            usuario_id: idUsuario,
-            emUso: "nao"
-        }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nomeFiltro: nomeFiltro,
+        materia_id: materia_id,
+        tipoEscola_id: tipoEscola_id,
+        UF_id: UF_id,
+        usuario_id: idUsuario,
+        emUso: "nao"
+      }),
     })
-    .then(function (resposta) {
+      .then(function (resposta) {
         console.log("resposta: ", resposta.status);
         if (resposta.status === 200) {
-            console.log(resposta);
-            location.reload();
+          console.log(resposta);
+          location.reload();
         } else if (resposta.status === 400) {
-            document.getElementById("overlayInterno").classList.add("show");
-            document.getElementById("modalErro").classList.add("show");
+          document.getElementById("overlayInterno").classList.add("show");
+          document.getElementById("modalErro").classList.add("show");
         }
-    })
-    .catch(function (resposta) {
+      })
+      .catch(function (resposta) {
         console.log(`#ERRO: ${resposta.status}`);
-    });
+      });
   }
 
-function modalEditarFiltro(id, nomeFiltro, materia_id, tipoEscola_id, UF_id) {
-  console.log(id, nomeFiltro, materia_id, tipoEscola_id, UF_id)
-  modal_container_adicionar_filtro.innerHTML = `
+  function modalEditarFiltro(id, nomeFiltro, materia_id, tipoEscola_id, UF_id) {
+    console.log(id, nomeFiltro, materia_id, tipoEscola_id, UF_id)
+    modal_container_adicionar_filtro.innerHTML = `
     <div class="modal-container show modal-add-filtro">
       <div class="modal-overlay" onclick="fecharModalAdd()"></div>
       <div class="modal modal-add">
@@ -566,51 +560,51 @@ function modalEditarFiltro(id, nomeFiltro, materia_id, tipoEscola_id, UF_id) {
     </div>
   `;
 
- listarMaterias().then(() => {
-  document.getElementById("select_materia").value = materia_id;
-});
+    listarMaterias().then(() => {
+      document.getElementById("select_materia").value = materia_id;
+    });
 
-listarTiposEscola().then(() => {
-  document.getElementById("select_tipoEscola").value = tipoEscola_id;
-});
+    listarTiposEscola().then(() => {
+      document.getElementById("select_tipoEscola").value = tipoEscola_id;
+    });
 
-listarEstados().then(() => {
-  document.getElementById("select_estado").value = UF_id;
-});
+    listarEstados().then(() => {
+      document.getElementById("select_estado").value = UF_id;
+    });
 
-}
-
-function editarFiltro(id) {
-  const nomeFiltro = input_nomeFiltro.value;
-  const materia_id = select_materia.value;
-  const tipoEscola_id = select_tipoEscola.value;
-  const UF_id = select_estado.value;
-  const idUsuario = sessionStorage.ID_USUARIO;
-
-  if (!nomeFiltro || !materia_id || !tipoEscola_id || !UF_id) {
-    alert("Todos os campos devem ser preenchidos.");
-    return;
   }
 
-  fetch(`/filtros/atualizarFiltro/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      nomeFiltro,
-      materia_id,
-      tipoEscola_id,
-      UF_id,
-      idUsuario
-    }),
-  })
-    .then(resposta => {
-      if (resposta.status === 200) {
-        console.log("Filtro atualizado com sucesso!");
-        location.reload();
-      } else {
-        alert("Erro ao atualizar filtro.");
-      }
+  function editarFiltro(id) {
+    const nomeFiltro = input_nomeFiltro.value;
+    const materia_id = select_materia.value;
+    const tipoEscola_id = select_tipoEscola.value;
+    const UF_id = select_estado.value;
+    const idUsuario = sessionStorage.ID_USUARIO;
+
+    if (!nomeFiltro || !materia_id || !tipoEscola_id || !UF_id) {
+      alert("Todos os campos devem ser preenchidos.");
+      return;
+    }
+
+    fetch(`/filtros/atualizarFiltro/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nomeFiltro,
+        materia_id,
+        tipoEscola_id,
+        UF_id,
+        idUsuario
+      }),
     })
-    .catch(erro => console.error(`#ERRO: ${erro}`));
-}
+      .then(resposta => {
+        if (resposta.status === 200) {
+          console.log("Filtro atualizado com sucesso!");
+          location.reload();
+        } else {
+          alert("Erro ao atualizar filtro.");
+        }
+      })
+      .catch(erro => console.error(`#ERRO: ${erro}`));
+  }
 </script>
