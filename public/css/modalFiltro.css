@@ -55,6 +55,17 @@
 {
   margin-bottom: 20px;
   width: 100%;
+
+  .add-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    gap: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
 }
 
 #lista-filtros {
@@ -174,12 +185,14 @@
 }
 
 .boxButtonAdd {
+  width: 100%;
   margin-top: 20px;
   display: flex;
   justify-content: center;
 }
 
 .btnSalvarAdd {
+  width: 100%;
   color: white;
   border: none;
   background-image: linear-gradient(#ff6a34, #F27C35);
@@ -190,5 +203,5 @@
 }
 
 .btnSalvarAdd:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }

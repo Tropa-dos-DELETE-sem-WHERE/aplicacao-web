@@ -28,7 +28,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 
   h1{
     font-size: 2.5rem;
@@ -44,11 +44,15 @@ main {
     background-color: transparent;
     padding: 5px 10px;
     border: 1px solid var(--cinza-escuro);
-    border-radius: 10px;
+    border-radius: 5px;
     gap: 5px;
     cursor: pointer;
     font-size: 1.7rem;
     transition: .3s;
+
+    i{
+      font-style: normal;
+    }
   }
 
   button:hover{
@@ -78,7 +82,7 @@ main {
 .kpi{
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
   flex-direction: column;
   text-align: center;
   font-size: 1rem;
