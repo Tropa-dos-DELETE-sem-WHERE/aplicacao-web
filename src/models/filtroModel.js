@@ -11,15 +11,15 @@ async function listarFiltrosByUsuario(idUsuario) {
     u.nome AS usuario,
     te.tipo AS tipoEscola,
     uf.uf AS estado,
-    m.nome AS materia,
+    m.nome AS estatistica_macro,
     te.id AS idTipoEscola,
     uf.id AS idEstado,
-    m.id AS idMateria
+    m.id AS idestatistica_macro
     FROM filtro f
     JOIN usuario u ON f.usuario_id = u.id
     JOIN tipoEscola te ON f.tipoEscola_id = te.id
     JOIN UF uf ON f.UF_id = uf.id
-    LEFT JOIN materia m ON f.materia_id = m.id
+    LEFT JOIN estatistica_macro m ON f.estatistica_macro_id = m.id
     WHERE f.usuario_id = ${idUsuario};
     `;
 
@@ -29,13 +29,13 @@ async function listarFiltrosByUsuario(idUsuario) {
 
 
 
-function inserir(nomeFiltro, materia_id, tipoEscola_id, UF_id, usuario_id, emUso) {
+function inserir(nomeFiltro, estatistica_macro_id, tipoEscola_id, UF_id, usuario_id, emUso) {
     console.log("Dentro do Model de filtros na função inserir() passando os seguintes dados para o banco:",
-        nomeFiltro, materia_id, tipoEscola_id, UF_id, usuario_id, emUso);
+        nomeFiltro, estatistica_macro_id, tipoEscola_id, UF_id, usuario_id, emUso);
 
     var instrucaoSql = `
-        INSERT INTO filtro (nome, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
-        VALUES ('${nomeFiltro}', '${materia_id}', '${tipoEscola_id}', '${UF_id}', '${usuario_id}', '${emUso}');
+        INSERT INTO filtro (nome, estatistica_macro_id, tipoEscola_id, UF_id, usuario_id, emUso)
+        VALUES ('${nomeFiltro}', '${estatistica_macro_id}', '${tipoEscola_id}', '${UF_id}', '${usuario_id}', '${emUso}');
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -54,13 +54,13 @@ function deletarFiltro(id,idUsuario) {
     return database.executar(instrucaoSql);
 }
 
-function atualizar(nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, id) {
-    console.log("Model atualizar filtro recebendo:", nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, id);
+function atualizar(nomeFiltro, estatistica_macro_id, tipoEscola_id, UF_id, idUsuario, id) {
+    console.log("Model atualizar filtro recebendo:", nomeFiltro, estatistica_macro_id, tipoEscola_id, UF_id, idUsuario, id);
 
     const instrucaoSql = `
         UPDATE filtro
         SET nome = '${nomeFiltro}',
-            materia_id = ${materia_id},
+            estatistica_macro_id = ${estatistica_macro_id},
             tipoEscola_id = ${tipoEscola_id},
             UF_id = ${UF_id}
         WHERE usuario_id = ${idUsuario} AND id = ${id};
@@ -90,10 +90,10 @@ async function atualizarStatus(id,idUsuario) {
     return await database.executar(instrucaoSql2);
 }
 
-async function listarMaterias() {
-    console.log("Dentro do Model na função listarMaterias()");
+async function listarestatistica_macros() {
+    console.log("Dentro do Model na função listarestatistica_macros()");
     const instrucaoSql = `
-        SELECT * FROM materia;
+        SELECT * FROM estatistica_macro;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -123,7 +123,7 @@ module.exports = {
     inserir,
     deletarFiltro,
     atualizarStatus,
-    listarMaterias,
+    listarestatistica_macros,
     listarEstados,
     listarTiposEscola
 };
