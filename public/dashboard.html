@@ -95,106 +95,123 @@
 </html>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
 <script>
+function carregarKPIs(idEscola) {
+  fetch('/dashboard/medianas/' + idEscola)
+    .then(resposta => resposta.json())
+    .then(dados => {
+      const materias = {
+        "Ciências da Natureza": Number(dados.mediana_cn) || 0,
+        "Ciências Humanas": Number(dados.mediana_ch) || 0,
+        "Linguagens": Number(dados.mediana_lp) || 0,
+        "Matemática": Number(dados.mediana_mt) || 0,
+        "Redação": Number(dados.mediana_red) || 0
+      };
 
-async function carregarKPIs(idEscola) {
-  // busca medianas da escola e do Brasil e popula os KPIs
-  const resposta = await fetch('/dashboard/medianas/' + idEscola);
-  const dados = await resposta.json();
+      const maior = Object.entries(materias).reduce((a, b) => a[1] > b[1] ? a : b);
+      const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
 
-  const materias = {
-    "Ciências da Natureza": Number(dados.mediana_cn) || 0,
-    "Ciências Humanas": Number(dados.mediana_ch) || 0,
-    "Linguagens": Number(dados.mediana_lp) || 0,
-    "Matemática": Number(dados.mediana_mt) || 0,
-    "Redação": Number(dados.mediana_red) || 0
-  };
+      document.getElementById("kpi-maior-nome").innerText = maior[0];
+      document.getElementById("kpi-maior-valor").innerText = `${maior[1]} pontos`;
 
-  const maior = Object.entries(materias).reduce((a, b) => a[1] > b[1] ? a : b);
-  const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
+      document.getElementById("kpi-menor-nome").innerText = menor[0];
+      document.getElementById("kpi-menor-valor").innerText = `${menor[1]} pontos`;
 
-  document.getElementById("kpi-maior-nome").innerText = maior[0];
-  document.getElementById("kpi-maior-valor").innerText = `${maior[1]} pontos`;
+      return fetch('/dashboard/medianas-brasil');
+    })
+    .then(resposta => resposta.json())
+    .then(brasil => {
+      const materias = {
+        "Ciências da Natureza": Number(document.getElementById("kpi-maior-nome").innerText === "Ciências da Natureza" ? 
+          document.getElementById("kpi-maior-valor").innerText.split(' ')[0] : 
+          document.getElementById("kpi-menor-valor").innerText.split(' ')[0]) || 0,
+        "Ciências Humanas": Number(dados.mediana_ch) || 0,
+        "Linguagens": Number(dados.mediana_lp) || 0,
+        "Matemática": Number(dados.mediana_mt) || 0,
+        "Redação": Number(dados.mediana_red) || 0
+      };
 
-  document.getElementById("kpi-menor-nome").innerText = menor[0];
-  document.getElementById("kpi-menor-valor").innerText = `${menor[1]} pontos`;
+      fetch('/dashboard/medianas/' + idEscola)
+        .then(r => r.json())
+        .then(dados => {
+          const materias = {
+            "Ciências da Natureza": Number(dados.mediana_cn) || 0,
+            "Ciências Humanas": Number(dados.mediana_ch) || 0,
+            "Linguagens": Number(dados.mediana_lp) || 0,
+            "Matemática": Number(dados.mediana_mt) || 0,
+            "Redação": Number(dados.mediana_red) || 0
+          };
 
-  const respostaBrasil = await fetch(/dashboard/medianas-brasil);
-  const brasil = await respostaBrasil.json();
+          const diffs = {
+            "Ciências da Natureza": (materias["Ciências da Natureza"] - (Number(brasil.mediana_cn) || 0)),
+            "Ciências Humanas": (materias["Ciências Humanas"] - (Number(brasil.mediana_ch) || 0)),
+            "Linguagens": (materias["Linguagens"] - (Number(brasil.mediana_lp) || 0)),
+            "Matemática": (materias["Matemática"] - (Number(brasil.mediana_mt) || 0)),
+            "Redação": (materias["Redação"] - (Number(brasil.mediana_red) || 0))
+          };
 
-  const diffs = {
-    "Ciências da Natureza": (materias["Ciências da Natureza"] - (Number(brasil.mediana_cn) || 0)),
-    "Ciências Humanas": (materias["Ciências Humanas"] - (Number(brasil.mediana_ch) || 0)),
-    "Linguagens": (materias["Linguagens"] - (Number(brasil.mediana_lp) || 0)),
-    "Matemática": (materias["Matemática"] - (Number(brasil.mediana_mt) || 0)),
-    "Redação": (materias["Redação"] - (Number(brasil.mediana_red) || 0))
-  };
+          const maiorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) > Math.abs(b[1]) ? a : b);
+          const menorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) < Math.abs(b[1]) ? a : b);
 
-  const maiorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) > Math.abs(b[1]) ? a : b);
-  const menorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) < Math.abs(b[1]) ? a : b);
+          document.getElementById("kpi-maior-dif-nome").innerText = maiorDif[0];
+          document.getElementById("kpi-maior-dif-valor").innerText = `${Math.abs(maiorDif[1]).toFixed(1)} pontos ${maiorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
 
-  document.getElementById("kpi-maior-dif-nome").innerText = maiorDif[0];
-  document.getElementById("kpi-maior-dif-valor").innerText = `${Math.abs(maiorDif[1])} pontos ${maiorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
-
-  document.getElementById("kpi-menor-dif-nome").innerText = menorDif[0];
-  document.getElementById("kpi-menor-dif-valor").innerText = `${Math.abs(menorDif[1])} pontos ${menorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
+          document.getElementById("kpi-menor-dif-nome").innerText = menorDif[0];
+          document.getElementById("kpi-menor-dif-valor").innerText = `${Math.abs(menorDif[1]).toFixed(1)} pontos ${menorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
+        });
+    })
+    .catch(erro => {
+      console.error('Erro ao carregar KPIs:', erro);
+    });
 }
 
-// obter filtro ativo do usuário (emUso = 'sim')
-async function obterFiltroAtivo() {
+function obterFiltroAtivo() {
   const idUsuario = sessionStorage.ID_USUARIO;
-  if (!idUsuario) return null;
-  try {
-    const res = await fetch('/filtros/listar/' + idUsuario);
-    const dados = await res.json();
-    const ativo = dados.find(f => f.emUso === 'sim');
-    return ativo || null;
-  } catch (e) {
-    console.error('Erro ao obter filtros:', e);
-    return null;
-  }
+  if (!idUsuario) return Promise.resolve(null);
+  
+  return fetch('/filtros/listar/' + idUsuario)
+    .then(res => res.json())
+    .then(dados => {
+      const ativo = dados.find(f => f.emUso === 'sim');
+      return ativo || null;
+    })
+    .catch(e => {
+      console.error('Erro ao obter filtros:', e);
+      return null;
+    });
 }
 
-async function carregarDashboardComFiltro() {
-  const filtro = await obterFiltroAtivo();
+function carregarDashboardComFiltro() {
+  obterFiltroAtivo()
+    .then(filtro => {
+      const escolaUsuario = sessionStorage.ID_INSTITUICAO_USUARIO ? Number(sessionStorage.ID_INSTITUICAO_USUARIO) : 12000094;
+      carregarKPIs(escolaUsuario);
 
-  // determina a escola do usuário (sempre usada para KPIs)
-  const escolaUsuario = sessionStorage.ID_INSTITUICAO_USUARIO ? Number(sessionStorage.ID_INSTITUICAO_USUARIO) : 12000094;
-  // carregar KPIs sempre com as notas da escola do usuário
-  carregarKPIs(escolaUsuario);
+      if (filtro) {
+        const qs = [];
+        if (filtro.idMateria) qs.push(`materia_id=${filtro.idMateria}`);
+        if (filtro.idTipoEscola) qs.push(`tipoEscola_id=${filtro.idTipoEscola}`);
+        if (filtro.idEstado) qs.push(`UF_id=${filtro.idEstado}`);
+        const query = qs.length ? '?' + qs.join('&') : '';
 
-  if (filtro) {
-    // usar endpoints com query params para histograma/medianas
-    const qs = [];
-    if (filtro.idMateria) qs.push(materia_id=filtro.idMateria);
-    if (filtro.idTipoEscola) qs.push(tipoEscola_id=filtro.idTipoEscola);
-    if (filtro.idEstado) qs.push(UF_id=filtro.idEstado);
-    const query = qs.length ? '?' + qs.join('&') : '';
-
-    carregarHistogramaQuery(query);
-    carregarMedianas(escolaUsuario);
-  } else {
-    carregarHistograma(escolaUsuario);
-    carregarMedianas(escolaUsuario);
-  }
+        carregarHistogramaQuery(query);
+        carregarMedianas(escolaUsuario);
+      } else {
+        carregarHistograma(escolaUsuario);
+        carregarMedianas(escolaUsuario);
+      }
+    });
 }
 
-// wrappers that call the new endpoints with query string
 function carregarHistogramaQuery(query) {
-  // Build URL for comparativo endpoint
   const idEscolaUsuario = sessionStorage.ID_INSTITUICAO_USUARIO;
   if (!idEscolaUsuario) {
     console.error('ID_INSTITUICAO_USUARIO não está disponível');
     return;
   }
 
-
-  // Monta query com id da escola
-  let queryComparativo = idEscolaUsuario;
+  let queryComparativo = '?' + idEscolaUsuario;
   
-  // Se houver query params adicionais (materia_id, tipoEscola_id, UF_id), adiciona
   if (query) {
     const params = query.startsWith('?') ? query.substring(1) : query;
     queryComparativo += params ? '&' + params : '';
@@ -205,6 +222,7 @@ function carregarHistogramaQuery(query) {
     .then(dados => {
       const grafico1 = document.getElementById("grafico1").getContext("2d");
       if (graficoHistograma) graficoHistograma.destroy();
+      
       graficoHistograma = new Chart(grafico1, {
         type: 'bar',
         data: { 
@@ -224,12 +242,18 @@ function carregarHistogramaQuery(query) {
             }
           ] 
         },
-        options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        options: { 
+          maintainAspectRatio: false, 
+          scales: { 
+            y: { 
+              beginAtZero: true 
+            } 
+          } 
+        }
       });
     })
     .catch(erro => console.error("Erro ao carregar histograma comparativo:", erro));
 }
-
 
 function carregarMedianasQuery(query) {
   fetch('/dashboard/medianas' + query)
@@ -237,80 +261,83 @@ function carregarMedianasQuery(query) {
     .then(dados => {
       const grafico2 = document.getElementById("grafico2").getContext("2d");
       if (graficoMedianas) graficoMedianas.destroy();
+      
       graficoMedianas = new Chart(grafico2, {
         type: 'pie',
-        data: { labels: dados.labels, datasets: [{ label: 'Distribuição de % por área de conhecimento', data: dados.values, backgroundColor: ["#007bff","#ffc107","#dc3545","#28a745","#6f42c1"], borderColor: "#ffffff", borderWidth: 1 }] },
-        options: { maintainAspectRatio: false }
+        data: { 
+          labels: dados.labels, 
+          datasets: [{ 
+            label: 'Distribuição de % por área de conhecimento', 
+            data: dados.values, 
+            backgroundColor: ["#007bff","#ffc107","#dc3545","#28a745","#6f42c1"], 
+            borderColor: "#ffffff", 
+            borderWidth: 1 
+          }] 
+        },
+        options: { 
+          maintainAspectRatio: false 
+        }
       });
     })
     .catch(erro => console.error("Erro ao carregar medianas:", erro));
 }
 
-async function carregarKPIsQuery(query) {
-  try {
-    const resposta = await fetch('/dashboard/medianas' + query);
-    const dados = await resposta.json();
+function carregarKPIsQuery(query) {
+  fetch('/dashboard/medianas' + query)
+    .then(resposta => resposta.json())
+    .then(dados => {
+      const materias = {
+        "Ciências da Natureza": Number(dados.mediana_cn) || 0,
+        "Ciências Humanas": Number(dados.mediana_ch) || 0,
+        "Linguagens": Number(dados.mediana_lp) || 0,
+        "Matemática": Number(dados.mediana_mt) || 0,
+        "Redação": Number(dados.mediana_red) || 0
+      };
 
-    const materias = {
-      "Ciências da Natureza": Number(dados.mediana_cn) || 0,
-      "Ciências Humanas": Number(dados.mediana_ch) || 0,
-      "Linguagens": Number(dados.mediana_lp) || 0,
-      "Matemática": Number(dados.mediana_mt) || 0,
-      "Redação": Number(dados.mediana_red) || 0
-    };
+      const maior = Object.entries(materias).reduce((a, b) => a[1] > b[1] ? a : b);
+      const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
 
-    const maior = Object.entries(materias).reduce((a, b) => a[1] > b[1] ? a : b);
-    const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
+      document.getElementById("kpi-maior-nome").innerText = maior[0];
+      document.getElementById("kpi-maior-valor").innerText = `${maior[1]} pontos`;
+      document.getElementById("kpi-menor-nome").innerText = menor[0];
+      document.getElementById("kpi-menor-valor").innerText = `${menor[1]} pontos`;
 
-    document.getElementById("kpi-maior-nome").innerText = maior[0];
-    document.getElementById("kpi-maior-valor").innerText = `${maior[1]} pontos`;
-    document.getElementById("kpi-menor-nome").innerText = menor[0];
-    document.getElementById("kpi-menor-valor").innerText = `${menor[1]} pontos`;
+      return fetch('/dashboard/medianas-brasil');
+    })
+    .then(resposta => resposta.json())
+    .then(brasil => {
+      fetch('/dashboard/medianas' + query)
+        .then(r => r.json())
+        .then(dados => {
+          const materias = {
+            "Ciências da Natureza": Number(dados.mediana_cn) || 0,
+            "Ciências Humanas": Number(dados.mediana_ch) || 0,
+            "Linguagens": Number(dados.mediana_lp) || 0,
+            "Matemática": Number(dados.mediana_mt) || 0,
+            "Redação": Number(dados.mediana_red) || 0
+          };
 
-    const respostaBrasil = await fetch(/dashboard/medianas-brasil);
-    const brasil = await respostaBrasil.json();
+          const diffs = {
+            "Ciências da Natureza": (materias["Ciências da Natureza"] - (Number(brasil.mediana_cn) || 0)),
+            "Ciências Humanas": (materias["Ciências Humanas"] - (Number(brasil.mediana_ch) || 0)),
+            "Linguagens": (materias["Linguagens"] - (Number(brasil.mediana_lp) || 0)),
+            "Matemática": (materias["Matemática"] - (Number(brasil.mediana_mt) || 0)),
+            "Redação": (materias["Redação"] - (Number(brasil.mediana_red) || 0))
+          };
 
-    const diffs = {
-      "Ciências da Natureza": (materias["Ciências da Natureza"] - (Number(brasil.mediana_cn) || 0)),
-      "Ciências Humanas": (materias["Ciências Humanas"] - (Number(brasil.mediana_ch) || 0)),
-      "Linguagens": (materias["Linguagens"] - (Number(brasil.mediana_lp) || 0)),
-      "Matemática": (materias["Matemática"] - (Number(brasil.mediana_mt) || 0)),
-      "Redação": (materias["Redação"] - (Number(brasil.mediana_red) || 0))
-    };
+          const maiorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) > Math.abs(b[1]) ? a : b);
+          const menorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) < Math.abs(b[1]) ? a : b);
 
-    const maiorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) > Math.abs(b[1]) ? a : b);
-    const menorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) < Math.abs(b[1]) ? a : b);
-
-    document.getElementById("kpi-maior-dif-nome").innerText = maiorDif[0];
-    document.getElementById("kpi-maior-dif-valor").innerText = `${Math.abs(maiorDif[1])} pontos ${maiorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
-    document.getElementById("kpi-menor-dif-nome").innerText = menorDif[0];
-    document.getElementById("kpi-menor-dif-valor").innerText = `${Math.abs(menorDif[1])} pontos ${menorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
-  } catch (e) {
-    console.error('Erro ao carregar KPIs com filtro:', e);
-  }
+          document.getElementById("kpi-maior-dif-nome").innerText = maiorDif[0];
+          document.getElementById("kpi-maior-dif-valor").innerText = `${Math.abs(maiorDif[1]).toFixed(1)} pontos ${maiorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
+          document.getElementById("kpi-menor-dif-nome").innerText = menorDif[0];
+          document.getElementById("kpi-menor-dif-valor").innerText = `${Math.abs(menorDif[1]).toFixed(1)} pontos ${menorDif[1] > 0 ? 'acima' : 'abaixo'} do Brasil`;
+        });
+    })
+    .catch(e => {
+      console.error('Erro ao carregar KPIs com filtro:', e);
+    });
 }
-
-//  const grafico1 = document.getElementById('grafico1');
-
-  // new Chart(grafico1, {
-  //   type: 'bar',
-  //   data: {
-  //     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  //     datasets: [{
-  //       label: 'Histograma de notas dos alunos',
-  //       data: [12, 19, 3, 5, 2, 3],
-  //       borderWidth: 1
-  //     }]
-  //   },
-  //   options: {
-  //     maintainAspectRatio: false,
-  //     scales: {
-  //       y: {
-  //         beginAtZero: true
-  //       }
-  //     }
-  //   }
-  // });
 
 let graficoHistograma;
 
@@ -318,7 +345,6 @@ function carregarHistograma(idEscola) {
   fetch('/dashboard/histograma/' + idEscola)
     .then(resposta => resposta.json())
     .then(dados => {
-
       const grafico1 = document.getElementById("grafico1").getContext("2d");
 
       if (graficoHistograma) {
@@ -344,35 +370,11 @@ function carregarHistograma(idEscola) {
           }
         }
       });
-
     })
     .catch(erro => {
       console.error("Erro ao carregar histograma:", erro);
     });
 }
-
-
-  // const grafico2 = document.getElementById('grafico2');
-
-  // new Chart(grafico2, {
-  //   type: 'pie',
-  //   data: {
-  //     labels: ['Matemática', 'Linguagens', 'Ciencias Humanas', 'Ciencias da Natureza', 'Redação'],
-  //     datasets: [{
-  //       label: 'Distribuição de % por área de conhecimento',
-  //       data: [12, 19, 3, 5, 2],
-  //       borderWidth: 0.5,
-  //     }]
-  //   },
-  //   options: {
-  //     maintainAspectRatio: false,
-  //     scales: {
-  //       y: {
-  //         beginAtZero: true
-  //       }
-  //     }
-  //   }
-  // });
 
 let graficoMedianas; 
 
@@ -380,10 +382,8 @@ function carregarMedianas(idEscola) {
   fetch('/dashboard/medianas/' + idEscola)
     .then(resposta => resposta.json())
     .then(dados => {
-
       const grafico2 = document.getElementById("grafico2").getContext("2d");
 
-      // destruir gráfico anterior caso exista
       if (graficoMedianas) {
         graficoMedianas.destroy();
       }
@@ -396,11 +396,11 @@ function carregarMedianas(idEscola) {
             label: 'Distribuição de % por área de conhecimento',
             data: dados.values,  
             backgroundColor: [
-              "#007bff", // Matemática
-              "#ffc107", // Linguagens
-              "#dc3545", // Humanas
-              "#28a745", // Natureza
-              "#6f42c1"  // Redação
+              "#007bff",
+              "#ffc107",
+              "#dc3545",
+              "#28a745",
+              "#6f42c1"
             ],
             borderColor: "#ffffff",
             borderWidth: 1
@@ -410,17 +410,13 @@ function carregarMedianas(idEscola) {
           maintainAspectRatio: false
         }
       });
-
     })
     .catch(erro => {
       console.error("Erro ao carregar medianas:", erro);
     });
 }
 
-// chamar carregamento dos gráficos ao abrir a página
-// carregar com base no filtro ativo (ou fallback)
 carregarDashboardComFiltro();
-
 
 function modalFiltro() {
   modal_container_adicionar.innerHTML = `
@@ -430,10 +426,10 @@ function modalFiltro() {
         <button class="close-btn" onclick="fecharModal()">✖</button>
         <div class="form_filtro">
           <div class="novoFiltro">
-                 <button class="btn add-btn" onclick="modalAddFiltro()">
-                  <img src="./assets/icons/add_prof.svg" alt=""> Novo Filtro
-                </button>
-           </div>
+            <button class="btn add-btn" onclick="modalAddFiltro()">
+              <img src="./assets/icons/add_prof.svg" alt=""> Novo Filtro
+            </button>
+          </div>
           <div id="lista-filtros"></div>
         </div>
       </div>
@@ -442,8 +438,9 @@ function modalFiltro() {
 
   listarFiltros();
 }
-  function modalAddFiltro() {
-    modal_container_adicionar_filtro.innerHTML = `
+
+function modalAddFiltro() {
+  modal_container_adicionar_filtro.innerHTML = `
     <div class="modal-container show modal-add-filtro">
       <div class="modal-overlay" onclick="fecharModalAdd()"></div>
       <div class="modal modal-add">
@@ -484,18 +481,18 @@ function modalFiltro() {
   listarMaterias();
   listarTiposEscola();
   listarEstados();
-  }
+}
 
-  function fecharModal() {
-    modal_container_adicionar.innerHTML = ``;
-  }
-  function fecharModalAdd() {
-    modal_container_adicionar_filtro.innerHTML = ``;
-  }
+function fecharModal() {
+  modal_container_adicionar.innerHTML = '';
+}
 
+function fecharModalAdd() {
+  modal_container_adicionar_filtro.innerHTML = '';
+}
 
-  function listarMaterias() {
-  return  fetch("/filtros/materias", {
+function listarMaterias() {
+  return fetch("/filtros/materias", {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
@@ -517,7 +514,7 @@ function modalFiltro() {
 }
 
 function listarEstados() {
-  return  fetch("/filtros/estados", {
+  return fetch("/filtros/estados", {
     method: "GET",
     headers: { "Content-Type": "application/json" }
   })
@@ -559,38 +556,41 @@ function listarTiposEscola() {
     console.error("Erro ao listar tipos de escola:", erro);
   });
 }
-async function listarFiltros() {
+
+function listarFiltros() {
   const idUsuario = sessionStorage.ID_USUARIO;
   const container = document.getElementById("lista-filtros");
   container.innerHTML = ""; 
-    const resposta = await fetch('/filtros/listar/' + idUsuario, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    });
-    const dados = await resposta.json();
+  
+  fetch('/filtros/listar/' + idUsuario, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(resposta => resposta.json())
+  .then(dados => {
     console.log("Filtros recebidos:", dados);
     if (dados.length > 0) {
       dados.forEach(filtro => {
         const htmlFiltro = `
-      <div class="filtro-card">
-        <div class="filtro-header">
-          <h2>${filtro.nome}</h2>
-          <span class="status ${filtro.emUso === 'sim' ? 'ativo' : 'inativo'}">
-            ${filtro.emUso === 'sim' ? 'Em uso' : 'Inativo'}
-          </span>
-        </div>
-        <div class="filtro-body">
-          <p><strong>Matéria:</strong> ${filtro.materia}</p>
-          <p><strong>Tipo Escola:</strong> ${filtro.tipoEscola}</p>
-          <p><strong>Estado:</strong> ${filtro.estado}</p>
-        </div>
-        <div class="filtro-actions">
-          <button class="btn usar" onclick="alterarStatus(${filtro.id})">Usar</button>
-          <button class="btn editar" onclick="modalEditarFiltro(${filtro.id},'${filtro.nome}',${filtro.idMateria},${filtro.idTipoEscola},${filtro.idEstado})">Editar</button>
-          <button class="btn excluir" onclick="excluirFiltro(${filtro.id})">Excluir</button>
-        </div>
-      </div>
-    `
+          <div class="filtro-card">
+            <div class="filtro-header">
+              <h2>${filtro.nome}</h2>
+              <span class="status ${filtro.emUso === 'sim' ? 'ativo' : 'inativo'}">
+                ${filtro.emUso === 'sim' ? 'Em uso' : 'Inativo'}
+              </span>
+            </div>
+            <div class="filtro-body">
+              <p><strong>Matéria:</strong> ${filtro.materia}</p>
+              <p><strong>Tipo Escola:</strong> ${filtro.tipoEscola}</p>
+              <p><strong>Estado:</strong> ${filtro.estado}</p>
+            </div>
+            <div class="filtro-actions">
+              <button class="btn usar" onclick="alterarStatus(${filtro.id})">Usar</button>
+              <button class="btn editar" onclick="modalEditarFiltro(${filtro.id},'${filtro.nome}',${filtro.idMateria},${filtro.idTipoEscola},${filtro.idEstado})">Editar</button>
+              <button class="btn excluir" onclick="excluirFiltro(${filtro.id})">Excluir</button>
+            </div>
+          </div>
+        `;
         container.insertAdjacentHTML("beforeend", htmlFiltro);
       });
     } else {
@@ -602,83 +602,90 @@ async function listarFiltros() {
       `;
       container.insertAdjacentHTML("beforeend", htmlVazio);
     }
+  })
+  .catch(erro => {
+    console.error("Erro ao listar filtros:", erro);
+  });
 }
-function excluirFiltro(id)
-{
-    fetch("/filtros/deletarFiltro", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify
-      ({ 
-        idFiltro: id,
-        idUsuario : sessionStorage.ID_USUARIO
-       })
-    });
-    alert("meta deletada com sucesso!");
+
+function excluirFiltro(id) {
+  fetch("/filtros/deletarFiltro", {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ 
+      idFiltro: id,
+      idUsuario: sessionStorage.ID_USUARIO
+    })
+  })
+  .then(() => {
+    alert("Filtro deletado com sucesso!");
     window.location.reload();
+  })
+  .catch(erro => {
+    console.error("Erro ao deletar filtro:", erro);
+  });
 }
 
 function alterarStatus(idFiltro) {
-    const idUsuario = sessionStorage.ID_USUARIO;  
-    fetch('/filtros/atualizarStatus/' + idFiltro, {
+  const idUsuario = sessionStorage.ID_USUARIO;  
+  fetch('/filtros/atualizarStatus/' + idFiltro, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      idUsuario : sessionStorage.ID_USUARIO
+      idUsuario: sessionStorage.ID_USUARIO
     }),
   })
-    .then(function (resposta) {
-      if (resposta.status === 200) {
-          console.log(resposta);
-          location.reload();
-        }
-    })
-    .catch(function (erro) {
-      console.error(`#ERRO: ${erro}`);
-    });
-  }
+  .then(function (resposta) {
+    if (resposta.status === 200) {
+      console.log(resposta);
+      location.reload();
+    }
+  })
+  .catch(function (erro) {
+    console.error(`#ERRO: ${erro}`);
+  });
+}
 
-  function criarFiltro()
-  {
-    const nomeFiltro = input_nomeFiltro.value;
-    const materia_id = select_materia.value;
-    const tipoEscola_id = select_tipoEscola.value;
-    const UF_id = select_estado.value;
-    const idUsuario = sessionStorage.ID_USUARIO;
+function criarFiltro() {
+  const nomeFiltro = input_nomeFiltro.value;
+  const materia_id = select_materia.value;
+  const tipoEscola_id = select_tipoEscola.value;
+  const UF_id = select_estado.value;
+  const idUsuario = sessionStorage.ID_USUARIO;
 
-    fetch("/filtros/inserirFiltro", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            nomeFiltro: nomeFiltro,
-            materia_id: materia_id,
-            tipoEscola_id: tipoEscola_id,
-            UF_id: UF_id,
-            usuario_id: idUsuario,
-            emUso: "nao"
-        }),
-    })
-    .then(function (resposta) {
-        console.log("resposta: ", resposta.status);
-        if (resposta.status === 200) {
-            console.log(resposta);
-            location.reload();
-        } else if (resposta.status === 400) {
-            document.getElementById("overlayInterno").classList.add("show");
-            document.getElementById("modalErro").classList.add("show");
-        }
-    })
-    .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta.status}`);
-    });
-  }
+  fetch("/filtros/inserirFiltro", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      nomeFiltro: nomeFiltro,
+      materia_id: materia_id,
+      tipoEscola_id: tipoEscola_id,
+      UF_id: UF_id,
+      usuario_id: idUsuario,
+      emUso: "nao"
+    }),
+  })
+  .then(function (resposta) {
+    console.log("resposta: ", resposta.status);
+    if (resposta.status === 200) {
+      console.log(resposta);
+      location.reload();
+    } else if (resposta.status === 400) {
+      document.getElementById("overlayInterno").classList.add("show");
+      document.getElementById("modalErro").classList.add("show");
+    }
+  })
+  .catch(function (resposta) {
+    console.log(`#ERRO: ${resposta}`);
+  });
+}
 
 function modalEditarFiltro(id, nomeFiltro, materia_id, tipoEscola_id, UF_id) {
-  console.log(id, nomeFiltro, materia_id, tipoEscola_id, UF_id)
+  console.log(id, nomeFiltro, materia_id, tipoEscola_id, UF_id);
   modal_container_adicionar_filtro.innerHTML = `
     <div class="modal-container show modal-add-filtro">
       <div class="modal-overlay" onclick="fecharModalAdd()"></div>
@@ -717,18 +724,17 @@ function modalEditarFiltro(id, nomeFiltro, materia_id, tipoEscola_id, UF_id) {
     </div>
   `;
 
- listarMaterias().then(() => {
-  document.getElementById("select_materia").value = materia_id;
-});
+  listarMaterias().then(() => {
+    document.getElementById("select_materia").value = materia_id;
+  });
 
-listarTiposEscola().then(() => {
-  document.getElementById("select_tipoEscola").value = tipoEscola_id;
-});
+  listarTiposEscola().then(() => {
+    document.getElementById("select_tipoEscola").value = tipoEscola_id;
+  });
 
-listarEstados().then(() => {
-  document.getElementById("select_estado").value = UF_id;
-});
-
+  listarEstados().then(() => {
+    document.getElementById("select_estado").value = UF_id;
+  });
 }
 
 function editarFiltro(id) {
@@ -743,7 +749,7 @@ function editarFiltro(id) {
     return;
   }
 
-  fetch('/filtros/atualizarFiltro/'+ id , {
+  fetch('/filtros/atualizarFiltro/' + id, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -754,14 +760,14 @@ function editarFiltro(id) {
       idUsuario
     }),
   })
-    .then(resposta => {
-      if (resposta.status === 200) {
-        console.log("Filtro atualizado com sucesso!");
-        location.reload();
-      } else {
-        alert("Erro ao atualizar filtro.");
-      }
-    })
-    .catch(erro => console.error(`#ERRO: ${erro}`));
+  .then(resposta => {
+    if (resposta.status === 200) {
+      console.log("Filtro atualizado com sucesso!");
+      location.reload();
+    } else {
+      alert("Erro ao atualizar filtro.");
+    }
+  })
+  .catch(erro => console.error(`#ERRO: ${erro}`));
 }
 </script>
