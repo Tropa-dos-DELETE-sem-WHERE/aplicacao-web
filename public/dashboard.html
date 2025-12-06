@@ -23,7 +23,7 @@
   <aside>
     <div class="logo"><img src="./assets/icons/escola.svg"></div>
 
-    <h2>Bem-vindo, fulano!</h2>
+    <h2>Bem-vindo!</h2>
     <nav>
       <ul>
         <li><a href="overview.html" title="Overview"><img src="./assets/icons/inicio.svg" alt=""> Início</a></li>
@@ -38,36 +38,36 @@
   </aside>
 
   <main>
-    <h1>Dashboard</h1>
+    <h2 style="font-size: 25px;">Dashboard - Visão geral</h2>
 
     <div id="filtros-container">
 
       <div class="filtro">
-        <button onclick="modalFiltro()"><label for=""><i class="bi bi-funnel-fill"></i>Filtros</label></button>
+        <button onclick="modalFiltro()"><label for=""><i class=" bi-funnel-fill"></i>Filtros</label></button>
       </div>
 
     </div>
 
     <div id="kpis-container">
       <div class="kpi" id="kpi-maior-mediana">
-      <h1>Maior mediana de notas</h1>
+      <h4>Maior mediana de notas</h4>
       <h2 id="kpi-maior-nome"></h2>
-      <h3 id="kpi-maior-valor"></h3>
+      <h1 id="kpi-maior-valor" style="color: green;"></h1>
     </div>
       <div class="kpi" id="kpi-menor-mediana">
-        <h1>Menor mediana de notas</h1>
+        <h4>Menor mediana de notas</h4>
         <h2 id="kpi-menor-nome"></h2>
-        <h3 id="kpi-menor-valor"></h3>
+        <h1 id="kpi-menor-valor" style="color: red;"></h1>
       </div>
       <div class="kpi" id="kpi-maior-dif">
-        <h1>Maior diferença entre escola e Brasil</h1>
+        <h4>Maior diferença entre escola e Brasil</h4>
         <h2 id="kpi-maior-dif-nome"></h2>
-        <h3 id="kpi-maior-dif-valor"></h3>
+        <h1 id="kpi-maior-dif-valor"></h1>
       </div>
       <div class="kpi" id="kpi-menor-dif">
-        <h1>Menor diferença entre escola e Brasil</h1>
+        <h4>Menor diferença entre escola e Brasil</h4>
         <h2 id="kpi-menor-dif-nome"></h2>
-        <h3 id="kpi-menor-dif-valor"></h3>
+        <h1 id="kpi-menor-dif-valor"></h1>
       </div>
     </div>
  
@@ -112,10 +112,10 @@ function carregarKPIs(idEscola) {
       const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
 
       document.getElementById("kpi-maior-nome").innerText = maior[0];
-      document.getElementById("kpi-maior-valor").innerText = `${maior[1]} pontos`;
+      document.getElementById("kpi-maior-valor").innerText = `${maior[1].toFixed(2)} pontos`;
 
       document.getElementById("kpi-menor-nome").innerText = menor[0];
-      document.getElementById("kpi-menor-valor").innerText = `${menor[1]} pontos`;
+      document.getElementById("kpi-menor-valor").innerText = `${menor[1].toFixed(2)} pontos`;
 
       return fetch('/dashboard/medianas-brasil');
     })
@@ -396,14 +396,13 @@ function carregarMedianas(idEscola) {
             label: 'Distribuição de % por área de conhecimento',
             data: dados.values,  
             backgroundColor: [
-              "#007bff",
+              " #78a8d1",
               "#ffc107",
               "#dc3545",
-              "#28a745",
+              "#91c7a9",
               "#6f42c1"
             ],
-            borderColor: "#ffffff",
-            borderWidth: 1
+            borderWidth: 0
           }]
         },
         options: {
@@ -770,4 +769,5 @@ function editarFiltro(id) {
   })
   .catch(erro => console.error(`#ERRO: ${erro}`));
 }
+
 </script>
