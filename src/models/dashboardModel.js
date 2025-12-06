@@ -54,15 +54,16 @@ function medianasEscola(idEscola) {
         FROM registro
         WHERE escola_id = ${idEscola}
           AND ano = (SELECT MAX(ano) FROM registro WHERE escola_id = ${idEscola})
-        ORDER BY nota_cn;
+          AND (nota_cn IS NOT NULL OR nota_ch IS NOT NULL OR nota_lp IS NOT NULL 
+               OR nota_mt IS NOT NULL OR nota_red IS NOT NULL);
     `;
 
     return database.executar(instrucaoSql).then(resultado => {
-        const notas_cn = resultado.map(r => parseFloat(r.nota_cn)).filter(n => n !== null);
-        const notas_ch = resultado.map(r => parseFloat(r.nota_ch)).filter(n => n !== null);
-        const notas_lp = resultado.map(r => parseFloat(r.nota_lp)).filter(n => n !== null);
-        const notas_mt = resultado.map(r => parseFloat(r.nota_mt)).filter(n => n !== null);
-        const notas_red = resultado.map(r => parseFloat(r.nota_red)).filter(n => n !== null);
+        const notas_cn = resultado.map(r => parseFloat(r.nota_cn)).filter(n => !isNaN(n));
+        const notas_ch = resultado.map(r => parseFloat(r.nota_ch)).filter(n => !isNaN(n));
+        const notas_lp = resultado.map(r => parseFloat(r.nota_lp)).filter(n => !isNaN(n));
+        const notas_mt = resultado.map(r => parseFloat(r.nota_mt)).filter(n => !isNaN(n));
+        const notas_red = resultado.map(r => parseFloat(r.nota_red)).filter(n => !isNaN(n));
 
         return [{
             mediana_cn: calcularMediana(notas_cn),
@@ -104,13 +105,13 @@ function kpis(idEscola) {
         database.executar(instrucaoSqlEscola),
         database.executar(instrucaoSqlBrasil)
     ]).then(([resultadoEscola, resultadoBrasil]) => {
-        const notas_cn = resultadoEscola.map(r => parseFloat(r.nota_cn)).filter(n => n !== null);
-        const notas_ch = resultadoEscola.map(r => parseFloat(r.nota_ch)).filter(n => n !== null);
-        const notas_lp = resultadoEscola.map(r => parseFloat(r.nota_lp)).filter(n => n !== null);
-        const notas_mt = resultadoEscola.map(r => parseFloat(r.nota_mt)).filter(n => n !== null);
-        const notas_red = resultadoEscola.map(r => parseFloat(r.nota_red)).filter(n => n !== null);
+        const notas_cn = resultadoEscola.map(r => parseFloat(r.nota_cn)).filter(n => !isNaN(n));
+        const notas_ch = resultadoEscola.map(r => parseFloat(r.nota_ch)).filter(n => !isNaN(n));
+        const notas_lp = resultadoEscola.map(r => parseFloat(r.nota_lp)).filter(n => !isNaN(n));
+        const notas_mt = resultadoEscola.map(r => parseFloat(r.nota_mt)).filter(n => !isNaN(n));
+        const notas_red = resultadoEscola.map(r => parseFloat(r.nota_red)).filter(n => !isNaN(n));
 
-        const brasil = resultadoBrasil[0];
+        const brasil = resultadoBrasil[0] || {};
 
         return [{
             cn: calcularMediana(notas_cn),
@@ -118,11 +119,11 @@ function kpis(idEscola) {
             lp: calcularMediana(notas_lp),
             mt: calcularMediana(notas_mt),
             red: calcularMediana(notas_red),
-            br_cn: parseFloat(brasil.mediana_cn),
-            br_ch: parseFloat(brasil.mediana_ch),
-            br_lp: parseFloat(brasil.mediana_lp),
-            br_mt: parseFloat(brasil.mediana_mt),
-            br_red: parseFloat(brasil.mediana_red)
+            br_cn: brasil.mediana_cn ? parseFloat(brasil.mediana_cn) : null,
+            br_ch: brasil.mediana_ch ? parseFloat(brasil.mediana_ch) : null,
+            br_lp: brasil.mediana_lp ? parseFloat(brasil.mediana_lp) : null,
+            br_mt: brasil.mediana_mt ? parseFloat(brasil.mediana_mt) : null,
+            br_red: brasil.mediana_red ? parseFloat(brasil.mediana_red) : null
         }];
     });
 }
@@ -239,6 +240,7 @@ function histogramaComparativo(filtro, idEscolaUsuario) {
     const cond = montarCondicoesFiltro(filtro);
     const { caseExpr, orderExpr, bins } = construirCaseFaixa(coluna);
 
+    // Query para buscar o ano mais recente do filtro
     const anoWhere = cond.whereClause ? ajustarAliasesWhere(cond.whereClause, 'r', 'r2') : '';
     const anoQuery = cond.joinEscola ?
         `SELECT MAX(r2.ano) FROM registro r2 JOIN escola e2 ON r2.escola_id = e2.codigoEscola ${anoWhere}` :
@@ -247,7 +249,7 @@ function histogramaComparativo(filtro, idEscolaUsuario) {
     const sqlFiltro = `
         SELECT faixa_nota AS bins, quantidade AS \`values\`
         FROM (
-            SELECT ${caseExpr}, COUNT(*) AS quantidade
+            SELECT ${caseExpr.replace(/\n/g, ' ')}, COUNT(*) AS quantidade
             FROM registro r
             ${cond.joinEscola ? 'JOIN escola e ON r.escola_id = e.codigoEscola' : ''}
             ${cond.whereClause ? cond.whereClause + ' AND' : 'WHERE'}
@@ -255,20 +257,20 @@ function histogramaComparativo(filtro, idEscolaUsuario) {
               AND r.${coluna} IS NOT NULL
             GROUP BY faixa_nota
         ) AS t
-        ORDER BY ${orderExpr};
+        ORDER BY ${orderExpr.replace(/\n/g, ' ')};
     `;
 
     const sqlEscola = `
         SELECT faixa_nota AS bins, quantidade AS \`values\`
         FROM (
-            SELECT ${caseExpr}, COUNT(*) AS quantidade
+            SELECT ${caseExpr.replace(/\n/g, ' ')}, COUNT(*) AS quantidade
             FROM registro r
             WHERE r.escola_id = ${idEscolaUsuario}
               AND r.ano = (SELECT MAX(ano) FROM registro WHERE escola_id = ${idEscolaUsuario})
               AND r.${coluna} IS NOT NULL
             GROUP BY faixa_nota
         ) AS t
-        ORDER BY ${orderExpr};
+        ORDER BY ${orderExpr.replace(/\n/g, ' ')};
     `;
 
     return Promise.all([
@@ -302,7 +304,7 @@ function histogramaComFiltro(filtro) {
     const instrucaoSql = `
         SELECT faixa_nota AS bins, quantidade AS \`values\`
         FROM (
-            SELECT ${caseExpr}, COUNT(*) AS quantidade
+            SELECT ${caseExpr.replace(/\n/g, ' ')}, COUNT(*) AS quantidade
             FROM registro r
             ${cond.joinEscola ? 'JOIN escola e ON r.escola_id = e.codigoEscola' : ''}
             ${cond.whereClause ? cond.whereClause + ' AND' : 'WHERE'}
@@ -310,7 +312,7 @@ function histogramaComFiltro(filtro) {
               AND r.${coluna} IS NOT NULL
             GROUP BY faixa_nota
         ) AS t
-        ORDER BY ${orderExpr};
+        ORDER BY ${orderExpr.replace(/\n/g, ' ')};
     `;
 
     return database.executar(instrucaoSql);
@@ -320,12 +322,16 @@ function medianasComFiltro(filtro) {
     const cond = montarCondicoesFiltro(filtro);
     const subWhere = cond.whereClause ? ajustarAliasesWhere(cond.whereClause, 'r', 'r2') : '';
 
+    const anoQuery = cond.joinEscola ?
+        `SELECT MAX(r2.ano) FROM registro r2 JOIN escola e2 ON r2.escola_id = e2.codigoEscola ${subWhere}` :
+        `SELECT MAX(r2.ano) FROM registro r2 ${subWhere}`;
+
     const instr = `
         SELECT nota_cn, nota_ch, nota_lp, nota_mt, nota_red
         FROM registro r
         ${cond.joinEscola ? 'JOIN escola e ON r.escola_id = e.codigoEscola' : ''}
         ${cond.whereClause ? cond.whereClause + ' AND' : 'WHERE'}
-          r.ano = (SELECT MAX(r2.ano) FROM registro r2 ${cond.joinEscola ? 'JOIN escola e2 ON r2.escola_id = e2.codigoEscola' : ''} ${subWhere})
+          r.ano = (${anoQuery})
     `;
 
     return database.executar(instr).then(resultado => {
@@ -349,12 +355,16 @@ function kpisComFiltro(filtro) {
     const cond = montarCondicoesFiltro(filtro);
     const subWhere = cond.whereClause ? ajustarAliasesWhere(cond.whereClause, 'r', 'r2') : '';
 
+    const anoQuery = cond.joinEscola ?
+        `SELECT MAX(r2.ano) FROM registro r2 JOIN escola e2 ON r2.escola_id = e2.codigoEscola ${subWhere}` :
+        `SELECT MAX(r2.ano) FROM registro r2 ${subWhere}`;
+
     const instrucaoSqlEscola = `
         SELECT nota_cn, nota_ch, nota_lp, nota_mt, nota_red
         FROM registro r
         ${cond.joinEscola ? 'JOIN escola e ON r.escola_id = e.codigoEscola' : ''}
         ${cond.whereClause ? cond.whereClause + ' AND' : 'WHERE'}
-          r.ano = (SELECT MAX(r2.ano) FROM registro r2 ${cond.joinEscola ? 'JOIN escola e2 ON r2.escola_id = e2.codigoEscola' : ''} ${subWhere});
+          r.ano = (${anoQuery});
     `;
 
     const instrucaoSqlBrasil = `
