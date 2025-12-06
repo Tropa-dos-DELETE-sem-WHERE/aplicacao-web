@@ -206,7 +206,7 @@ function medianasBrasil() {
 
 async function histogramaComparativo(filtro, idEscolaUsuario) {
     // coluna da matéria (padrão: nota_cn)
-    const coluna = filtro.materia_id ? colunaPorMateria(filtro.materia_id) : 'nota_cn';
+    const coluna = filtro.estatistica_macro_id ? colunaPorestatistica_macro(filtro.estatistica_macro_id) : 'nota_cn';
 
     const cond = montarCondicoesFiltro(filtro);
 
@@ -333,21 +333,9 @@ async function histogramaComparativo(filtro, idEscolaUsuario) {
     };
 }
 
-module.exports = {
-    histograma,
-    medianasEscola,
-    kpis,
-    medianasBrasil,
-    medianas,
-    histogramaComFiltro,
-    medianasComFiltro,
-    kpisComFiltro,
-    histogramaComparativo
-}
-
-// Helper: map materia_id to registro column
-function colunaPorMateria(materia_id) {
-    switch (Number(materia_id)) {
+// Helper: map estatistica_macro_id to registro column
+function colunaPorEstatistica(estatistica_macro_id) {
+    switch (Number(estatistica_macro_id)) {
         case 1: return 'nota_cn';
         case 2: return 'nota_ch';
         case 3: return 'nota_lp';
@@ -386,7 +374,7 @@ function ajustarAliasesWhere(whereClause, fromAlias, toAlias) {
 
 async function histogramaComFiltro(filtro) {
     // subject column
-    const coluna = filtro.materia_id ? colunaPorMateria(filtro.materia_id) : 'nota_cn';
+    const coluna = filtro.estatistica_macro_id ? colunaPorestatistica_macro(filtro.estatistica_macro_id) : 'nota_cn';
 
     const cond = montarCondicoesFiltro(filtro);
 
@@ -568,4 +556,19 @@ async function kpisComFiltro(filtro) {
         br_mt: brasil.mediana_mt ? parseFloat(brasil.mediana_mt) : null,
         br_red: brasil.mediana_red ? parseFloat(brasil.mediana_red) : null
     }];
+}
+
+module.exports = {
+    histograma,
+    medianasEscola,
+    kpis,
+    medianasBrasil,
+    medianas,
+    histogramaComFiltro,
+    medianasComFiltro,
+    kpisComFiltro,
+    histogramaComparativo,
+    colunaPorEstatistica,
+    montarCondicoesFiltro,
+    ajustarAliasesWhere
 }
