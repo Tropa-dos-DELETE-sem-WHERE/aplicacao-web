@@ -76,6 +76,7 @@ function medianasEscola(idEscola) {
 }
 
 function kpis(idEscola) {
+    console.log("ID DA ESCOLA - " + idEscola)
     var instrucaoSqlEscola = `
         SELECT 
             nota_cn,

@@ -1,12 +1,13 @@
 const filtroModel = require("../models/filtroModel");
 
 function atualizar(req, res) {
-    const id = req.params.id;
+    const id = req.params.idFiltro;     // ID do filtro vindo da rota
     const nomeFiltro = req.body.nomeFiltro;
     const materia_id = req.body.materia_id;
     const tipoEscola_id = req.body.tipoEscola_id;
     const UF_id = req.body.UF_id;
-    const idUsuario = req.body.idUsuario;
+    const idUsuario = req.body.idUsuario;  // Aqui está vindo o idFiltro conforme você escolheu
+
 
     console.log("Controller atualizar filtro recebendo:");
     console.log("id:", id);
@@ -30,25 +31,20 @@ function atualizar(req, res) {
 }
 
 function atualizarStatus(req, res) {
-    const id = req.params.id;
-    const idUsuario = req.body.idUsuario;
+    const idFiltro = req.params.id; // pega o ID do filtro enviado na rota
 
-    console.log("Estou no controller passando os seguintes dados");
-    console.log(id);
-    console.log(idUsuario);
+    console.log("Controller atualizarStatus() recebeu ID do filtro:", idFiltro);
 
-    filtroModel.atualizarStatus(id,idUsuario)
-        .then(
-            function (resultado) {
-                res.json(resultado);
-            }
-        )
-        .catch(
-            function (erro) {
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
+    filtroModel.atualizarStatus(idFiltro)
+        .then(function (resultado) {
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            console.error("Erro ao atualizar status:", erro);
+            res.status(500).json(erro.sqlMessage || erro);
+        });
 }
+
 function inserir(req, res) {
     const nomeFiltro = req.body.nomeFiltro;
     const materia_id = req.body.materia_id;
@@ -109,14 +105,8 @@ function listarFiltrosByUsuario(req, res) {
 
 function deletarFiltro(req, res) {
     const id = req.body.idFiltro;
-    const idUsuario = req.body.idUsuario;
     console.log(id);
-    if (idUsuario == undefined) {
-        res.status(400).send("O id da  está undefined!");
-    }else if (idUsuario == undefined) {
-        res.status(400).send("O idUsuario da  está undefined!");
-    }else{
-        filtroModel.deletarFiltro(id,idUsuario)
+        filtroModel.deletarFiltro(id)
         .then(function() {
             res.status(200).json({ mensagem: " deletada com sucesso!" });
         })
@@ -124,7 +114,6 @@ function deletarFiltro(req, res) {
             console.log("\nHouve um erro ao deletar a ! Erro: ", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
-    }
 }
 
 function listarMaterias(req, res) {
