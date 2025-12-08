@@ -16,3 +16,73 @@
   --atencao-amarelo: #facc15;
   --info-azul: #3b82f6;
 }
+
+main{
+    display: flex;
+    flex-direction: column;
+    background-color: #ffeed2;
+    padding: 30px;
+    gap: 20px;
+}
+
+.titulo{
+    font-size: 2.5rem;
+}
+
+#aviso{
+    color: var(--cinza-escuro);
+    background-color: #3b83f68a;
+    border: 2px solid var(--info-azul);
+    border-radius: 5px;
+    padding: 10px;
+    width: fit-content;
+    font-size: 1.2rem;
+
+    span{
+        font-weight: bold;
+    }
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    color: var(--branco);
+    background-color: #1f2937d1;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    gap: 10px;
+
+    ol{
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        li{
+            font-size: 1.2rem;
+
+            span{
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.button{
+    button{
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--branco);
+        padding: 10px 15px;
+        background-color: var(--sucesso-verde);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: .3s;
+    }
+
+    button:hover{
+        transform: scale(1.01);
+    }
+}
