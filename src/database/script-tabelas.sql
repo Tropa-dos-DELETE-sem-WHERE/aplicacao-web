@@ -1,16 +1,17 @@
 drop database educadata;
 CREATE DATABASE IF NOT EXISTS educadata;
 USE educadata;
+SELECT * FROM slack WHERE usuario_id = 1;
 
 CREATE TABLE IF NOT EXISTS tipoEscola (
   id INT AUTO_INCREMENT PRIMARY KEY,
   tipo ENUM('Estadual','Municipal','Federal', 'Privada') NOT NULL
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE IF NOT EXISTS UF (
   id INT AUTO_INCREMENT PRIMARY KEY,
   uf CHAR(2) NOT NULL
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE IF NOT EXISTS escola (
   codigoEscola INT PRIMARY KEY,
@@ -19,7 +20,7 @@ CREATE TABLE IF NOT EXISTS escola (
   UF_id INT NOT NULL,
   FOREIGN KEY (tipoEscola_id) REFERENCES tipoEscola(id),
   FOREIGN KEY (UF_id) REFERENCES UF(id)
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE IF NOT EXISTS materia (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,7 +30,7 @@ CREATE TABLE IF NOT EXISTS materia (
 CREATE TABLE IF NOT EXISTS tipoUsuario (
   id INT AUTO_INCREMENT PRIMARY KEY,
   tipo VARCHAR(45) NOT NULL
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE IF NOT EXISTS usuario (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -40,8 +41,14 @@ CREATE TABLE IF NOT EXISTS usuario (
   tipoUsuario_id INT NOT NULL,
   FOREIGN KEY (escola_id) REFERENCES escola(codigoEscola),
   FOREIGN KEY (tipoUsuario_id) REFERENCES tipoUsuario(id)
-) ENGINE = InnoDB;
+);
 
+  CREATE TABLE IF NOT EXISTS logAcesso (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    dataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+  );
 
 CREATE TABLE IF NOT EXISTS meta (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +58,7 @@ CREATE TABLE IF NOT EXISTS meta (
   usuario_id INT NOT NULL,
   statusMeta ENUM("abertas", "concluidas","expiradas"),
   FOREIGN KEY (usuario_id) REFERENCES usuario(id)
-) ENGINE = InnoDB;
+);
 
 
 CREATE TABLE IF NOT EXISTS filtro (
@@ -66,21 +73,25 @@ CREATE TABLE IF NOT EXISTS filtro (
   FOREIGN KEY (tipoEscola_id) REFERENCES tipoEscola(id),
   FOREIGN KEY (materia_id) REFERENCES materia(id),
   FOREIGN KEY (UF_id) REFERENCES UF(id)
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE IF NOT EXISTS slack (
   idslack INT AUTO_INCREMENT PRIMARY KEY,
-  ligar_desligar ENUM('ligar', 'desligar') NOT NULL,
-  canal VARCHAR(45) NOT NULL,
-  mensagem VARCHAR(255) NOT NULL,
+  ligar_desligar ENUM('ligar', 'desligar') DEFAULT 'desligar',
+  solicitou ENUM('nao','pendente','criado') DEFAULT 'nao',
+  intervalo_notificacao ENUM('sempre','1dia','7dias','31dias','365dias') DEFAULT 'sempre',
+  nomeCanal VARCHAR(45) NOT NULL,
+  ultima_notificacao DATETIME DEFAULT NULL,
+  usuario_id INT NOT NULL,
   escola_id INT NOT NULL,
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id),
   FOREIGN KEY (escola_id) REFERENCES escola(codigoEscola)
-) ENGINE = InnoDB;
+);
 
 CREATE TABLE IF NOT EXISTS tipoLog (
   idtipoLog INT AUTO_INCREMENT PRIMARY KEY,
   tipo ENUM('erro', 'sucesso','aviso') NOT NULL
-) ENGINE = InnoDB;
+);
 select * from tipoLog;
 CREATE TABLE IF NOT EXISTS logs (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -88,7 +99,7 @@ CREATE TABLE IF NOT EXISTS logs (
   dataLog DATETIME NOT NULL,
   tipoLog_id INT NOT NULL,
   FOREIGN KEY (tipoLog_id) REFERENCES tipoLog(idtipoLog)
-) ENGINE = InnoDB;
+);
 
 INSERT INTO tipoEscola (tipo) VALUES ('Estadual');
 INSERT INTO tipoEscola (tipo) VALUES ('Municipal');
@@ -133,7 +144,7 @@ INSERT INTO materia (nome) VALUES
 INSERT INTO tipoUsuario (tipo) VALUES 
 ('gestor'),
 ('professor'),
-('aluno');
+('adm');
 
 INSERT INTO escola (nomeEscola,codigoEscola, tipoEscola_id, UF_id)
 VALUES (
@@ -147,8 +158,15 @@ INSERT INTO tipoLog (tipo) VALUES ('erro');
 INSERT INTO tipoLog (tipo) VALUES ('sucesso');
 INSERT INTO tipoLog (tipo) VALUES ('aviso');
 
+INSERT INTO materia (nome) VALUES
+('Ciências da Natureza'),
+('Ciências Humanas'),
+('Linguagens e Códigos'),
+('Matemática'),
+('Redação');
 
-CREATE TABLE IF NOT EXISTS registro  (
+
+CREATE TABLE IF NOT EXISTS registro(
     idregistro int primary key auto_increment,
     ano int,
     nota_cn decimal(6,2),

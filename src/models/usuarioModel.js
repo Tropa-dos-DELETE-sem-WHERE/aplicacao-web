@@ -42,7 +42,14 @@ async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario
     VALUES ('Filtro Padrão', ${1}, ${tipoEscolaId}, ${ufId}, ${usuarioId}, 'sim');
   `;
   console.log("Executando SQL filtro:\n" + sqlFiltro);
-  return await database.executar(sqlFiltro);
+  await database.executar(sqlFiltro);
+
+  await database.executar(sqlFiltro);
+  const sqlSlack = `
+  INSERT INTO slack (nomeCanal,ultima_notificacao,escola_id,usuario_id)VALUES ('canal-escola-${escolaId}',null,${escolaId},${usuarioId});
+                `;
+    console.log("Executando SQL filtro:\n" + sqlSlack);
+   return await database.executar(sqlSlack);
 }
 
 
