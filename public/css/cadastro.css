@@ -81,6 +81,7 @@ button {
   padding-left: 10px;
   transition: 0.3s;
 }
+
 input {
   color: var(--preto) !important;
   height: 6vh !important;
@@ -123,6 +124,48 @@ button:focus {
   color: red;
   text-align: center;
 }
+
+#carregando{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#carregando img{
+  height: 100px;
+  width: 100px;
+}
+
+.campo-senha {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.campo-senha input {
+  border: none;
+  outline: none;
+  flex: 1;             
+}
+
+.campo-senha:focus-within {
+  border: 2px solid var(--laranja);
+  transform: scale(1.01);
+}
+
+#input_senha{
+  margin-left: 4px;
+}
+
+#input_repetirSenha{
+  margin-left: 4px;
+}
+
+
 /* Responsividade */
 @media (width <= 800px) {
   .cadastro-container {

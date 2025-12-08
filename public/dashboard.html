@@ -5,7 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Visão geral - EducaData</title>
+  <link rel="icon" type="image/png" href="./assets/icons/escola.svg">
 
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <link rel="stylesheet" href="./css/dashboard.css">
   <link rel="stylesheet" href="./css/logado.css">
   <link rel="stylesheet" href="./css/modalFiltro.css">
@@ -94,6 +96,7 @@
 
 </html>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
@@ -477,8 +480,27 @@ function excluirFiltro(id) {
   })
   .then(res => {
     if (!res.ok) throw new Error('Erro ao deletar');
-    alert("Filtro deletado com sucesso!");
-    window.location.reload();
+    // alert("Filtro deletado com sucesso!");
+    // window.location.reload();
+
+     Toastify({
+  text: "Filtro deletado com sucesso!",
+  duration: 3000,
+  destination: "https://github.com/apvarun/toastify-js",
+  newWindow: true,
+  close: true,
+  gravity: "top", 
+  position: "right", 
+  stopOnFocus: true, 
+  style: {
+    background: "linear-gradient(to right, #337129, #96c93d)",
+    fontSize: "18px",
+  }, 
+}).showToast();
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   })
   .catch(erro => console.error("Erro ao deletar filtro:", erro));
 }
@@ -509,7 +531,21 @@ function criarFiltro() {
   const UF_id = document.getElementById('select_estado').value;
 
   if (!nomeFiltro || !materia_id || !tipoEscola_id || !UF_id) {
-    alert('Todos os campos devem ser preenchidos!');
+    // alert('Todos os campos devem ser preenchidos!');
+      Toastify({
+  text: "Todos os campos devem ser preenchidos!",
+  duration: 3000,
+  destination: "https://github.com/apvarun/toastify-js",
+  newWindow: true,
+  close: true,
+  gravity: "top", 
+  position: "right", 
+  stopOnFocus: true, 
+  style: {
+    background: "linear-gradient(to right, #990F02, #D0312D)",
+    fontSize: "18px",
+  }, 
+}).showToast();
     return;
   }
 
@@ -576,7 +612,21 @@ function editarFiltro(idFiltro) {
   const idEstado = document.getElementById('select_estado').value;
 
   if (!nome || !idMateria || !idTipoEscola || !idEstado) {
-    alert('Todos os campos devem ser preenchidos!');
+    // alert('Todos os campos devem ser preenchidos!');
+    Toastify({
+  text: "Todos os campos devem ser preenchidos!",
+  duration: 3000,
+  destination: "https://github.com/apvarun/toastify-js",
+  newWindow: true,
+  close: true,
+  gravity: "top", 
+  position: "right", 
+  stopOnFocus: true, 
+  style: {
+    background: "linear-gradient(to right, #990F02, #D0312D)",
+    fontSize: "18px",
+  }, 
+}).showToast();
     return;
   }
 

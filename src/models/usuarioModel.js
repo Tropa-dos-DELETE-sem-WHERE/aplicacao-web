@@ -1,5 +1,6 @@
 var database = require("../database/config")
 
+// Autenticando o usuário
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
@@ -9,6 +10,7 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
+// Autenticando o usuário para identificar se há a existência da escola no banco de dados da empresa
 async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario) {
   console.log("ACESSEI O USUARIO MODEL");
 
@@ -37,15 +39,20 @@ async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario
   const usuarioRes = await database.executar(sqlUsuarioId);
   const usuarioId = usuarioRes[0].id;
 
-  const sqlFiltro = `
-    INSERT INTO filtro (nome, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
-    VALUES ('Filtro Padrão', ${1}, ${tipoEscolaId}, ${ufId}, ${usuarioId}, 'sim');
-  `;
-  console.log("Executando SQL filtro:\n" + sqlFiltro);
-  return await database.executar(sqlFiltro);
+  // Retirei essa função dado o fato de que ela não se aplica mais ao banco e a regra de negócio(está inconsistente).
+
+//   const sqlFiltro = `
+//     INSERT INTO filtro (nome, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
+//     VALUES ('Filtro Padrão', ${1}, ${tipoEscolaId}, ${ufId}, ${usuarioId}, 'sim');
+//   `;
+
+
+//   console.log("Executando SQL filtro:\n" + sqlFiltro);
+//   return await database.executar(sqlFiltro);
+
 }
 
-
+// Cadastrando o usuário com suas devidas credenciais
 function atualizarDadoByUser(idInstituicao,nomeUsuario,email,idUsuario) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function atualizarDadoByUser(): ",idInstituicao,nomeUsuario,email,idUsuario)
     var instrucaoSql = `
@@ -57,6 +64,9 @@ function atualizarDadoByUser(idInstituicao,nomeUsuario,email,idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+// Listando os professores existententes no banco
+
+// ATENCAO: Atualizar depois para a nova regra de negócio!
 function listarProfessores(){
     console.log("acessei o selctall")
     var instrucaoSql = 
@@ -78,6 +88,7 @@ function escolaUser(idUsuario){
     return database.executar(instrucaoSql);
 }
 
+// Inserindo professor no login 
 function inserirProfessor(nome, email, senha, tipoUsuario, escola_id) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function inserirProfessor(): ", nome, email, senha, tipoUsuario, escola_id);
 
@@ -90,6 +101,8 @@ function inserirProfessor(nome, email, senha, tipoUsuario, escola_id) {
     return database.executar(instrucaoSql);
 }
 
+
+// Deletando professor do login 
 function deleteProfessor(idProfessor) {
     console.log("ACESSEI O USUARIO MODEL \n\n function deleteProfessor(): ", idProfessor);
 
@@ -112,6 +125,8 @@ function deleteUser(id) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
+// Atualizar professor do login
 function atualizarProfessor(id, nome, email, senha) {
     console.log("ACESSEI O USUARIO MODEL: atualizarProfessor()", id, nome, email, senha);
 
@@ -127,6 +142,7 @@ function atualizarProfessor(id, nome, email, senha) {
     return database.executar(instrucaoSql);
 }
 
+// Exportando funções
 module.exports = {
     autenticar,
     cadastrar,

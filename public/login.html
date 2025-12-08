@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>EducaData | Login</title>
+    <link rel="icon" type="image/png" href="./assets/icons/escola.svg">
 
     <script src="./js/sessao.js"></script>
 
@@ -55,9 +56,13 @@
 
             <div class="campo">
                 <label for="input_senha">Senha do Usuario:</label>
-                <input type="password" id="input_senha">
+                <div class="campo-senha">
+                <input type="password" id="input_senha" style="border: none;">
+                <span id="toggleIcon" onclick="toggleSenha()"style="cursor: pointer;">👁️‍🗨️</span>
+                </div>
                 <div id="mensagem">Usuário não encontrado, tente novamente!</div>
                 <button onclick="autenticar()">Entrar -></button>
+                <div id="carregando"></div>
             </div>
 
     </main>
@@ -67,6 +72,20 @@
 </html>
 
 <script>
+
+function toggleSenha() {
+  const input = document.getElementById("input_senha");
+  const icon = document.getElementById("toggleIcon");
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.textContent = "👁️"; 
+  } else {
+    input.type = "password";
+    icon.textContent = "👁️‍🗨️"; 
+  }
+}
+
     function autenticar() {
         const email = input_email.value;
         const senha = input_senha.value;
@@ -89,8 +108,14 @@
                     sessionStorage.ID_USUARIO = json.id;
                     sessionStorage.ID_INSTITUICAO_USUARIO = json.escola_id;
                     sessionStorage.ID_TIPO_USUARIO = json.tipoUsuario_id;
-                    window.location = "./overview.html";
-                });
+
+            document.getElementById('carregando').innerHTML = '<img src="./assets/gif.webp"></img>';
+
+            setTimeout(function(resposta) {
+             window.location.href = "./overview.html";
+            }, 1500); 
+            });
+
             }else{
                 const elemento = document.getElementById("mensagem");
                 elemento.style.display = "block";
@@ -102,4 +127,5 @@
             console.log(erro);
         });
     }
+
 </script>
