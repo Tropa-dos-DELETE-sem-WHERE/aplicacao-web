@@ -1,0 +1,18 @@
+:root {
+  --laranja: #ffb347;
+  --laranja-claro: #ffe0b3;
+  --azul: #5fa4e6;
+  --azul-claro: #80c1ff;
+  --verde: #6fcf97;
+  --verde-claro: #c9f4df;
+
+  --branco: #e5e7eb;
+  --cinza: #cccccc;
+  --cinza-escuro: #1f2937;
+
+  /* Botões e alerts */
+  --sucesso-verde: #22c55e;
+  --erro-vermelho: #ef4444;
+  --atencao-amarelo: #facc15;
+  --info-azul: #3b82f6;
+}
