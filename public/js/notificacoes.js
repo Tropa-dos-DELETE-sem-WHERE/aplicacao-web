@@ -47,7 +47,7 @@ function solicitar()
 
 
 // <h1 class="titulo">Notificações via Slack</h1>
-//     <p id="aviso">
+//     <p class="aviso" id="aviso-azul">
 //         <span>AVISO:</span> Nosso sistema envia alertas automáticos para te manter informado sobre o desempenho e a atividade da sua escola!
 //     </p>
 
