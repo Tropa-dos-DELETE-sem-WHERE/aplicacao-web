@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visão geral - EducaData</title>
+  <title>Metas - EducaData</title>
   <link rel="icon" type="image/png" href="./assets/icons/escola.svg">
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -295,8 +295,8 @@
     modal_container_adicionar.innerHTML = ``;
   }
 
-  function modalEditar(id, tituloMeta, descMeta, dataExpiracao, statusMeta) {
-    console.log("ID:", id);
+  function modalEditar(idMeta, tituloMeta, descMeta, dataExpiracao, statusMeta) {
+    console.log("ID:", idMeta);
     console.log("Título:", tituloMeta);
     console.log("Descrição:", descMeta);
     console.log("Data:", dataExpiracao);
@@ -330,7 +330,7 @@
         </div>
 
         <div class="boxButton">
-          <button class="btnSalvar" onclick="editarMeta(${id},'${tituloMeta}','${descMeta}','${dataExpiracao}','${statusMeta}')">Confirme Edição</button>
+          <button class="btnSalvar" onclick="editarMeta(${idMeta},'${tituloMeta}','${descMeta}','${dataExpiracao}','${statusMeta}')">Confirme Edição</button>
         </div>
       </div>
     </div>
@@ -348,22 +348,25 @@
     document.getElementById("input_dataLimite").setAttribute("min", hoje);
   }
 
-  function editarMeta(id, titulo, descMeta, dataExpiracao, statusMeta) {
+  function editarMeta(idMeta, titulo, descMeta, dataExpiracao, statusMeta) {
     const tituloMeta = input_tituloMeta.value;
     const dataLimite = input_dataLimite.value == dataExpiracao ? dataExpiracao : input_dataLimite.value;
     const anotacao = input_anotacao.value == descMeta ? descMeta : input_anotacao.value;
-    const idUsuario = sessionStorage.ID_USUARIO;
 
-    fetch(`/metas/atualizarMeta/${id}`, {
+    console.log(sessionStorage.ID_USUARIO);
+    const idUsuario = parseInt(sessionStorage.ID_USUARIO);
+
+    fetch(`/metas/atualizarMeta/${idMeta}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        idMeta: idMeta,
         tituloMeta: tituloMeta,
         anotacao: anotacao,
         dataLimite: dataLimite,
-        statusMeta: "Em aberto",
+        statusMeta: 'abertas',
         idUsuario: idUsuario
       }),
     })

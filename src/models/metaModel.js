@@ -51,21 +51,23 @@ function deletarMeta(idMeta,idUsuario) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
-function apagar(id) {
-    console.log("ACESSEI O USUARIO MODEL \n\n function apagarUser(): ", id);
 
-    var instrucaoSql = `
-        apagar FROM usuario
-        WHERE id = ${id};
-    `;
+// function apagar(id) {
+//     console.log("ACESSEI O USUARIO MODEL \n\n function apagarUser(): ", id);
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-function atualizarMeta(tituloMeta, dataLimite, anotacao, idUsuario, statusMeta,idMeta) {
+//     var instrucaoSql = `
+//         apagar FROM usuario
+//         WHERE id = ${id};
+//     `;
+
+//     console.log("Executando a instrução SQL: \n" + instrucaoSql);
+//     return database.executar(instrucaoSql);
+// }
+
+function atualizarMeta(tituloMeta, dataLimite, anotacao, idUsuario, statusMeta, idMeta) {
     console.log("Dentro do Model de metas na função  atualizarMeta() passando os seguintes dados para o banco",tituloMeta, dataLimite, anotacao, idUsuario, statusMeta,idMeta);
 
-    const instrucaoSql = `
+    const instrucaoSql = ` 
         UPDATE meta
         SET tituloMeta = '${tituloMeta}',
             descMeta = '${anotacao}',
@@ -77,6 +79,7 @@ function atualizarMeta(tituloMeta, dataLimite, anotacao, idUsuario, statusMeta,i
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
 function atualizarStatusMeta(statusMeta,idMeta,idUsuario) {
     console.log("Dentro do Model de metas na função  atualizarStatusMeta() passando os seguintes dados para o banco",statusMeta,idMeta,idUsuario);
 

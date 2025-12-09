@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil</title>
+    <title>Editar Perfil - EducaData</title>
     <link rel="icon" type="image/png" href="./assets/icons/escola.svg">
     <link rel="stylesheet" href="css/telaPerfilUsuario.css">
     <link rel="stylesheet" href="css/logado.css">
@@ -99,19 +99,20 @@
         const btnSalvar = document.getElementById("btn_salvar");
         const btnCancelar = document.getElementById("btn_cancelar");
         const btnEditar = document.getElementById("btn_editar");
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < inputs.length; i++) {
             inputs[i].disabled = false;
         }
+
         btnSalvar.disabled = false;
         btnCancelar.disabled = false;
         btnEditar.style = "display:none";
-
     }
+
     function desabilitarEdicao() {
         const inputs = document.querySelectorAll("#form_editar input");
         const btnSalvar = document.getElementById("btn_salvar");
         const btnCancelar = document.getElementById("btn_cancelar");
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < inputs.length; i++) {
             inputs[i].disabled = false;
         }
         btnSalvar.disabled = true;
@@ -126,6 +127,7 @@
         const emailUsuario = input_email.value;
         const id_instituicao = sessionStorage.ID_INSTITUICAO_USUARIO;
         const id_usuario = sessionStorage.ID_USUARIO;
+        const btnEditar = document.getElementById("btn_editar");
         fetch("/usuarios/atualizarDadoByUser",
             {
                 method: "PUT",
@@ -141,10 +143,13 @@
             })
             .then(function (resposta) {
                 console.log("Funcionouuuuuuuuuuuuuuu");
+                
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
             });
+
+             btnEditar.style = "display:block";
     }
 
     function cancelar() {
@@ -163,6 +168,7 @@
     function alterarFoto() {
         input_foto.click();
     }
+
     function apagarGestor() {
         modal_container_adicionar.innerHTML = `
     <div class="modal-container show">

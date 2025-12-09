@@ -14,7 +14,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet" />
-  <title>Professores</title>
+  <title>Administração - EducaData</title>
   <link rel="icon" type="image/png" href="./assets/icons/escola.svg">
 </head>
 
@@ -201,8 +201,43 @@
         }),
       })
       .then(function (resposta) {
-        console.log("resposta: ", resposta);
-        window.location.reload();
+        if(nome === `` || email === `` || senha === ``){
+    Toastify({
+        text: "Por favor preencher todos os campos corretamente!",
+        duration: 3000,
+        destination: "https://github.com/apvarun/toastify-js",
+        newWindow: true,
+        close: true,
+        gravity: "top", 
+        position: "right", 
+        stopOnFocus: true, 
+        style: {
+          background: "linear-gradient(to right, #990F02, #D0312D)",
+          fontSize: "18px",
+  }, 
+}).showToast();
+    } else{
+    Toastify({
+      text: "Professor inserido com sucesso!",
+      duration: 3000,
+      destination: "https://github.com/apvarun/toastify-js",
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "right", 
+      stopOnFocus: true, 
+      style: {
+        background: "linear-gradient(to right, #337129, #96c93d)",
+        fontSize: "18px",
+  }, 
+}).showToast();
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+        }
+        // console.log("resposta: ", resposta);
+        // window.location.reload();
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
@@ -242,21 +277,21 @@
     
   // Implementei com toast para ficar mais visualmente agradável
   Toastify({
-  text: "Professor deletado com sucesso!",
-  duration: 3000,
-  destination: "https://github.com/apvarun/toastify-js",
-  newWindow: true,
-  close: true,
-  gravity: "top", 
-  position: "right", 
-  stopOnFocus: true, 
-  style: {
-    background: "linear-gradient(to right, #337129, #96c93d)",
-    fontSize: "18px",
-  }, 
-}).showToast();
-
-    setTimeout(() => {
+      text: "Professor deletado com sucesso!",
+      duration: 3000,
+      destination: "https://github.com/apvarun/toastify-js",
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "right", 
+      stopOnFocus: true, 
+      style: {
+        background: "linear-gradient(to right, #337129, #96c93d)",
+        fontSize: "18px",
+      }, 
+    }).showToast();
+      
+setTimeout(() => {
       window.location.reload();
     }, 1000);
   }
