@@ -24,6 +24,7 @@ function executar(instrucao) {
             conexao.end();
             if (erro) {
                 reject(erro);
+                return;
             }
             console.log(resultados);
             resolve(resultados);
