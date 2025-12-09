@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/logado.css">
+  <link rel="stylesheet" href="./css/solicitacoes.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" />
+  <title>Professores</title>
+</head>
+
+<body>
+  <aside>
+    <div class="logo"><img src="./assets/icons/escola.svg"></div>
+
+    <h2>Bem-vindo, fulano!</h2>
+    <nav>
+      <ul>
+        <li><a href="notificacoes.html" title="Perfil"><img src="./assets/icons/notificacao light.svg" alt="">Notificações</a></li>
+        <li><a href="index.html" title="Sair"><img src="./assets/icons/sair.svg" alt="">Sair</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="container mostrar" id="conteudo">
+    <h2 id="title">Solicitações de canais privados</h2>
+    <div id="div_container_professores">
+      <table class="tabela-professores">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Codigo Escola</th>
+            <th>Nome Canal</th>
+            <th>Situação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          
+        </tbody>
+      </table>
+
+    </div>
+
+    <div id="modal_container_adicionar"></div>
+  </main>
+</body>
+
+</html>
+<script>
+    window.onload = () => {
+    carregarTabelaSlack();
+  }
+
+function carregarTabelaSlack() {
+  const tbody = document.querySelector("#div_container_professores table tbody");
+  tbody.innerHTML = "";
+
+  fetch("/notificacao/listarTodosSlack", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+    .then(res => res.json())
+    .then(canais => {
+      console.log("Canais pendentes:", canais);
+
+      if (canais.length > 0) {
+        canais.forEach(canal => {
+          const htmlCanal = `
+            <tr>
+              <td>${canal.idslack}</td>
+              <td>${canal.nomeUsuario || "—"}</td>
+              <td>${canal.emailUsuario || "—"}</td>
+              <td>${canal.escola_id || "—"}</td>
+              <td>${canal.nomeCanal}</td>
+              <td>${canal.solicitou}</td>
+              <td>
+                <div class="actions">
+                   <button class="btn add-btn" onclick="modalEditarSlack()"> Concluir Pedido</button>
+                </div>
+              </td>
+            </tr>
+          `;
+
+          tbody.insertAdjacentHTML("beforeend", htmlCanal);
+        });
+      } else {
+        const htmlSemPendentes = `
+          <tr>
+            <td colspan="6">
+              <div class="semProfessores">
+                <p>Nenhum pedido de canal pendente até o momento.</p>
+              </div>
+            </td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML("beforeend", htmlSemPendentes);
+      }
+    })
+    .catch(err => console.error("Erro ao buscar canais Slack:", err));
+}
+
+  function fecharModal() {
+    modal_container_adicionar.innerHTML = ``;
+  }
+  function atualizarProfessor(idProfessor) {
+    const nome = input_nome.value;
+    const email = input_email.value;
+    const senha = input_senha.value;
+
+    console.log("Atualizando professor:", idProfessor, nome, email, senha);
+
+    fetch(`/usuarios/atualizarProfessor/${idProfessor}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nome: nome,
+        email: email,
+        senha: senha
+      }),
+    })
+      .then(function (resposta) {
+        if (resposta.ok) {
+          alert("Professor atualizado com sucesso!");
+          window.location.reload();
+        } else {
+          alert("Erro ao atualizar professor!");
+        }
+      })
+      .catch(function (erro) {
+        console.error(`#ERRO: ${erro}`);
+      });
+  }
+function modalEditarSlack(idUsuario) {
+  modal_container_adicionar.innerHTML = `
+    <div class="modal-container show">
+      <div class="modal-overlay" onclick="fecharModal()"></div>
+      <div class="modal">
+        <button class="close-btn" onclick="fecharModal()">✖</button>
+        <div class="box">
+          <div class="informacoes_slack">
+            
+            <div class="form-group">
+              <h1>Editar Webhook Slack</h1>
+            </div>
+
+            <div class="form-group">
+              <label for="input_webhook">Webhook do Canal:</label>
+              <input type="text" id="input_webhook" placeholder="https://hooks.slack.com/services/...">
+            </div>
+            <div class="boxButton">
+            <button class="btn" onclick="atualizarWebhook(${idUsuario})">Salvar Alterações</button>
+          </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  `;
+}
+
+
+
+
+</script>

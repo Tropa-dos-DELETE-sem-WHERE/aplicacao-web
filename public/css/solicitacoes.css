@@ -1,0 +1,286 @@
+:root {
+  --laranja: #ffb347;
+  --laranja-claro: #ffe0b3;
+  --azul: #5fa4e6;
+  --azul-claro: #80c1ff;
+  --verde: #6fcf97;
+  --verde-claro: #c9f4df;
+
+  --branco: #e5e7eb;
+  --cinza: #cccccc;
+  --cinza-escuro: #1f2937;
+
+  /* Botões e alerts */
+  --sucesso-verde: #22c55e;
+  --erro-vermelho: #ef4444;
+  --atencao-amarelo: #facc15;
+  --info-azul: #3b82f6;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+#loading{
+  position: absolute;
+  top: 50%;
+  right: 30%;
+}
+
+#title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--cinza-escuro);
+}
+
+#div_container_professores{
+  height: 80%;
+  overflow-y: scroll;
+}
+
+thead{
+  position: sticky;
+  top: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+td{
+  background-color: var(--cinza);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+th {
+  background-color: var(--cinza-escuro);
+  color: white;
+}
+
+tr:hover{
+  background-color: #00000008;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.btn-edit, .btn-delete{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 7vw;
+  height: fit-content;
+  gap: 5px;
+  font-size: 1rem;
+}
+
+.btn-edit {
+  background-color: var(--info-azul);
+  color: var(--branco);
+}
+
+.btn-delete {
+  background-color: var(--erro-vermelho);
+  color: var(--cinza-escuro);
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  background-color: var(--sucesso-verde);
+  color: var(--branco);
+  padding: 10px 15px;
+  gap: 5px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container.show {
+  opacity: 1;
+  pointer-events: auto;
+  display: flex;
+}
+
+.modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.modal {
+  position: relative;
+  background: var(--branco);
+  padding: 2rem;
+  border-radius: 10px;
+  z-index: 2;
+  width: 400px; 
+  height: 350px;
+  max-width: 90%;
+}
+
+.modal .box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 90%;
+  width: 100%;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-group input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.boxButton {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.boxButton .btn {
+  padding: 0.7rem 1.5rem;
+  background-color: var(--sucesso-verde);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tabela-professores td {
+  max-width: 180px;     
+  overflow: hidden;     
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+  vertical-align: middle;
+}
+
+#conteudo {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+#conteudo.mostrar {
+    display: block;
+    opacity: 1;
+}
+.semProfessores {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.2em;
+  color: var(--cinza-escuro);
+}
+
+.form_professor{
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+}
+
+.informacoes_professor{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input{
+    width: 100%;
+    height: 5vh;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.boxButton{
+  width: 100%;
+
+  button{
+    width: 100%;
+    margin: 0;
+  }
+}
+
+label{
+   font-size: 1.0rem;
+   margin: 5px 0;
+}
+
+.modal{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--laranja);
+  border-radius: 10px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+.close-btn:hover {
+  color: red;
+}

@@ -21,8 +21,24 @@ const idUsuario = req.params.idUsuario;
                         );
             }
 }
+function listarTodosSlack(req, res){
 
-function solicitarCanal(req, res) {
+            console.log("Estou no controller passando os seguintes dados");
+            notificacaoModel.listarTodosSlack().then(
+                function (resultadoAutenticar) {
+                    console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
+                    res.json(resultadoAutenticar)
+                }).catch(
+                            function (erro) {
+                                console.log(erro);
+                                console.log("\nHouve um erro Listar os ! Erro: ", erro.sqlMessage);
+                                res.status(500).json(erro.sqlMessage);
+                            }
+                        );
+}
+
+function alterarStatusCanal(req, res) {
 console.log("Estou no controller passando os seguintes dados");
     const canal = req.body.canal[0];
     const idslack = canal.idslack;
@@ -30,7 +46,7 @@ console.log("Estou no controller passando os seguintes dados");
     const usuario_id = canal.usuario_id;
     const idUsuarioLogado = req.params.idUsuario;
 
-    notificacaoModel.solicitarCanal(idslack, solicitou, usuario_id,idUsuarioLogado)
+    notificacaoModel.alterarStatusCanal(idslack, solicitou, usuario_id,idUsuarioLogado)
     .then(function (resultado) {
         res.json(resultado);
     })
@@ -42,5 +58,6 @@ console.log("Estou no controller passando os seguintes dados");
 
 module.exports = {
     listarSlack,
-    solicitarCanal
+    alterarStatusCanal,
+    listarTodosSlack
 }

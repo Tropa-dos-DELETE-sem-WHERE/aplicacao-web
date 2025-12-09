@@ -89,7 +89,12 @@
                     sessionStorage.ID_USUARIO = json.id;
                     sessionStorage.ID_INSTITUICAO_USUARIO = json.escola_id;
                     sessionStorage.ID_TIPO_USUARIO = json.tipoUsuario_id;
-                    window.location = "./overview.html";
+                     if(json.tipoUsuario_id === 3)
+                    {
+                        window.location = "./solicitacoes.html";
+                    }else{
+                        window.location = "./overview.html";
+                    }
                 });
             }else{
                 const elemento = document.getElementById("mensagem");

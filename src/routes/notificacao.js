@@ -9,9 +9,17 @@ router.get("/listarSlack/:idUsuario", function(req, res) {
     notificacaoController.listarSlack(req, res);
 });
 
-router.patch("/solicitarCanal/:idUsuario", function (req, res) {
-    notificacaoController.solicitarCanal(req, res);
+router.get("/listarTodosSlack", function(req, res) {
+    console.log("aqui")
+    notificacaoController.listarTodosSlack(req, res);
 });
+
+router.patch("/alterarStatusCanal/:idUsuario", function (req, res) {
+    notificacaoController.alterarStatusCanal(req, res);
+});
+
+
+
 
 
 module.exports = router;

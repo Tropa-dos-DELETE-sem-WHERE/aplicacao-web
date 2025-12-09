@@ -1,7 +1,6 @@
 drop database educadata;
 CREATE DATABASE IF NOT EXISTS educadata;
 USE educadata;
-SELECT * FROM slack WHERE usuario_id = 1;
 
 CREATE TABLE IF NOT EXISTS tipoEscola (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,7 +36,7 @@ CREATE TABLE IF NOT EXISTS usuario (
   nome VARCHAR(100) NOT NULL,
   email VARCHAR(100) NOT NULL UNIQUE,
   senha VARCHAR(255) NOT NULL,
-  escola_id INT NOT NULL,
+  escola_id INT,
   tipoUsuario_id INT NOT NULL,
   FOREIGN KEY (escola_id) REFERENCES escola(codigoEscola),
   FOREIGN KEY (tipoUsuario_id) REFERENCES tipoUsuario(id)
@@ -192,3 +191,5 @@ CREATE TABLE IF NOT EXISTS estatistica_macro (
 select * from logs;
 select * from estatistica_macro;
 select * from registro;
+INSERT INTO usuario (nome, email, senha, escola_id, tipoUsuario_id)
+VALUES ('adm', 'adm@adm.com', 'adm123', NULL, 3);

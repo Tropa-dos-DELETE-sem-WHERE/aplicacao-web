@@ -10,7 +10,31 @@ async function listarSlack(idUsuario){
     return database.executar(instrucaoSql);
 }
 
-function solicitarCanal(idslack, solicitou, usuario_id,idUsuarioLogado) {
+function listarTodosSlack() {
+    console.log("Model: listarTodosSlack");
+
+    const instrucaoSql = `
+        SELECT s.idslack,
+               s.nomeCanal,
+               s.escola_id,
+               s.usuario_id,
+               u.nome AS nomeUsuario,
+               u.email AS emailUsuario,
+               s.solicitou,
+               s.intervalo_notificacao,
+               s.ligar_desligar,
+               s.ultima_notificacao
+        FROM slack s
+        JOIN usuario u ON s.usuario_id = u.id
+        WHERE s.solicitou = 'pendente';
+    `;
+
+    console.log("Executando SQL:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
+function alterarStatusCanal(idslack, solicitou, usuario_id,idUsuarioLogado) {
       console.log("Dentro do Model de Notificacao na função  solicitarCanal() passando os seguintes dados para o banco",idslack, solicitou, usuario_id,idUsuarioLogado);
 
     const instrucaoSql = `
@@ -24,7 +48,9 @@ function solicitarCanal(idslack, solicitou, usuario_id,idUsuarioLogado) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+
 module.exports = {
     listarSlack,
-    solicitarCanal
+    alterarStatusCanal,
+    listarTodosSlack
 };
