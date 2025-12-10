@@ -132,6 +132,17 @@ function atualizarProfessor(id, nome, email, senha) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+function logAcesso(usuario_id) {
+    console.log("Registrando log de acesso do usuário:", usuario_id);
+
+    const instrucaoSql = `
+        INSERT INTO logAcesso (usuario_id)
+        VALUES (${usuario_id});
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
     autenticar,
@@ -142,5 +153,6 @@ module.exports = {
     deleteProfessor,
     deleteUser,
     atualizarProfessor,
-    escolaUser
+    escolaUser,
+    logAcesso
 };

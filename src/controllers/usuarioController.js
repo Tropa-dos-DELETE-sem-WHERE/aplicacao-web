@@ -237,6 +237,24 @@ function atualizarProfessor(req, res) {
     }
 }
 
+function logAcesso(req, res) {
+    const usuario_id = req.body.usuario_id;
+
+    if (!usuario_id) {
+        return res.status(400).send("O ID do usuário está undefined!");
+    }
+
+    usuarioModel.logAcesso(usuario_id)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log("Erro:", erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+
 module.exports = {
     autenticar,
     cadastrar,
@@ -246,5 +264,6 @@ module.exports = {
     deleteProfessor,
     atualizarProfessor,
     deleteUser,
-    escolaUser
+    escolaUser,
+    logAcesso
 }

@@ -92,19 +92,29 @@
                      if(json.tipoUsuario_id === 3)
                     {
                         window.location = "./solicitacoes.html";
-                    }else{
+                    }else {
+                    fetch("/usuarios/logAcesso", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            usuario_id: json.id
+                        })
+                    })
+                    .then(() => {
                         window.location = "./overview.html";
-                    }
-                });
-            }else{
-                const elemento = document.getElementById("mensagem");
-                elemento.style.display = "block";
-                setTimeout(function(){
-                    elemento.style.display = "none";
-                }, 3000)
-            }
-        }).catch(function (erro) {
-            console.log(erro);
-        });
+                    })
+                    .catch(erro => console.log("Erro ao registrar log:", erro));
+                }
+            });
+
+        } else {
+            const elemento = document.getElementById("mensagem");
+            elemento.style.display = "block";
+            setTimeout(() => elemento.style.display = "none", 3000);
+        }
+    })
+    .catch(erro => {
+        console.log(erro);
+    });
     }
 </script>

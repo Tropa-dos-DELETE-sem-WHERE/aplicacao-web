@@ -39,4 +39,8 @@ router.put("/atualizarProfessor/:id", function (req, res) {
     usuarioController.atualizarProfessor(req, res);
 });
 
+router.post("/logAcesso", function (req, res) {
+    usuarioController.logAcesso(req, res);
+});
+
 module.exports = router;
