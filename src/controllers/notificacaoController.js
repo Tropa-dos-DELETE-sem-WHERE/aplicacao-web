@@ -43,10 +43,8 @@ console.log("Estou no controller passando os seguintes dados");
     const canal = req.body.canal[0];
     const idslack = canal.idslack;
     const solicitou = "pendente";
-    const usuario_id = canal.usuario_id;
-    const idUsuarioLogado = req.params.idUsuario;
 
-    notificacaoModel.alterarStatusCanal(idslack, solicitou, usuario_id,idUsuarioLogado)
+    notificacaoModel.alterarStatusCanal(idslack, solicitou)
     .then(function (resultado) {
         res.json(resultado);
     })
@@ -54,10 +52,25 @@ console.log("Estou no controller passando os seguintes dados");
         res.status(500).json(erro.sqlMessage);
     });
 }
+async function alterarWebhookCanal(req, res) {
+    const idslack = req.params.idSlack;
+    const webhook = req.body.webhook;
+    const solicitou =  "criado";
+    console.log("Estou no controller passando os seguintes dados");
+            console.log(idslack);
+            console.log(webhook);
+            console.log(solicitou);
+  
+    await notificacaoModel.alterarStatusCanal(idslack, solicitou);
+    const resultado = await notificacaoModel.alterarWebhookCanal(idslack, webhook);
+    return res.json(resultado);
+    
+}
 
 
 module.exports = {
     listarSlack,
     alterarStatusCanal,
-    listarTodosSlack
+    listarTodosSlack,
+    alterarWebhookCanal
 }

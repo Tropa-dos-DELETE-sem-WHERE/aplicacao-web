@@ -34,10 +34,8 @@
       <table class="tabela-professores">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Nome</th>
+            <th>Usuario</th>
             <th>Email</th>
-            <th>Codigo Escola</th>
             <th>Nome Canal</th>
             <th>Situação</th>
             <th>Ações</th>
@@ -77,15 +75,13 @@ function carregarTabelaSlack() {
         canais.forEach(canal => {
           const htmlCanal = `
             <tr>
-              <td>${canal.idslack}</td>
               <td>${canal.nomeUsuario || "—"}</td>
               <td>${canal.emailUsuario || "—"}</td>
-              <td>${canal.escola_id || "—"}</td>
               <td>${canal.nomeCanal}</td>
               <td>${canal.solicitou}</td>
               <td>
                 <div class="actions">
-                   <button class="btn add-btn" onclick="modalEditarSlack()"> Concluir Pedido</button>
+                   <button class="btn add-btn" onclick="modalEditarSlack(${canal.idslack})"> Concluir Pedido</button>
                 </div>
               </td>
             </tr>
@@ -112,37 +108,32 @@ function carregarTabelaSlack() {
   function fecharModal() {
     modal_container_adicionar.innerHTML = ``;
   }
-  function atualizarProfessor(idProfessor) {
-    const nome = input_nome.value;
-    const email = input_email.value;
-    const senha = input_senha.value;
+  function atualizarWebhook(idSlack) {
+    const webhook = document.getElementById("input_webhook").value;
+    console.log("Atualizando canal slack:", idSlack, webhook);
 
-    console.log("Atualizando professor:", idProfessor, nome, email, senha);
-
-    fetch(`/usuarios/atualizarProfessor/${idProfessor}`, {
-      method: "PUT",
+    fetch(`/notificacao/alterarWebhook/${idSlack}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        nome: nome,
-        email: email,
-        senha: senha
+        webhook: webhook
       }),
     })
       .then(function (resposta) {
         if (resposta.ok) {
-          alert("Professor atualizado com sucesso!");
+          alert("Canal atualizado com sucesso!");
           window.location.reload();
         } else {
-          alert("Erro ao atualizar professor!");
+          alert("Erro ao atualizar canal!");
         }
       })
       .catch(function (erro) {
         console.error(`#ERRO: ${erro}`);
       });
   }
-function modalEditarSlack(idUsuario) {
+function modalEditarSlack(idSlack) {
   modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
@@ -160,7 +151,7 @@ function modalEditarSlack(idUsuario) {
               <input type="text" id="input_webhook" placeholder="https://hooks.slack.com/services/...">
             </div>
             <div class="boxButton">
-            <button class="btn" onclick="atualizarWebhook(${idUsuario})">Salvar Alterações</button>
+            <button class="btn" onclick="atualizarWebhook(${idSlack})">Salvar Alterações</button>
           </div>
           </div>
           </div>

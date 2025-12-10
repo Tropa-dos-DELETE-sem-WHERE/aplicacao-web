@@ -40,9 +40,20 @@ function alterarStatusCanal(idslack, solicitou, usuario_id,idUsuarioLogado) {
     const instrucaoSql = `
         UPDATE slack
         SET solicitou = '${solicitou}'
-        WHERE idslack = ${idslack}
-          AND usuario_id = ${usuario_id}
-          AND usuario_id = ${idUsuarioLogado};
+        WHERE idslack = ${idslack};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function alterarWebhookCanal(idslack, solicitou) {
+      console.log("Dentro do Model de Notificacao na função  solicitarCanal() passando os seguintes dados para o banco",idslack, solicitou);
+
+    const instrucaoSql = `
+        UPDATE slack
+        SET canal = '${solicitou}'
+        WHERE idslack = ${idslack};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -52,5 +63,6 @@ function alterarStatusCanal(idslack, solicitou, usuario_id,idUsuarioLogado) {
 module.exports = {
     listarSlack,
     alterarStatusCanal,
-    listarTodosSlack
+    listarTodosSlack,
+    alterarWebhookCanal
 };

@@ -98,8 +98,7 @@ function renderizarStatus(status) {
 
 function solicitar()
 {
-    const idUsuario = sessionStorage.ID_USUARIO;
-    fetch(`/notificacao/alterarStatusCanal/${idUsuario}`, {
+    fetch(`/notificacao/alterarStatusCanal`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"},
       body: JSON.stringify({canal}),

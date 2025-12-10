@@ -14,9 +14,15 @@ router.get("/listarTodosSlack", function(req, res) {
     notificacaoController.listarTodosSlack(req, res);
 });
 
-router.patch("/alterarStatusCanal/:idUsuario", function (req, res) {
+router.patch("/alterarStatusCanal", function (req, res) {
     notificacaoController.alterarStatusCanal(req, res);
 });
+
+
+router.patch("/alterarWebhook/:idSlack", function (req, res) {
+    notificacaoController.alterarWebhookCanal(req, res);
+});
+
 
 
 
