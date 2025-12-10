@@ -26,7 +26,9 @@ main {
 
 .titulo {
   display: flex;
-  gap: 3px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
   font-size: 2.5rem;
 
   img {
@@ -98,6 +100,13 @@ main {
   }
 }
 
+.configuracoes{
+  width: fit-content;
+  padding: 20px;
+  align-self: center;
+  margin-top: 20vh;
+}
+
 .button {
   button {
     font-size: 1.5rem;
@@ -118,8 +127,19 @@ main {
 
 .container-cofiguracao {
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   gap: 10px;
+}
+
+.container-campo{
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.5rem;
 }
 
 /* toggle */
@@ -127,7 +147,7 @@ main {
   position: relative;
   display: inline-block;
   width: 60px;
-  height: 32px;
+  height: 28px;
   cursor: pointer;
 }
 
@@ -146,8 +166,8 @@ main {
 .slider::before {
   content: "";
   position: absolute;
-  height: 24px;
-  width: 24px;
+  height: 20px;
+  width: 20px;
   left: 4px;
   top: 4px;
   background: var(--branco);
@@ -163,3 +183,17 @@ main {
   transform: translateX(28px);
 }
 /* toggle */
+
+.tabela-config {
+    width: 100%;
+}
+
+.col-esquerda {
+    width: 23vw;
+    padding: 10px;
+    font-size: 1.5rem;
+}
+
+.col-direita {
+    text-align: left;
+}

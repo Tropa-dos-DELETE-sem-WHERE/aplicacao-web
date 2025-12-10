@@ -67,23 +67,21 @@ function renderizarStatus(status) {
     } else if (status === "pendente") {
         main.innerHTML = `
             <h2 class="titulo">Status:</h2>
-            <div class="aviso azul">
+            <div class="aviso azul" title="
+                Você já pediu a criação de um canal Slack!
+                Um administrador irá configurar o canal.
+                Assim que estiver pronto, você começará a receber notificações de desempenho e acessos.
+            ">
                 <h2 class="titulo"><img src="./assets/icons/ampulheta dark.svg" alt=""> Solicitação em andamento...</h2>
-                <div>
-                    <p>Você já pediu a criação de um canal Slack!</p>
-                    <p>Um administrador irá configurar o canal.</p>
-                    <p>Assim que estiver pronto, você começará a receber notificações de desempenho e acessos.</p>
-                </div>
             </div>
         `;
     } else if (status === "criado") {
         main.innerHTML = `
-            <div class="aviso verde">
+            <div class="aviso verde" title="
+                Seu canal Slack já está ativo!
+                A partir de agora, você receberá notificações sobre as notas e os acessos da sua escola, diretamente no Slack.
+            ">
                 <h2 class="titulo"><img src="./assets/icons/check dark.svg" alt=""> Canal configurado</h2>
-                <div>
-                    <p>Seu canal Slack já está ativo!</p>
-                    <p>A partir de agora, você receberá notificações sobre as notas e os acessos da sua escola, diretamente no Slack.</p>
-                </div>
             </div>
             <div class="container-cofiguracao">
                 <h2 class="titulo">Receber notificações</h2>
@@ -115,3 +113,14 @@ function solicitar()
       });
 }
 
+// função para mudar o título dos toggles das configurações
+function mudarTitle() {
+    const input1 = document.getElementById("receberNotificacoes");
+    const input2 = document.getElementById("receberLogs");
+    const input3 = document.getElementById("receberMediana");
+
+    // se o botão estiver "checked" então o título será Ligado, se não, será Desligado
+    document.getElementById("botao1").title = input1.checked ? "Ligado" : "Desligado";
+    document.getElementById("botao2").title = input2.checked ? "Ligado" : "Desligado";
+    document.getElementById("botao3").title = input3.checked ? "Ligado" : "Desligado";
+}
