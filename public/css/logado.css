@@ -65,8 +65,8 @@ nav {
     flex-direction: column;
     list-style-type: none;
     width: fit-content;
-    gap: 30px;
-    width: 100%;
+    gap: 20px;
+    width: 110%;
   }
 
   a {
@@ -76,10 +76,9 @@ nav {
     color: #fff;
     background-color: var(--cinza-escuro);
     border: 3px solid var(--cinza-escuro);
-    padding: 10px;
     font-size: 1.2rem;
     text-decoration: none;
-    padding: 15px;
+    padding: 12px;
     gap: 12px;
     border-radius: 10px;
     width: 100%;

@@ -33,7 +33,58 @@
             </ul>
         </nav>
     </aside>
-    <main id="statusPedido"></main>
+    <main id="statusPedido">
+                    <div class="aviso verde" title="
+                Seu canal Slack já está ativo!
+                A partir de agora, você receberá notificações sobre as notas e os acessos da sua escola, diretamente no Slack.
+            ">
+                <h2 class="titulo"><img src="./assets/icons/check dark.svg" alt=""> Canal configurado</h2>
+            </div>
+            <div class="container configuracoes">
+                <h2 class="titulo"><img src="./assets/icons/config light.svg" alt=""> Configurações</h2>
+                <table class="tabela-config">
+                    <tr>
+                        <td class="col-esquerda">Receber notificações</td>
+                        <td class="col-direita">
+                            <label class="toggle" for="receberNotificacoes" id="botao1" title="${canal[0].ligar_desligar === "ligar" ? "Ligado" : "Desligado"}">
+                                <input type="checkbox" id="receberNotificacoes" onchange="ligarDelisgar()" ${canal[0].ligar_desligar === "ligar" ? "checked" : ""}>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-esquerda">Receber logs de acesso</td>
+                        <td class="col-direita">
+                            <label class="toggle" for="receberLogs" id="botao2" title="${canal[0].quer_logs ? "Ligado" : "Desligado"}">
+                                <input type="checkbox" id="receberLogs" onchange="alterarLogs()" ${canal[0].quer_logs ? "checked" : ""}>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-esquerda">Receber notificações sobre a mediana</td>
+                        <td class="col-direita">
+                            <label class="toggle" for="receberMediana" id="botao3" title="${canal[0].quer_mediana ? "Ligado" : "Desligado"}">
+                                <input type="checkbox" id="receberMediana" onchange="alterarMediana()" ${canal[0].quer_mediana ? "checked" : ""}>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="col-esquerda">Intervalo de notificações</td>
+                        <td class="col-direita">
+                            <select id="intervaloNotificacao" onchange="alterarIntervalo()">
+                                <option value="sempre" ${canal[0].intervalo_notificacao === "sempre" ? "selected" : ""}>Sempre</option>
+                                <option value="1dia" ${canal[0].intervalo_notificacao === "1dia" ? "selected" : ""}>A cada 1 dia</option>
+                                <option value="7dias" ${canal[0].intervalo_notificacao === "7dias" ? "selected" : ""}>A cada 7 dias</option>
+                                <option value="31dias" ${canal[0].intervalo_notificacao === "31dias" ? "selected" : ""}>A cada 31 dias</option>
+                                <option value="365dias" ${canal[0].intervalo_notificacao === "365dias" ? "selected" : ""}>A cada 365 dias</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    </main>
 
 
 </body>

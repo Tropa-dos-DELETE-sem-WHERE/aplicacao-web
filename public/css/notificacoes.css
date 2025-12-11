@@ -197,3 +197,9 @@ main {
 .col-direita {
     text-align: left;
 }
+
+select{
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 1rem;
+}
