@@ -1,7 +1,7 @@
 const filtroModel = require("../models/filtroModel");
 
 function atualizar(req, res) {
-    const id = req.params.idFiltro;     // ID do filtro vindo da rota
+    const idFiltro = req.params.idFiltro;     // ID do filtro vindo da rota
     const nomeFiltro = req.body.nomeFiltro;
     const materia_id = req.body.materia_id;
     const tipoEscola_id = req.body.tipoEscola_id;
@@ -10,19 +10,19 @@ function atualizar(req, res) {
 
 
     console.log("Controller atualizar filtro recebendo:");
-    console.log("id:", id);
+    console.log("idFiltro:", idFiltro);
     console.log("nomeFiltro:", nomeFiltro);
     console.log("materia_id:", materia_id);
     console.log("tipoEscola_id:", tipoEscola_id);
     console.log("UF_id:", UF_id);
     console.log("idUsuario:", idUsuario);
 
-    filtroModel.atualizar(nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, id)
+    filtroModel.atualizar(nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, idFiltro)
         .then(resultado => {
             res.json(resultado);
         })
         .catch(erro => {
-            if (!nomeFiltro || !materia_id || !tipoEscola_id || !UF_id || !idUsuario || !id) {
+            if (!nomeFiltro || !materia_id || !tipoEscola_id || !UF_id || !idUsuario || !idFiltro) {
                 res.status(400).send("Algum dos campos está vazio, preencha corretamente");
             } else {
                 res.status(500).json(erro.sqlMessage);
@@ -31,11 +31,14 @@ function atualizar(req, res) {
 }
 
 function atualizarStatus(req, res) {
-    const idFiltro = req.params.id; // pega o ID do filtro enviado na rota
+    const idFiltro = req.params.idFiltro; 
+    const idUsuario = req.body.idUsuario;// pega o ID do filtro enviado na rota
 
-    console.log("Controller atualizarStatus() recebeu ID do filtro:", idFiltro);
+    console.log("Controller atualizarStatus() recebeu: ");
+    console.log("idFiltro:", idFiltro);
+    console.log("idUsuario:", idUsuario);
 
-    filtroModel.atualizarStatus(idFiltro)
+    filtroModel.atualizarStatus(idFiltro, idUsuario)
         .then(function (resultado) {
             res.status(200).json(resultado);
         })
@@ -104,9 +107,12 @@ function listarFiltrosByUsuario(req, res) {
 
 
 function deletarFiltro(req, res) {
-    const id = req.body.idFiltro;
-    console.log(id);
-        filtroModel.deletarFiltro(id)
+    const idFiltro = req.params.idFiltro;
+    const idUsuario= req.body.idUsuario;
+
+    console.log(idFiltro, idUsuario);
+
+        filtroModel.deletarFiltro(idFiltro, idUsuario)
         .then(function() {
             res.status(200).json({ mensagem: " deletada com sucesso!" });
         })

@@ -39,16 +39,14 @@ async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario
   const usuarioRes = await database.executar(sqlUsuarioId);
   const usuarioId = usuarioRes[0].id;
 
-  // Retirei essa função dado o fato de que ela não se aplica mais ao banco e a regra de negócio(está inconsistente).
-
-//   const sqlFiltro = `
-//     INSERT INTO filtro (nome, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
-//     VALUES ('Filtro Padrão', ${1}, ${tipoEscolaId}, ${ufId}, ${usuarioId}, 'sim');
-//   `;
+  const sqlFiltro = `
+    INSERT INTO filtro (nome, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
+    VALUES ('Filtro Padrão', ${1}, ${tipoEscolaId}, ${ufId}, ${usuarioId}, 'sim');
+  `;
 
 
-//   console.log("Executando SQL filtro:\n" + sqlFiltro);
-//   return await database.executar(sqlFiltro);
+  console.log("Executando SQL filtro:\n" + sqlFiltro);
+  return await database.executar(sqlFiltro);
 
 }
 
@@ -66,7 +64,6 @@ function atualizarDadoByUser(senha,nomeUsuario,email,idUsuario) {
 
 // Listando os professores existententes no banco
 
-// ATENCAO: Atualizar depois para a nova regra de negócio!
 function listarProfessores(){
     console.log("acessei o selctall")
     var instrucaoSql = 
