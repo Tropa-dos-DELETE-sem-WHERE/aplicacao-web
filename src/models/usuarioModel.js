@@ -36,7 +36,12 @@ async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario
   const sqlUsuarioId = `SELECT id FROM usuario WHERE email = '${email}' AND escola_id = ${escolaId};`;
   const usuarioRes = await database.executar(sqlUsuarioId);
   const usuarioId = usuarioRes[0].id;
-
+  
+  const sqlSlack = `
+  INSERT INTO slack (nomeCanal,ultima_notificacao,escola_id,usuario_id)VALUES ('canal-escola-${escolaId}',null,${escolaId},${usuarioId});
+                `;
+    console.log("Executando SQL filtro:\n" + sqlSlack);
+    await database.executar(sqlSlack);
   const sqlFiltro = `
     INSERT INTO filtro (nome, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
     VALUES ('Filtro Padrão', ${1}, ${tipoEscolaId}, ${ufId}, ${usuarioId}, 'sim');
@@ -44,11 +49,8 @@ async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario
   console.log("Executando SQL filtro:\n" + sqlFiltro);
   await database.executar(sqlFiltro);
   
-  const sqlSlack = `
-  INSERT INTO slack (nomeCanal,ultima_notificacao,escola_id,usuario_id)VALUES ('canal-escola-${escolaId}',null,${escolaId},${usuarioId});
-                `;
-    console.log("Executando SQL filtro:\n" + sqlSlack);
-   return await database.executar(sqlSlack);
+
+    return;
 }
 
 
