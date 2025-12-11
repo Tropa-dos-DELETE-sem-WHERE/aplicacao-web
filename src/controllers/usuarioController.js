@@ -88,22 +88,15 @@ function cadastrar(req, res) {
 //Atualizandos os dados do usuário
 function atualizarDadoByUser(req, res) {
     
-    const idInstituicao = req.body.idInstituicaoServer;
+    const senha = req.body.senhaServer;
     const nomeUsuario = req.body.nomeUsuarioServer;
     const email = req.body.emailServer;
-    const idUsuario = req.body.idUsuarioServer;
-    
-    // Faça as validações dos valores
-    if (idInstituicao == undefined) {
-        res.status(400).send("Nome da Instituição está indefinido!");
-    } else if (nomeUsuario == undefined) {
-        res.status(400).send("Nome do Usuário está indefinido!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está indefinido!");
-    } else if (idUsuario == undefined) {
-        res.status(400).send("Sua senha está indefinida!");
-    } else {
-        usuarioModel.atualizarDadoByUser(idInstituicao,nomeUsuario,email,idUsuario)
+    const idUsuario = req.body.idUsuario;
+    console.log(idUsuario);
+    console.log(nomeUsuario);
+    console.log(email);
+    console.log(senha);
+        usuarioModel.atualizarDadoByUser(senha,nomeUsuario,email,idUsuario)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -114,7 +107,6 @@ function atualizarDadoByUser(req, res) {
                     res.status(500).json(erro.sqlMessage);
                 }
             );
-    }
 }
 
 // Inserindo os professores 

@@ -53,11 +53,11 @@ async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario
 }
 
 // Cadastrando o usuário com suas devidas credenciais
-function atualizarDadoByUser(idInstituicao,nomeUsuario,email,idUsuario) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function atualizarDadoByUser(): ",idInstituicao,nomeUsuario,email,idUsuario)
+function atualizarDadoByUser(senha,nomeUsuario,email,idUsuario) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function atualizarDadoByUser(): ",senha,nomeUsuario,email,idUsuario)
     var instrucaoSql = `
         UPDATE usuario
-        SET nome = '${nomeUsuario}', email = '${email}', escola_id = ${idInstituicao}
+        SET nome = '${nomeUsuario}', email = '${email}', senha = ${senha}
         WHERE id = ${idUsuario}; 
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -80,9 +80,16 @@ function escolaUser(idUsuario){
     console.log("acessei o select escola do usuario com id :"+idUsuario);
     var instrucaoSql = 
     `
-        SELECT e.* FROM usuario as u
-        JOIN escola as e ON u.escola_id = e.codigoEscola
-        where u.id = ${idUsuario};
+            SELECT 
+            u.nome,
+            u.email,
+            u.senha,
+            e.*
+        FROM usuario AS u
+        JOIN escola AS e 
+            ON u.escola_id = e.codigoEscola
+        WHERE u.id = ${idUsuario};
+
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
