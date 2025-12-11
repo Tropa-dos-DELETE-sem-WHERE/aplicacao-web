@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <link rel="stylesheet" href="./css/modal.css">
   <link rel="stylesheet" href="./css/logado.css">
   <link rel="stylesheet" href="./css/professores.css">
@@ -13,14 +14,15 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet" />
-  <title>Professores</title>
+  <title>Administração - EducaData</title>
+  <link rel="icon" type="image/png" href="./assets/icons/escola.svg">
 </head>
 
 <body>
   <aside>
     <div class="logo"><img src="./assets/icons/escola.svg"></div>
 
-    <h2>Bem-vindo, fulano!</h2>
+    <h2>Bem-vindo!</h2>
     <nav>
       <ul>
         <li><a href="overview.html" title="Overview"><img src="./assets/icons/inicio.svg" alt=""> Início</a></li>
@@ -61,6 +63,8 @@
 </body>
 
 </html>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
     window.onload = () => {
     carregarTabela();
@@ -198,8 +202,43 @@
         }),
       })
       .then(function (resposta) {
-        console.log("resposta: ", resposta);
-        window.location.reload();
+        if(nome === `` || email === `` || senha === ``){
+    Toastify({
+        text: "Por favor preencher todos os campos corretamente!",
+        duration: 3000,
+        destination: "https://github.com/apvarun/toastify-js",
+        newWindow: true,
+        close: true,
+        gravity: "top", 
+        position: "right", 
+        stopOnFocus: true, 
+        style: {
+          background: "linear-gradient(to right, #990F02, #D0312D)",
+          fontSize: "18px",
+  }, 
+}).showToast();
+    } else{
+    Toastify({
+      text: "Professor inserido com sucesso!",
+      duration: 3000,
+      destination: "https://github.com/apvarun/toastify-js",
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "right", 
+      stopOnFocus: true, 
+      style: {
+        background: "linear-gradient(to right, #337129, #96c93d)",
+        fontSize: "18px",
+  }, 
+}).showToast();
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+        }
+        // console.log("resposta: ", resposta);
+        // window.location.reload();
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
@@ -233,8 +272,29 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idProfessor: id })
     });
-    alert("Professor deletado!");
-    window.location.reload();
+    // alert("Professor deletado!");
+    // window.location.reload();
+
+    
+  // Implementei com toast para ficar mais visualmente agradável
+  Toastify({
+      text: "Professor deletado com sucesso!",
+      duration: 3000,
+      destination: "https://github.com/apvarun/toastify-js",
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "right", 
+      stopOnFocus: true, 
+      style: {
+        background: "linear-gradient(to right, #337129, #96c93d)",
+        fontSize: "18px",
+      }, 
+    }).showToast();
+      
+setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   }
   function gerarSenha(tamanho) {
     const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%¨&()_';
@@ -266,8 +326,30 @@
     })
       .then(function (resposta) {
         if (resposta.ok) {
-          alert("Professor atualizado com sucesso!");
-          window.location.reload();
+          // alert("Professor atualizado com sucesso!");
+          // window.location.reload();
+
+          
+  // Implementei com toast para ficar mais visualmente agradável
+  Toastify({
+  text: "Professor atualizado com sucesso!",
+  duration: 3000,
+  destination: "https://github.com/apvarun/toastify-js",
+  newWindow: true,
+  close: true,
+  gravity: "top", 
+  position: "right", 
+  stopOnFocus: true, 
+  style: {
+    background: "linear-gradient(to right, #337129, #96c93d)",
+    fontSize: "18px",
+  }, 
+}).showToast();
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+
         } else {
           alert("Erro ao atualizar professor!");
         }
@@ -276,6 +358,7 @@
         console.error(`#ERRO: ${erro}`);
       });
   }
+
   function editarProfessor(id, nome, email, senha) {
     console.log("abrindo modal de edição para professor:", id);
 

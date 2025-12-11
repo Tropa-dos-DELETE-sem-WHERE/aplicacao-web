@@ -1,11 +1,12 @@
 const usuarioModel = require("../models/usuarioModel");
 
+// Autenticando usuário
 function autenticar(req, res) {
     const email = req.body.emailServer;
     const senha = req.body.senhaServer;
 
     if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
+        res.status(400).send("Seu email está indefinido!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
@@ -43,6 +44,8 @@ function autenticar(req, res) {
 
 }
 
+
+// Cadastrando usuário 
 function cadastrar(req, res) {
     
     const nomeInstituicao = req.body.nomeInstituicaoServer;
@@ -53,20 +56,19 @@ function cadastrar(req, res) {
 
     // Faça as validações dos valores
     if (nomeInstituicao == undefined) {
-        res.status(400).send("Nome da Instituição está undefined!");
+        res.status(400).send("Nome da Instituição está indefinido!");
     } else if (nomeUsuario == undefined) {
-        res.status(400).send("Nome do Usuário está undefined!");
+        res.status(400).send("Nome do Usuário está indefinido!");
     } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
+        res.status(400).send("Seu email está indefinido!");
     } else if (senha == undefined) {
-        res.status(400).send("Sua senha está undefined!");
+        res.status(400).send("Sua senha está indefinida!");
     } else if (tipoUsuario == undefined) {
-        res.status(400).send("Seu tipo de usuario está undefined!");
+        res.status(400).send("Seu tipo de usuario está indefinido!");
     } else {
         usuarioModel.cadastrar(nomeInstituicao,nomeUsuario,email,senha,tipoUsuario)
             .then(
                 function (resultado) {
-
                     res.json(resultado);
                 }
                 
@@ -83,24 +85,18 @@ function cadastrar(req, res) {
     }
 }
 
+//Atualizandos os dados do usuário
 function atualizarDadoByUser(req, res) {
     
-    const idInstituicao = req.body.idInstituicaoServer;
+    const senha = req.body.senhaServer;
     const nomeUsuario = req.body.nomeUsuarioServer;
     const email = req.body.emailServer;
-    const idUsuario = req.body.idUsuarioServer;
-    
-    // Faça as validações dos valores
-    if (idInstituicao == undefined) {
-        res.status(400).send("Nome da Instituição está undefined!");
-    } else if (nomeUsuario == undefined) {
-        res.status(400).send("Nome do Usuário está undefined!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (idUsuario == undefined) {
-        res.status(400).send("Sua senha está undefined!");
-    } else {
-        usuarioModel.atualizarDadoByUser(idInstituicao,nomeUsuario,email,idUsuario)
+    const idUsuario = req.body.idUsuario;
+    console.log(idUsuario);
+    console.log(nomeUsuario);
+    console.log(email);
+    console.log(senha);
+        usuarioModel.atualizarDadoByUser(senha,nomeUsuario,email,idUsuario)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -111,8 +107,11 @@ function atualizarDadoByUser(req, res) {
                     res.status(500).json(erro.sqlMessage);
                 }
             );
-    }
 }
+
+// Inserindo os professores 
+
+// ATENCAO: Atualizar depois para a nova regra de negócio!
 function inserirProfessor(req, res) {
     const nome = req.body.nome;
     const email = req.body.email;
@@ -121,15 +120,15 @@ function inserirProfessor(req, res) {
     const escola_id = req.body.escola_id;
 
     if (nome == "") {
-        res.status(400).send("O nome está undefined!");
+        res.status(400).send("O nome está indefinido!");
     } else if (email == "") {
-        res.status(400).send("O email está undefined!");
+        res.status(400).send("O email está indefinido!");
     } else if (senha == "") {
-        res.status(400).send("A senha está undefined!");
+        res.status(400).send("A senha está indefinida!");
     } else if (tipoUsuario == "") {
-        res.status(400).send("O tipo de usuário está undefined!");
+        res.status(400).send("O tipo de usuário está indefinido!");
     } else if (escola_id == undefined) {
-        res.status(400).send("O ID da escola está undefined!");
+        res.status(400).send("O ID da escola está indefinido!");
     } else {
         usuarioModel.inserirProfessor(nome, email, senha, tipoUsuario, escola_id)
             .then(
@@ -149,6 +148,8 @@ function inserirProfessor(req, res) {
     }
 }
 
+
+// Listando os professores 
 function listarProfessores(req, res){
 usuarioModel.listarProfessores().then(
     function (resultadoAutenticar) {
@@ -164,10 +165,12 @@ usuarioModel.listarProfessores().then(
             );
 }
 
+
+// Validando usuário
 function escolaUser(req, res) {
     const idUsuario = req.params.idUsuario;
     if (idUsuario == undefined) {
-        res.status(400).send("O id do Usuario está undefined!");
+        res.status(400).send("O id do Usuário está indefinido!");
     } else {
         usuarioModel.escolaUser(idUsuario)
             .then(
@@ -186,6 +189,8 @@ function escolaUser(req, res) {
             );
     }
 }
+
+// Deletando usuário 
 function deleteUser(req, res) {
     var id = req.body.id;
 
@@ -199,6 +204,7 @@ function deleteUser(req, res) {
         });
 }
 
+// Deletando os professores 
 function deleteProfessor(req, res) {
     var idProfessor = req.body.idProfessor;
 
@@ -211,6 +217,8 @@ function deleteProfessor(req, res) {
             res.status(500).json(erro.sqlMessage);
         });
 }
+
+// Atualizando os professores 
 function atualizarProfessor(req, res) {
     const id = req.params.id;
     const nome = req.body.nome;

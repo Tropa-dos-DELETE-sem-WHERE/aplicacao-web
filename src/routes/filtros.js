@@ -4,15 +4,15 @@ var router = express.Router();
 var filtrosController = require("../controllers/filtroController");
 
 
-router.delete("/deletarFiltro", function(req, res) {
+router.delete("/deletarFiltro/:idFiltro", function(req, res) {
     filtrosController.deletarFiltro(req, res);
 });
 
-router.put("/atualizarFiltro/:id", function (req, res) {
+router.put("/atualizarFiltro/:idFiltro", function (req, res) {
     filtrosController.atualizar(req, res);
 });
 
-router.patch("/atualizarStatus/:id", function (req, res) {
+router.patch("/atualizarStatus/:idFiltro", function (req, res) {
     filtrosController.atualizarStatus(req, res);
 });
 

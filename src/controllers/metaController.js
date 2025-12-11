@@ -14,7 +14,8 @@ function atualizarMeta(req, res) {
     console.log(idUsuario);
     console.log(statusMeta);
     console.log(idMeta);
-    metaModel.atualizarMeta(tituloMeta, dataLimite, anotacao, idUsuario, statusMeta,idMeta)
+    
+    metaModel.atualizarMeta(tituloMeta, dataLimite, anotacao, idUsuario, statusMeta, idMeta)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -31,6 +32,7 @@ function atualizarMeta(req, res) {
             }
         );
 }
+
 function atualizarStatusMeta(req, res) {
     const idMeta = req.params.idMeta;
     const statusMeta = req.body.statusMeta;

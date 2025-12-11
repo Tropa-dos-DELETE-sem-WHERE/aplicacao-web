@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil</title>
+    <title>Editar Perfil - EducaData</title>
+    <link rel="icon" type="image/png" href="./assets/icons/escola.svg">
     <link rel="stylesheet" href="css/telaPerfilUsuario.css">
     <link rel="stylesheet" href="css/logado.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Montserrat:wght@100..900&family=Poppins:wght@100..900&family=Roboto:wght@100..900&display=swap"
         rel="stylesheet">
 </head>
 
@@ -20,16 +21,16 @@
     <aside>
         <div class="logo"><img src="./assets/icons/escola.svg"></div>
 
-        <h2>Bem-vindo, fulano!</h2>
+        <h2>Bem-vindo!</h2>
         <nav>
             <ul>
-        <li><a href="overview.html" title="Overview"><img src="./assets/icons/inicio.svg" alt=""> Início</a></li>
-        <li><a href="dashboard.html" title="Dashboard"><img src="./assets/icons/dashboard.svg" alt="">Dashboard</a></li>
-        <li><a href="metas.html" title="Metas"><img src="./assets/icons/metas.svg" alt="">Metas</a></li>
-        <li><a href="professores.html" title="Professores"><img src="./assets/icons/professores.svg"alt="">Professores</a></li>
-        <li><a href="perfilUsuario.html" title="Perfil"><img src="./assets/icons/perfil.svg" alt="">Perfil</a></li>
-        <li><a href="notificacoes.html" title="Perfil"><img src="./assets/icons/notificacao light.svg" alt="">Notificações</a></li>
-        <li><a href="index.html" title="Sair"><img src="./assets/icons/sair.svg" alt="">Sair</a></li>
+                <li><a href="overview.html" title="Overview"><img src="./assets/icons/inicio.svg" alt=""> Início</a></li>
+                <li><a href="dashboard.html" title="Dashboard"><img src="./assets/icons/dashboard.svg"alt="">Dashboard</a></li>
+                <li><a href="metas.html" title="Metas"><img src="./assets/icons/metas.svg" alt="">Metas</a></li>
+                <li><a href="professores.html" title="Professores"><img src="./assets/icons/professores.svg"alt="">Professores</a></li>
+                <li><a href="perfilUsuario.html" title="Perfil"><img src="./assets/icons/perfil.svg" alt="">Perfil</a></li>
+                <li><a href="notificacoes.html" title="Perfil"><img src="./assets/icons/notificacao light.svg" alt="">Notificações</a></li>
+                <li><a href="index.html" title="Sair"><img src="./assets/icons/sair.svg" alt="">Sair</a></li>
             </ul>
         </nav>
     </aside>
@@ -37,32 +38,23 @@
         <div class="container mostrar" id="conteudo">
             <h2 class="titulo">Perfil</h2>
 
-            <div class="foto-perfil">
-                <img id="foto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" onclick="alterarFoto()"
-                    alt="Foto de Perfil">
-                <input type="file" id="input_foto" accept="image/*" style="display:none">
-            </div>
-
-            <div class="box-ud">
-                <button type="button" class="btn btn-editar" id="btn_editar" onclick="habilitarEdicao()">Editar</button>
-                <button type="button" class="btn btn-apagar" id="btn_apagar" onclick="apagarGestor()">Apagar
-                    Conta</button>
-            </div>
             <form id="form_editar">
+                 <div class="foto-perfil">
+                    <img id="foto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Foto de Perfil">
+
+                </div>
                 <label for="nome">Nome</label>
-                <input type="text" id="input_nome" disabled>
+                <input type="text" id="input_nome">
 
                 <label for="email">E-mail</label>
-                <input type="email" id="input_email" disabled>
+                <input type="email" id="input_email">
 
-                <label for="instituicao">Instituição</label>
-                <input type="text" id="input_instituicao" disabled>
+                <label for="senha">Senha</label>
+                <input type="password" id="input_senha">
 
                 <div class="botoes">
-                    <button type="button" class="btn btn-salvar" onclick="atualizarDadoByUser()" disabled
-                        id="btn_salvar">Salvar</button>
-                    <button type="button" class="btn btn-cancelar" onclick="cancelar()" disabled id="btn_cancelar"><a
-                            href="overview.html" style="text-decoration: none; color: white;">Cancelar</a></button>
+                    <button type="button" class="btn btn-salvar" onclick="atualizarDadoByUser()" id="btn_salvar">Editar</button>
+                    <button type="button" class="btn btn-apagar" id="btn_apagar" onclick="apagarGestor()">Apagar Conta</button>
                 </div>
             </form>
             <div id="modal_container_adicionar"></div>
@@ -72,131 +64,93 @@
 </body>
 
 </html>
+
 <script>
-    const btnEditar = document.getElementById("btn_editar");
     window.onload = async () => {
         const conteudo = document.getElementById("conteudo");
         await escolaUsuario();
         conteudo.classList.add("mostrar");
     };
-
+    let atributosUsuario = null;
     function escolaUsuario() {
         const idUsuario = sessionStorage.ID_USUARIO;
         fetch(`/usuarios/escolasUser/${idUsuario}`)
-            .then(resposta => {
-                return resposta.json()
-            }).then(atributos => {
-                console.log(atributos)
-                input_instituicao.value = atributos[0].nomeEscola;
+            .then(resposta => resposta.json())
+            .then(atributos => {
+                console.log(atributos);
+                // aqui você pode preencher nome/email se vier do backend
+                input_nome.value = atributos[0].nome || "";
+                input_email.value = atributos[0].email || "";
+                atributosUsuario = atributos[0];
             })
             .catch(erro => {
                 console.error("Deu erro:", erro);
             });
     }
 
-    function habilitarEdicao() {
-        const inputs = document.querySelectorAll("#form_editar input");
-        const btnSalvar = document.getElementById("btn_salvar");
-        const btnCancelar = document.getElementById("btn_cancelar");
-        const btnEditar = document.getElementById("btn_editar");
-        for (var i = 0; i < 4; i++) {
-            inputs[i].disabled = false;
-        }
-        btnSalvar.disabled = false;
-        btnCancelar.disabled = false;
-        btnEditar.style = "display:none";
-
-    }
-    function desabilitarEdicao() {
-        const inputs = document.querySelectorAll("#form_editar input");
-        const btnSalvar = document.getElementById("btn_salvar");
-        const btnCancelar = document.getElementById("btn_cancelar");
-        for (var i = 0; i < 4; i++) {
-            inputs[i].disabled = false;
-        }
-        btnSalvar.disabled = true;
-        btnCancelar.disabled = true;
-        btnEditar.innerHTML = "Editar";
-        btnEditar.onclick = habilitarEdicao;
-    }
-
     function atualizarDadoByUser() {
-        console.log("Entrou")
+        console.log("Entrou");
         const nomeUsuario = input_nome.value;
         const emailUsuario = input_email.value;
-        const id_instituicao = sessionStorage.ID_INSTITUICAO_USUARIO;
         const id_usuario = sessionStorage.ID_USUARIO;
-        fetch("/usuarios/atualizarDadoByUser",
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    idInstituicaoServer: id_instituicao,
-                    nomeUsuarioServer: nomeUsuario,
-                    emailServer: emailUsuario,
-                    idUsuarioServer: id_usuario
-                }),
-            })
-            .then(function (resposta) {
-                console.log("Funcionouuuuuuuuuuuuuuu");
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-            });
+        let senhaUsuario = null;
+        if(input_senha.value != ""){
+             senhaUsuario = input_senha.value;
+        }else{
+             senhaUsuario = atributosUsuario.senha;
+        }
+
+       
+        fetch(`/usuarios/atualizarDadoByUser`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nomeUsuarioServer: nomeUsuario,
+                emailServer: emailUsuario,
+                senhaServer: senhaUsuario,
+                idUsuario:id_usuario
+            }),
+        })
+        .then(resposta => {
+            alert("Dados atualizados com sucesso!");
+        })
+        .catch(erro => {
+            console.log(`#ERRO: ${erro}`);
+        });
     }
 
-    function cancelar() {
-        window.location = "./overview.html";
-        btnEditar.style = "display:block";
-        btnEditar.textContent = "Editar";
-        btnEditar.onclick = desabilitarEdicao;
-        const inputs = document.querySelectorAll("#form_editar input");
-        const btnSalvar = document.getElementById("btn_salvar");
-        const btnCancelar = document.getElementById("btn_cancelar");
-        inputs.forEach(input => input.disabled = true);
-        btnSalvar.disabled = true;
-        btnCancelar.disabled = true;
-    }
-
-    function alterarFoto() {
-        input_foto.click();
-    }
     function apagarGestor() {
         modal_container_adicionar.innerHTML = `
-    <div class="modal-container show">
-      <div class="modal-overlay" onclick="fecharModal()"></div>
-      <div class="modal">
-        <h1>Apagar Conta</h1>
-        <p>
-          Tem certeza que deseja apagar sua conta? Essa ação <b>não poderá ser desfeita</b>.
-        </p>
+        <div class="modal-container show">
+          <div class="modal-overlay" onclick="fecharModal()"></div>
+          <div class="modal">
+            <h1>Apagar Conta</h1>
+            <p>
+              Tem certeza que deseja apagar sua conta? Essa ação <b>não poderá ser desfeita</b>.
+            </p>
 
-        <div class="boxButton">
-            <button class="btnConfirmar" onclick="deletarUsuario(sessionStorage.ID_USUARIO)">Confirmar</button>
-          <button class="btnCancelar" onclick="fecharModal()">Cancelar</button>
+            <div class="boxButton">
+                <button class="btnConfirmar" onclick="deletarUsuario(sessionStorage.ID_USUARIO)">Confirmar</button>
+                <button class="btnCancelar" onclick="fecharModal()">Cancelar</button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  `;
+      `;
     }
+
     function deletarUsuario(id) {
         fetch("/usuarios/delete", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: id })
         });
-        sessionStorage.EMAIL_USUARIO = undefined;
-        sessionStorage.NOME_USUARIO = undefined;
-        sessionStorage.ID_USUARIO = undefined;
-        sessionStorage.ID_INSTITUICAO_USUARIO = undefined;
-        sessionStorage.ID_TIPO_USUARIO = undefined;
+        sessionStorage.clear();
         window.location = "./index.html";
     }
 
     function fecharModal() {
         modal_container_adicionar.innerHTML = ``;
     }
-
 </script>

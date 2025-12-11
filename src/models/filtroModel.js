@@ -1,3 +1,5 @@
+// 
+
 var database = require("../database/config")
 
 async function listarFiltrosByUsuario(idUsuario) {
@@ -27,8 +29,6 @@ async function listarFiltrosByUsuario(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
-
-
 function inserir(nomeFiltro, materia_id, tipoEscola_id, UF_id, usuario_id, emUso) {
     console.log("Dentro do Model de filtros na função inserir() passando os seguintes dados para o banco:",
         nomeFiltro, materia_id, tipoEscola_id, UF_id, usuario_id, emUso);
@@ -42,20 +42,20 @@ function inserir(nomeFiltro, materia_id, tipoEscola_id, UF_id, usuario_id, emUso
     return database.executar(instrucaoSql);
 }
 
-function deletarFiltro(id,idUsuario) {
-    console.log("Dentro do Model de FILTRO na função  deletarFiltro() passando os seguintes dados para o banco",id,idUsuario);
+function deletarFiltro(idFiltro, idUsuario) {
+    console.log("Dentro do Model de FILTRO na função  deletarFiltro() passando os seguintes dados para o banco",idFiltro,idUsuario);
 
     var instrucaoSql = `
         DELETE FROM filtro
-        WHERE id = ${id} AND usuario_id = ${idUsuario};
+        WHERE id = ${idFiltro} AND usuario_id = ${idUsuario};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function atualizar(nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, id) {
-    console.log("Model atualizar filtro recebendo:", nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, id);
+function atualizar(nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, idFiltro) {
+    console.log("Model atualizar filtro recebendo:", nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, idFiltro);
 
     const instrucaoSql = `
         UPDATE filtro
@@ -63,14 +63,14 @@ function atualizar(nomeFiltro, materia_id, tipoEscola_id, UF_id, idUsuario, id) 
             materia_id = ${materia_id},
             tipoEscola_id = ${tipoEscola_id},
             UF_id = ${UF_id}
-        WHERE usuario_id = ${idUsuario} AND id = ${id};
+        WHERE usuario_id = ${idUsuario} AND id = ${idFiltro};
     `;
 
     console.log("Executando SQL:\n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
-async function atualizarStatus(id,idUsuario) {
-    console.log("Dentro do Model de Filtros na função  atualizarStatus() passando os seguintes dados para o banco",id,idUsuario);
+async function atualizarStatus(idFiltro ,idUsuario) {
+    console.log("Dentro do Model de Filtros na função  atualizarStatus() passando os seguintes dados para o banco",idFiltro,idUsuario);
 
     const instrucaoSql = `
         UPDATE filtro
@@ -83,7 +83,7 @@ async function atualizarStatus(id,idUsuario) {
      const instrucaoSql2 = `
         UPDATE filtro
         SET emUso = 'sim'
-        WHERE usuario_id = ${idUsuario} AND id = ${id};
+        WHERE usuario_id = ${idUsuario} AND id = ${idFiltro};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql2);

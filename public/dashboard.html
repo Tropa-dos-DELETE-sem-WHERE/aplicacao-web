@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visão geral - EducaData</title>
+  <title>Dashboard - EducaData</title>
+  <link rel="icon" type="image/png" href="./assets/icons/escola.svg">
 
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <link rel="stylesheet" href="./css/dashboard.css">
   <link rel="stylesheet" href="./css/logado.css">
   <link rel="stylesheet" href="./css/modalFiltro.css">
@@ -23,60 +25,69 @@
   <aside>
     <div class="logo"><img src="./assets/icons/escola.svg"></div>
 
-    <h2>Bem-vindo, fulano!</h2>
+    <h2>Bem-vindo!</h2>
     <nav>
       <ul>
         <li><a href="overview.html" title="Overview"><img src="./assets/icons/inicio.svg" alt=""> Início</a></li>
         <li><a href="dashboard.html" title="Dashboard"><img src="./assets/icons/dashboard.svg" alt="">Dashboard</a></li>
         <li><a href="metas.html" title="Metas"><img src="./assets/icons/metas.svg" alt="">Metas</a></li>
-        <li><a href="professores.html" title="Professores"><img src="./assets/icons/professores.svg"alt="">Professores</a></li>
+        <li><a href="professores.html" title="Professores"><img src="./assets/icons/professores.svg"
+              alt="">Professores</a></li>
         <li><a href="perfilUsuario.html" title="Perfil"><img src="./assets/icons/perfil.svg" alt="">Perfil</a></li>
-        <li><a href="notificacoes.html" title="Perfil"><img src="./assets/icons/notificacao light.svg" alt="">Notificações</a></li>
         <li><a href="index.html" title="Sair"><img src="./assets/icons/sair.svg" alt="">Sair</a></li>
       </ul>
     </nav>
   </aside>
 
   <main>
-    <div class="container-cima">
-      <h1>Dashboard</h1>
-      <button onclick="modalFiltro()"><i class="bi bi-funnel-fill">Filtros</i></button>
+    <h2 style="font-size: 25px;">Dashboard - Visão geral</h2>
+
+    <div id="filtros-container">
+
+      <div class="filtro">
+        <button onclick="modalFiltro()"><label for=""><i class="bi bi-funnel-fill"></i>Filtros</label></button>
+      </div>
+
     </div>
 
     <div id="kpis-container">
       <div class="kpi" id="kpi-maior-mediana">
-        <h3>Maior mediana de notas</h3>
-        <h4>texto</h4>
-        <h4>texto</h3>
-      </div>
+      <h4>Maior mediana de notas</h4>
+      <h2 id="kpi-maior-nome"></h2>
+      <h1 id="kpi-maior-valor" style="color: green;"></h1>
+    </div>
       <div class="kpi" id="kpi-menor-mediana">
-        <h3>Menor mediana de notas</h3>
-        <h4>texto</h4>
-        <h4>texto</h4>
+        <h4>Menor mediana de notas</h4>
+        <h2 id="kpi-menor-nome"></h2>
+        <h1 id="kpi-menor-valor" style="color: red;"></h1>
       </div>
       <div class="kpi" id="kpi-maior-dif">
-        <h3>Maior diferença entre escola e Brasil</h3>
-        <h4>texto</h4>
-        <h4>texto</h4>
+        <h4>Maior diferença entre escola e Brasil</h4>
+        <h2 id="kpi-maior-dif-nome"></h2>
+        <h1 id="kpi-maior-dif-valor"></h1>
       </div>
       <div class="kpi" id="kpi-menor-dif">
-        <h3>Menor diferença entre escola e Brasil</h3>
-        <h4>texto</h4>
-        <h4>texto</h4>
+        <h4>Menor diferença entre escola e Brasil</h4>
+        <h2 id="kpi-menor-dif-nome"></h2>
+        <h1 id="kpi-menor-dif-valor"></h1>
       </div>
     </div>
-
+ 
+    
+    <div class="textos">
+      <h1>Histograma de notas dos alunos</h1>
+      <h1>Distribuição de % por área de conhecimento</h1>
+    </div>
+  
     <div id="graficos-container">
       <div class="grafico-wrapper">
-        <h2>Histograma de notas dos alunos</h2>
-        <canvas id="grafico1"></canvas>
+         <canvas id="grafico1"></canvas>
       </div>
       <div class="grafico-wrapper">
-        <h2>Distribuição de % por área de conhecimento</h2>
-        <canvas id="grafico2"></canvas>
+         <canvas id="grafico2"></canvas>
       </div>
     </div>
-
+    
   </main>
   <div id="modal_container_adicionar"></div>
   <div id="modal_container_adicionar_filtro"></div>
@@ -85,192 +96,201 @@
 
 </html>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
 <script>
 
-  function carregarKPIs(idEscola) {
-    async function carregarKPIs() {
-      const idEscola = 12000094; // pode trocar futuramente com sessionStorage
+let graficoHistograma;
+let graficoMedianas;
 
-      const resposta = await fetch(`/dashboard/medianas/${idEscola}`);
-      const dados = await resposta.json();
+function obterFiltroAtivo() {
+  const idUsuario = sessionStorage.ID_USUARIO;
+  if (!idUsuario) return Promise.resolve(null);
 
-      const materias = {
-        "Ciências da Natureza": dados.mediana_cn,
-        "Ciências Humanas": dados.mediana_ch,
-        "Linguagens": dados.mediana_lp,
-        "Matemática": dados.mediana_mt,
-        "Redação": dados.mediana_red
+  return fetch('/filtros/listar/' + idUsuario)
+    .then(res => res.json())
+    .then(dados => {
+      const ativo = dados.find(f => f.emUso === 1);
+      return ativo || null;
+    })
+    .catch(e => {
+      console.error('Erro ao obter filtros:', e);
+      return null;
+    });
+}
+
+function carregarKPIs(idEscola) {
+  fetch('/dashboard/kpis/' + idEscola)
+    .then(res => {
+      if (!res.ok) throw new Error('Resposta não OK: ' + res.status);
+      return res.json();
+    })
+    .then(dados => {
+      const nomes = {
+        cn: "Ciências da Natureza",
+        ch: "Ciências Humanas",
+        lp: "Linguagens",
+        mt: "Matemática",
+        red: "Redação"
       };
 
-      const maior = Object.entries(materias).reduce((a, b) => a[1] > b[1] ? a : b);
-      const menor = Object.entries(materias).reduce((a, b) => a[1] < b[1] ? a : b);
+      document.getElementById("kpi-maior-nome").innerText = nomes[dados.maiorMediana];
+      document.getElementById("kpi-maior-valor").innerText = `${Number(dados.valorMaiorMediana).toFixed(2)} pontos`;
 
-      document.getElementById("kpi-maior-nome").innerText = maior[0];
-      document.getElementById("kpi-maior-valor").innerText = `Total de ${maior[1]} pontos`;
+      document.getElementById("kpi-menor-nome").innerText = nomes[dados.menorMediana];
+      document.getElementById("kpi-menor-valor").innerText = `${Number(dados.valorMenorMediana).toFixed(2)} pontos`;
 
-      document.getElementById("kpi-menor-nome").innerText = menor[0];
-      document.getElementById("kpi-menor-valor").innerText = `Total de ${menor[1]} pontos`;
+      const md = dados.maiorDiferenca;
+      const me = dados.menorDiferenca;
 
-      const respostaBrasil = await fetch(`/dashboard/medianas-brasil`);
-      const brasil = await respostaBrasil.json();
+      if (md && md.materia) {
+        document.getElementById("kpi-maior-dif-nome").innerText = nomes[md.materia] || md.materia;
+        document.getElementById("kpi-maior-dif-valor").innerText = `${Math.abs(md.diff).toFixed(1)} pontos ${md.diff > 0 ? 'acima' : 'abaixo'} do Brasil`;
+      }
 
-      const diffs = {
-        "Ciências da Natureza": (dados.mediana_cn - brasil.mediana_cn),
-        "Ciências Humanas": (dados.mediana_ch - brasil.mediana_ch),
-        "Linguagens": (dados.mediana_lp - brasil.mediana_lp),
-        "Matemática": (dados.mediana_mt - brasil.mediana_mt),
-        "Redação": (dados.mediana_red - brasil.mediana_red)
-      };
+      if (me && me.materia) {
+        document.getElementById("kpi-menor-dif-nome").innerText = nomes[me.materia] || me.materia;
+        document.getElementById("kpi-menor-dif-valor").innerText = `${Math.abs(me.diff).toFixed(1)} pontos ${me.diff > 0 ? 'acima' : 'abaixo'} do Brasil`;
+      }
+    })
+    .catch(err => console.error("Erro carregar KPIs", err));
+}
 
-      const maiorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) > Math.abs(b[1]) ? a : b);
-      const menorDif = Object.entries(diffs).reduce((a, b) => Math.abs(a[1]) < Math.abs(b[1]) ? a : b);
+function carregarKPIsQuery(query) {
+  fetch('/dashboard/kpisComFiltro' + query)
+    .then(res => {
+      if (!res.ok) throw new Error('Resposta não OK: ' + res.status);
+      return res.json();
+    })
+    .then(dados => {
+      const nomes = { cn: "Ciências da Natureza", ch: "Ciências Humanas", lp: "Linguagens", mt: "Matemática", red: "Redação" };
 
-      document.getElementById("kpi-maior-dif-nome").innerText = maiorDif[0];
-      document.getElementById("kpi-maior-dif-valor").innerText =
-        `${maiorDif[1] > 0 ? maiorDif[1] : -maiorDif[1]} pontos maior que o Brasil`;
+      document.getElementById("kpi-maior-nome").innerText = nomes[dados.maiorMediana];
+      document.getElementById("kpi-maior-valor").innerText = `${Number(dados.valorMaiorMediana).toFixed(2)} pontos`;
 
-      document.getElementById("kpi-menor-dif-nome").innerText = menorDif[0];
-      document.getElementById("kpi-menor-dif-valor").innerText =
-        `${menorDif[1] > 0 ? menorDif[1] : -menorDif[1]} pontos maior que o Brasil`;
-    }
+      document.getElementById("kpi-menor-nome").innerText = nomes[dados.menorMediana];
+      document.getElementById("kpi-menor-valor").innerText = `${Number(dados.valorMenorMediana).toFixed(2)} pontos`;
 
-    carregarKPIs();
+      const md = dados.maiorDiferenca;
+      const me = dados.menorDiferenca;
 
-  }
+      if (md && md.materia) document.getElementById("kpi-maior-dif-nome").innerText = nomes[md.materia] || md.materia;
+      if (md) document.getElementById("kpi-maior-dif-valor").innerText = `${Math.abs(md.diff).toFixed(1)} pontos ${md.diff > 0 ? 'acima' : 'abaixo'} do Brasil`;
 
-  //  const grafico1 = document.getElementById('grafico1');
+      if (me && me.materia) document.getElementById("kpi-menor-dif-nome").innerText = nomes[me.materia] || me.materia;
+      if (me) document.getElementById("kpi-menor-dif-valor").innerText = `${Math.abs(me.diff).toFixed(1)} pontos ${me.diff > 0 ? 'acima' : 'abaixo'} do Brasil`;
+    })
+    .catch(e => console.error('Erro ao carregar KPIs com filtro:', e));
+}
 
-  // new Chart(grafico1, {
-  //   type: 'bar',
-  //   data: {
-  //     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  //     datasets: [{
-  //       label: 'Histograma de notas dos alunos',
-  //       data: [12, 19, 3, 5, 2, 3],
-  //       borderWidth: 1
-  //     }]
-  //   },
-  //   options: {
-  //     maintainAspectRatio: false,
-  //     scales: {
-  //       y: {
-  //         beginAtZero: true
-  //       }
-  //     }
-  //   }
-  // });
+function carregarHistograma(idEscola) {
+  fetch('/dashboard/histograma/' + idEscola)
+    .then(res => res.json())
+    .then(dados => {
+      const grafico1 = document.getElementById("grafico1").getContext("2d");
+      if (graficoHistograma) graficoHistograma.destroy();
 
-  let graficoHistograma;
-
-  function carregarHistograma(idEscola) {
-    fetch(`/dashboard/histograma/${idEscola}`)
-      .then(resposta => resposta.json())
-      .then(dados => {
-
-        const grafico1 = document.getElementById("grafico1").getContext("2d");
-
-        if (graficoHistograma) {
-          graficoHistograma.destroy();
-        }
-
-        graficoHistograma = new Chart(grafico1, {
-          type: 'bar',
-          data: {
-            labels: dados.bins,
-            datasets: [{
-              label: 'Histograma de notas dos alunos',
-              data: dados.values,
-              borderWidth: 1
-            }]
-          },
-          options: {
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                beginAtZero: true
-              }
-            }
-          }
-        });
-
-      })
-      .catch(erro => {
-        console.error("Erro ao carregar histograma:", erro);
+      graficoHistograma = new Chart(grafico1, {
+        type: 'bar',
+        data: { labels: dados.bins, datasets: [{ label: 'Histograma de notas dos alunos', data: dados.values, borderWidth: 1 }] },
+        options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
       });
+    })
+    .catch(erro => console.error("Erro ao carregar histograma:", erro));
+}
+
+function carregarHistogramaQuery(query) {
+  const idEscolaUsuario = sessionStorage.ID_INSTITUICAO_USUARIO;
+  if (!idEscolaUsuario) {
+    console.error('ID_INSTITUICAO_USUARIO não está disponível');
+    return;
   }
 
+  const separator = query ? '&' : '';
+  const url = '/dashboard/histogramaComparativo?idEscolaUsuario=' + idEscolaUsuario + (query ? query : '');
 
-  // const grafico2 = document.getElementById('grafico2');
+  fetch(url)
+    .then(res => res.json())
+    .then(dados => {
+      const grafico1 = document.getElementById("grafico1").getContext("2d");
+      if (graficoHistograma) graficoHistograma.destroy();
 
-  // new Chart(grafico2, {
-  //   type: 'pie',
-  //   data: {
-  //     labels: ['Matemática', 'Linguagens', 'Ciencias Humanas', 'Ciencias da Natureza', 'Redação'],
-  //     datasets: [{
-  //       label: 'Distribuição de % por área de conhecimento',
-  //       data: [12, 19, 3, 5, 2],
-  //       borderWidth: 0.5,
-  //     }]
-  //   },
-  //   options: {
-  //     maintainAspectRatio: false,
-  //     scales: {
-  //       y: {
-  //         beginAtZero: true
-  //       }
-  //     }
-  //   }
-  // });
-
-  let graficoMedianas;
-
-  function carregarMedianas(idEscola) {
-    fetch(`/dashboard/medianas/${idEscola}`)
-      .then(resposta => resposta.json())
-      .then(dados => {
-
-        const grafico2 = document.getElementById("grafico2").getContext("2d");
-
-        // destruir gráfico anterior caso exista
-        if (graficoMedianas) {
-          graficoMedianas.destroy();
-        }
-
-        graficoMedianas = new Chart(grafico2, {
-          type: 'pie',
-          data: {
-            labels: dados.labels,
-            datasets: [{
-              label: 'Distribuição de % por área de conhecimento',
-              data: dados.values,
-              backgroundColor: [
-                "#007bff", // Matemática
-                "#ffc107", // Linguagens
-                "#dc3545", // Humanas
-                "#28a745", // Natureza
-                "#6f42c1"  // Redação
-              ],
-              borderColor: "#ffffff",
-              borderWidth: 1
-            }]
-          },
-          options: {
-            maintainAspectRatio: false
-          }
-        });
-
-      })
-      .catch(erro => {
-        console.error("Erro ao carregar medianas:", erro);
+      graficoHistograma = new Chart(grafico1, {
+        type: 'bar',
+        data: {
+          labels: dados.bins,
+          datasets: [
+            { label: 'Filtro Ativo', data: dados.dataFiltro, borderWidth: 1 },
+            { label: 'Sua Escola', data: dados.dataEscola, borderWidth: 1 }
+          ]
+        },
+        options: { maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
       });
-  }
+    })
+    .catch(erro => console.error("Erro ao carregar histograma comparativo:", erro));
+}
+
+function carregarMedianas(idEscola) {
+  fetch('/dashboard/medianas/' + idEscola)
+    .then(res => res.json())
+    .then(dados => {
+      const grafico2 = document.getElementById("grafico2").getContext("2d");
+      if (graficoMedianas) graficoMedianas.destroy();
+
+      graficoMedianas = new Chart(grafico2, {
+        type: 'pie',
+        data: { labels: dados.labels, datasets: [{ label: 'Distribuição de % por área de conhecimento', data: dados.values, backgroundColor: ["#78a8d1", "#ffc107", "#dc3545", "#91c7a9", "#6f42c1"], borderWidth: 0 }] },
+        options: { maintainAspectRatio: false }
+      });
+    })
+    .catch(erro => console.error("Erro ao carregar medianas:", erro));
+}
+
+function carregarMedianasQuery(query) {
+  fetch('/dashboard/medianasComFiltro' + query)
+    .then(res => res.json())
+    .then(dados => {
+      const grafico2 = document.getElementById("grafico2").getContext("2d");
+      if (graficoMedianas) graficoMedianas.destroy();
+
+      graficoMedianas = new Chart(grafico2, {
+        type: 'pie',
+        data: { labels: dados.labels, datasets: [{ label: 'Distribuição de % por área de conhecimento', data: dados.values, backgroundColor: ["#78a8d1", "#ffc107", "#dc3545", "#91c7a9", "#6f42c1"], borderWidth: 1 }] },
+        options: { maintainAspectRatio: false }
+      });
+    })
+    .catch(erro => console.error("Erro ao carregar medianas com filtro:", erro));
+}
+
+function carregarDashboardComFiltro(idEscolaUsuario) {
+  obterFiltroAtivo()
+    .then(filtro => {
+      const escolaUsuario = sessionStorage.ID_INSTITUICAO_USUARIO ? Number(sessionStorage.ID_INSTITUICAO_USUARIO) : idEscolaUsuario;
+
+      if (filtro) {
+        const qs = [];
+        if (filtro.idMateria) qs.push(`materia_id=${filtro.idMateria}`);
+        if (filtro.idTipoEscola) qs.push(`tipoEscola_id=${filtro.idTipoEscola}`);
+        if (filtro.idEstado) qs.push(`UF_id=${filtro.idEstado}`);
+        const query = qs.length ? '?' + qs.join('&') : '';
+
+        carregarKPIsQuery(query);
+        carregarHistogramaQuery(query);
+        carregarMedianasQuery(query);
+      } else {
+        carregarKPIs(escolaUsuario);
+        carregarHistograma(escolaUsuario);
+        carregarMedianas(escolaUsuario);
+      }
+    });
+}
+
+// carregar com base no filtro ativo (ou fallback)
+carregarDashboardComFiltro();
 
 
-  function modalFiltro() {
-    modal_container_adicionar.innerHTML = `
+function modalFiltro() {
+  modal_container_adicionar.innerHTML = `
     <div class="modal-container show">
       <div class="modal-overlay" onclick="fecharModal()"></div>
       <div class="modal">
@@ -278,7 +298,7 @@
         <div class="form_filtro">
           <div class="novoFiltro">
                  <button class="btn add-btn" onclick="modalAddFiltro()">
-                  <img src="./assets/icons/add.svg" alt=""> Novo Filtro
+                  <img src="./assets/icons/add_prof.svg" alt=""> Novo Filtro
                 </button>
            </div>
           <div id="lista-filtros"></div>
@@ -286,8 +306,8 @@
       </div>
     </div>
   `;
-    listarFiltros();
-  }
+  listarFiltros();
+}
   function modalAddFiltro() {
     modal_container_adicionar_filtro.innerHTML = `
     <div class="modal-container show modal-add-filtro">
@@ -326,9 +346,9 @@
       </div>
     </div>
   `;
-    listarMaterias();
-    listarTiposEscola();
-    listarEstados();
+  listarMaterias();
+  listarTiposEscola();
+  listarEstados();
   }
 
   function fecharModal() {
@@ -340,74 +360,74 @@
 
 
   function listarMaterias() {
-    return fetch("/filtros/materias", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(resposta => resposta.json())
-      .then(dados => {
-        console.log("Materias recebidas:", dados);
-        const select = document.getElementById("select_materia");
-        select.innerHTML = "";
-        dados.forEach(materia => {
-          const option = document.createElement("option");
-          option.value = materia.id;
-          option.textContent = materia.nome;
-          select.appendChild(option);
-        });
-      })
-      .catch(erro => {
-        console.error("Erro ao listar matérias:", erro);
-      });
-  }
+  return  fetch("/filtros/materias", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(resposta => resposta.json())
+  .then(dados => {
+    console.log("Materias recebidas:", dados);
+    const select = document.getElementById("select_materia");
+    select.innerHTML = ""; 
+    dados.forEach(materia => {
+      const option = document.createElement("option");
+      option.value = materia.id;
+      option.textContent = materia.nome;
+      select.appendChild(option);
+    });
+  })
+  .catch(erro => {
+    console.error("Erro ao listar matérias:", erro);
+  });
+}
 
-  function listarEstados() {
-    return fetch("/filtros/estados", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(resposta => resposta.json())
-      .then(dados => {
-        console.log("Estados recebidos:", dados);
-        const select = document.getElementById("select_estado");
-        select.innerHTML = "";
-        dados.forEach(estado => {
-          const option = document.createElement("option");
-          option.value = estado.id;
-          option.textContent = estado.uf;
-          select.appendChild(option);
-        });
-      })
-      .catch(erro => {
-        console.error("Erro ao listar estados:", erro);
-      });
-  }
+function listarEstados() {
+  return  fetch("/filtros/estados", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(resposta => resposta.json())
+  .then(dados => {
+    console.log("Estados recebidos:", dados);
+    const select = document.getElementById("select_estado");
+    select.innerHTML = "";
+    dados.forEach(estado => {
+      const option = document.createElement("option");
+      option.value = estado.id;
+      option.textContent = estado.uf;
+      select.appendChild(option);
+    });
+  })
+  .catch(erro => {
+    console.error("Erro ao listar estados:", erro);
+  });
+}
 
-  function listarTiposEscola() {
-    return fetch("/filtros/tiposEscola", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(resposta => resposta.json())
-      .then(dados => {
-        console.log("Tipos de escola recebidos:", dados);
-        const select = document.getElementById("select_tipoEscola");
-        select.innerHTML = "";
-        dados.forEach(tipo => {
-          const option = document.createElement("option");
-          option.value = tipo.id;
-          option.textContent = tipo.tipo;
-          select.appendChild(option);
-        });
-      })
-      .catch(erro => {
-        console.error("Erro ao listar tipos de escola:", erro);
-      });
-  }
-  async function listarFiltros() {
-    const idUsuario = sessionStorage.ID_USUARIO;
-    const container = document.getElementById("lista-filtros");
-    container.innerHTML = "";
+function listarTiposEscola() {
+  return fetch("/filtros/tiposEscola", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(resposta => resposta.json())
+  .then(dados => {
+    console.log("Tipos de escola recebidos:", dados);
+    const select = document.getElementById("select_tipoEscola");
+    select.innerHTML = "";
+    dados.forEach(tipo => {
+      const option = document.createElement("option");
+      option.value = tipo.id;
+      option.textContent = tipo.tipo;
+      select.appendChild(option);
+    });
+  })
+  .catch(erro => {
+    console.error("Erro ao listar tipos de escola:", erro);
+  });
+}
+async function listarFiltros() {
+  const idUsuario = sessionStorage.ID_USUARIO;
+  const container = document.getElementById("lista-filtros");
+  container.innerHTML = ""; 
     const resposta = await fetch(`/filtros/listar/${idUsuario}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" }
@@ -447,44 +467,64 @@
       `;
       container.insertAdjacentHTML("beforeend", htmlVazio);
     }
-  }
-  function excluirFiltro(id) {
-    fetch("/filtros/deletarFiltro", {
+}
+function excluirFiltro(idFiltro)
+{
+    fetch(`/filtros/deletarFiltro/${idFiltro}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify
-        ({
-          idFiltro: id,
-          idUsuario: sessionStorage.ID_USUARIO
-        })
+      ({ 
+        idUsuario : sessionStorage.ID_USUARIO
+       })
     });
-    alert("meta deletada com sucesso!");
-    window.location.reload();
-  }
 
-  function alterarStatus(idFiltro) {
-    const idUsuario = sessionStorage.ID_USUARIO;
+     Toastify({
+      text: "Filtro deletado com sucesso!",
+      duration: 3000,
+      destination: "https://github.com/apvarun/toastify-js",
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "right", 
+      stopOnFocus: true, 
+      style: {
+        background: "linear-gradient(to right, #337129, #96c93d)",
+        fontSize: "18px",
+      }, 
+    }).showToast();
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+    // alert("meta deletada com sucesso!");
+    // window.location.reload();
+}
+
+function alterarStatus(idFiltro) {
+    const idUsuario = sessionStorage.ID_USUARIO; 
     fetch(`/filtros/atualizarStatus/${idFiltro}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        idUsuario: sessionStorage.ID_USUARIO
-      }),
-    })
-      .then(function (resposta) {
-        if (resposta.status === 200) {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      idUsuario : sessionStorage.ID_USUARIO
+    }),
+  })
+    .then(function (resposta) {
+      if (resposta.status === 200) {
           console.log(resposta);
           location.reload();
         }
-      })
-      .catch(function (erro) {
-        console.error(`#ERRO: ${erro}`);
-      });
+    })
+    .catch(function (erro) {
+      console.error(`#ERRO: ${erro}`);
+    });
   }
 
-  function criarFiltro() {
+  function criarFiltro()
+  {
     const nomeFiltro = input_nomeFiltro.value;
     const materia_id = select_materia.value;
     const tipoEscola_id = select_tipoEscola.value;
@@ -492,37 +532,39 @@
     const idUsuario = sessionStorage.ID_USUARIO;
 
     fetch("/filtros/inserirFiltro", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nomeFiltro: nomeFiltro,
-        materia_id: materia_id,
-        tipoEscola_id: tipoEscola_id,
-        UF_id: UF_id,
-        usuario_id: idUsuario,
-        emUso: "nao"
-      }),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            nomeFiltro: nomeFiltro,
+            materia_id: materia_id,
+            tipoEscola_id: tipoEscola_id,
+            UF_id: UF_id,
+            usuario_id: idUsuario,
+            emUso: "nao"
+        }),
+
+        
     })
-      .then(function (resposta) {
+    .then(function (resposta) {
         console.log("resposta: ", resposta.status);
         if (resposta.status === 200) {
-          console.log(resposta);
-          location.reload();
+            console.log(resposta);
+            location.reload();
         } else if (resposta.status === 400) {
-          document.getElementById("overlayInterno").classList.add("show");
-          document.getElementById("modalErro").classList.add("show");
+            document.getElementById("overlayInterno").classList.add("show");
+            document.getElementById("modalErro").classList.add("show");
         }
-      })
-      .catch(function (resposta) {
+    })
+    .catch(function (resposta) {
         console.log(`#ERRO: ${resposta.status}`);
-      });
+    });
   }
 
-  function modalEditarFiltro(id, nomeFiltro, materia_id, tipoEscola_id, UF_id) {
-    console.log(id, nomeFiltro, materia_id, tipoEscola_id, UF_id)
-    modal_container_adicionar_filtro.innerHTML = `
+function modalEditarFiltro(idFiltro, nomeFiltro, materia_id, tipoEscola_id, UF_id) {
+  console.log(idFiltro, nomeFiltro, materia_id, tipoEscola_id, UF_id)
+  modal_container_adicionar_filtro.innerHTML = `
     <div class="modal-container show modal-add-filtro">
       <div class="modal-overlay" onclick="fecharModalAdd()"></div>
       <div class="modal modal-add">
@@ -554,57 +596,437 @@
         </div>
 
         <div class="boxButtonAdd">
-          <button class="btnSalvarAdd" onclick="editarFiltro(${id})">Editar Filtro</button>
+          <button class="btnSalvarAdd" onclick="editarFiltro(${idFiltro})">Editar Filtro</button>
         </div>
       </div>
     </div>
   `;
 
-    listarMaterias().then(() => {
-      document.getElementById("select_materia").value = materia_id;
-    });
+ listarMaterias().then(() => {
+  document.getElementById("select_materia").value = materia_id;
+});
 
-    listarTiposEscola().then(() => {
-      document.getElementById("select_tipoEscola").value = tipoEscola_id;
-    });
+listarTiposEscola().then(() => {
+  document.getElementById("select_tipoEscola").value = tipoEscola_id;
+});
 
-    listarEstados().then(() => {
-      document.getElementById("select_estado").value = UF_id;
-    });
+listarEstados().then(() => {
+  document.getElementById("select_estado").value = UF_id;
+});
 
-  }
+}
 
-  function editarFiltro(id) {
-    const nomeFiltro = input_nomeFiltro.value;
-    const materia_id = select_materia.value;
-    const tipoEscola_id = select_tipoEscola.value;
-    const UF_id = select_estado.value;
-    const idUsuario = sessionStorage.ID_USUARIO;
+function editarFiltro(idFiltro) {
+  const nomeFiltro = input_nomeFiltro.value;
+  const materia_id = select_materia.value;
+  const tipoEscola_id = select_tipoEscola.value;
+  const UF_id = select_estado.value;
+  const idUsuario = parseInt(sessionStorage.ID_USUARIO);
 
     if (!nomeFiltro || !materia_id || !tipoEscola_id || !UF_id) {
-      alert("Todos os campos devem ser preenchidos.");
-      return;
-    }
-
-    fetch(`/filtros/atualizarFiltro/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nomeFiltro,
-        materia_id,
-        tipoEscola_id,
-        UF_id,
-        idUsuario
-      }),
-    })
-      .then(resposta => {
-        if (resposta.status === 200) {
-          console.log("Filtro atualizado com sucesso!");
-          location.reload();
-        } else {
-          alert("Erro ao atualizar filtro.");
-        }
-      })
-      .catch(erro => console.error(`#ERRO: ${erro}`));
+//     // alert('Todos os campos devem ser preenchidos!');
+      Toastify({
+  text: "Todos os campos devem ser preenchidos!",
+  duration: 3000,
+  destination: "https://github.com/apvarun/toastify-js",
+  newWindow: true,
+  close: true,
+  gravity: "top", 
+  position: "right", 
+  stopOnFocus: true, 
+  style: {
+    background: "linear-gradient(to right, #990F02, #D0312D)",
+    fontSize: "18px",
+  }, 
+}).showToast();
+    return;
   }
+
+  fetch(`/filtros/atualizarFiltro/${idFiltro}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nomeFiltro,
+      materia_id,
+      tipoEscola_id,
+      UF_id,
+      idUsuario: idUsuario
+    }),
+  })
+    .then(resposta => {
+      if (resposta.status === 200) {
+        console.log("Filtro atualizado com sucesso!");
+        location.reload();
+      } else {
+        alert("Erro ao atualizar filtro.");
+      }
+    })
+    .catch(erro => console.error(`#ERRO: ${erro}`));
+}
+
+// carregarDashboardComFiltro();
+
+// function modalFiltro() {
+//   modal_container_adicionar.innerHTML = `
+//     <div class="modal-container show">
+//       <div class="modal-overlay" onclick="fecharModal()"></div>
+//       <div class="modal">
+//         <button class="close-btn" onclick="fecharModal()">✖</button>
+//         <div class="form_filtro">
+//           <div class="novoFiltro">
+//             <button class="btn add-btn" onclick="modalAddFiltro()">
+//               <img src="./assets/icons/add_prof.svg" alt=""> Novo Filtro
+//             </button>
+//           </div>
+//           <div id="lista-filtros">Carregando...</div>
+//         </div>
+//       </div>
+//     </div>`;
+
+//   listarFiltros();
+// }
+
+// function modalAddFiltro() {
+//   modal_container_adicionar_filtro.innerHTML = `
+//     <div class="modal-container show modal-add-filtro">
+//       <div class="modal-overlay" onclick="fecharModalAdd()"></div>
+//       <div class="modal modal-add">
+//         <button class="close-btn" onclick="fecharModalAdd()">✖</button>
+//         <h1 class="titulo-add-filtro">Criar um novo filtro</h1>
+//         <div class="form_add_filtro">
+//           <div class="informacoes_add_filtro">
+//             <div class="form-group-add">
+//               <label for="input_nomeFiltro">Nome do filtro:</label>
+//               <input type="text" id="input_nomeFiltro" placeholder="Ex: Filtro Matemática SP">
+//             </div>
+//             <div class="form-group-add">
+//               <label for="select_materia">Matéria:</label>
+//             <select id="select_materia">
+//                 <option value="" disabled selected>Selecione a matéria</option>
+//                 <option value="mediana_cn">Ciências Naturais</option>
+//                 <option value="mediana_ch">Ciências Humanas</option>
+//                 <option value="mediana_lp">Lingua Portuguesa</option>
+//                 <option value="mediana_mt">Matemática</option>
+//                 <option value="mediana_red">Redação</option>
+//             </select>
+//             </div>
+//             <div class="form-group-add">
+//               <label for="select_tipoEscola">Tipo de Escola:</label>
+//               <select id="select_tipoEscola"></select>
+//             </div>
+//             <div class="form-group-add">
+//               <label for="select_estado">Estado (UF):</label>
+//               <select id="select_estado"></select>
+//             </div>
+//           </div>
+//         </div>
+//         <div class="boxButtonAdd">
+//           <button class="btnSalvarAdd" onclick="criarFiltro()">Salvar Filtro</button>
+//         </div>
+//       </div>
+//     </div>`;
+
+//   listarMaterias();
+//   listarTiposEscola();
+//   listarEstados();
+// }
+
+// function fecharModal() { modal_container_adicionar.innerHTML = ''; }
+// function fecharModalAdd() { modal_container_adicionar_filtro.innerHTML = ''; }
+
+// function listarMaterias() {
+//   return fetch("/filtros/materias")
+//     .then(res => res.json())
+//     .then(dados => {
+//       const select = document.getElementById("select_materia");
+//       if (!select) return;
+//       select.innerHTML = "";
+//       dados.forEach(materia => {
+//         const option = document.createElement("option");
+//         option.value = materia.id;
+//         option.textContent = materia.nome;
+//         select.appendChild(option);
+//       });
+//     })
+//     .catch(erro => console.error("Erro ao listar matérias:", erro));
+// }
+
+// function listarEstados() {
+//   return fetch("/filtros/estados")
+//     .then(res => res.json())
+//     .then(dados => {
+//       const select = document.getElementById("select_estado");
+//       if (!select) return;
+//       select.innerHTML = "";
+//       dados.forEach(estado => {
+//         const option = document.createElement("option");
+//         option.value = estado.id;
+//         option.textContent = estado.uf;
+//         select.appendChild(option);
+//       });
+//     })
+//     .catch(erro => console.error("Erro ao listar estados:", erro));
+// }
+
+// function listarTiposEscola() {
+//   return fetch("/filtros/tiposEscola")
+//     .then(res => res.json())
+//     .then(dados => {
+//       const select = document.getElementById("select_tipoEscola");
+//       if (!select) return;
+//       select.innerHTML = "";
+//       dados.forEach(tipo => {
+//         const option = document.createElement("option");
+//         option.value = tipo.id;
+//         option.textContent = tipo.tipo;
+//         select.appendChild(option);
+//       });
+//     })
+//     .catch(erro => console.error("Erro ao listar tipos de escola:", erro));
+// }
+
+// function listarFiltros() {
+//   const idUsuario = sessionStorage.ID_USUARIO;
+//   const container = document.getElementById("lista-filtros");
+//   if (!container) return;
+//   container.innerHTML = "Carregando...";
+
+//   fetch('/filtros/listar/' + idUsuario)
+//     .then(res => res.json())
+//     .then(dados => {
+//       container.innerHTML = '';
+//      if (dados.length > 0) {
+//         console.log(dados)
+//         for (let i = 0; i < dados.length; i++) {
+//             const filtro = dados[i]; // facilita escrever
+//             const htmlFiltro = `
+//             <div class="filtro-card">
+//               <div class="filtro-header">
+//                 <h2>${filtro.nome}</h2>
+//                 <span class="status ${filtro.emUso === 1 ? 'ativo' : 'inativo'}">
+//                   ${filtro.emUso === 1 ? 'Em uso' : 'Inativo'}
+//                 </span>
+//               </div>
+
+//               <div class="filtro-body">
+//                 <p><strong>Matéria:</strong> ${
+//                                             filtro.materia === 'madiana_cn' ? 'Ciências Naturais' :
+//                                             filtro.materia === 'mediana_ch' ? 'Ciências Humanas' :
+//                                             filtro.materia === 'mediana_lp' ? 'Linguagens e Códigos (Português)' :
+//                                             filtro.materia === 'mediana_mt' ? 'Matemática' :
+//                                             filtro.materia === 'mediana_red' ? 'Redação' :
+//                                             'Desconhecida'
+//                                           }</p>
+//                 <p><strong>Tipo Escola:</strong> ${filtro.tipoEscola}</p>
+//                 <p><strong>Estado(UF):</strong> ${filtro.UF}</p>
+//               </div>
+
+//               <div class="filtro-actions">
+//                 <button class="btn usar" onclick="alterarStatus(${filtro.idFiltro})">Usar</button>
+
+//                 <button class="btn editar" 
+//                   onclick="modalEditarFiltro(
+//                     '${filtro.idFiltro}',
+//                     '${filtro.nome}',
+//                     '${filtro.materia}',
+//                     '${filtro.tipoEscola}',
+//                     '${filtro.UF}'
+//                   )">
+//                   Editar
+//                 </button>
+
+//                 <button class="btn excluir" onclick="excluirFiltro(${filtro.idFiltro})">Excluir</button>
+//               </div>
+//             </div>`;
+//             container.insertAdjacentHTML('beforeend', htmlFiltro);
+//         }
+//     } else {
+//         container.innerHTML = `
+//           <div class="semFiltros">
+//             <p>Nenhum filtro cadastrado até o momento.</p>
+//             <p>Use o botão <strong>+ Novo Filtro</strong> para adicionar um.</p>
+//           </div>`;
+//     }
+//     })
+//     .catch(erro => console.error("Erro ao listar filtros:", erro));
+// }
+
+// function excluirFiltro(id) {
+//   fetch("/filtros/deletarFiltro", {
+//     method: "DELETE",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ idFiltro: id})
+//   })
+//   .then(res => {
+//     if (!res.ok) throw new Error('Erro ao deletar');
+//     // alert("Filtro deletado com sucesso!");
+//     // window.location.reload();
+
+//      Toastify({
+//   text: "Filtro deletado com sucesso!",
+//   duration: 3000,
+//   destination: "https://github.com/apvarun/toastify-js",
+//   newWindow: true,
+//   close: true,
+//   gravity: "top", 
+//   position: "right", 
+//   stopOnFocus: true, 
+//   style: {
+//     background: "linear-gradient(to right, #337129, #96c93d)",
+//     fontSize: "18px",
+//   }, 
+// }).showToast();
+
+//     setTimeout(() => {
+//       window.location.reload();
+//     }, 1000);
+//   })
+//   .catch(erro => console.error("Erro ao deletar filtro:", erro));
+// }
+
+// function alterarStatus(idFiltro) {
+//   fetch('/filtros/atualizarStatus/' + idFiltro, {
+//     method: "PATCH",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({
+//       idUsuario: idFiltro // mesmo padrão do editarFiltro
+//     })
+//   })
+//   .then(res => {
+//     if (res.status === 200) {
+//       location.reload();
+//     } else {
+//       console.error('Falha ao alterar status. Código:', res.status);
+//     }
+//   })
+//   .catch(erro => console.error('#ERRO: ' + erro));
+// }
+
+
+// function criarFiltro() {
+//   const nomeFiltro = document.getElementById('input_nomeFiltro').value;
+//   const materia_id = document.getElementById('select_materia').value;
+//   const tipoEscola_id = document.getElementById('select_tipoEscola').value;
+//   const UF_id = document.getElementById('select_estado').value;
+
+//   if (!nomeFiltro || !materia_id || !tipoEscola_id || !UF_id) {
+//     // alert('Todos os campos devem ser preenchidos!');
+//       Toastify({
+//   text: "Todos os campos devem ser preenchidos!",
+//   duration: 3000,
+//   destination: "https://github.com/apvarun/toastify-js",
+//   newWindow: true,
+//   close: true,
+//   gravity: "top", 
+//   position: "right", 
+//   stopOnFocus: true, 
+//   style: {
+//     background: "linear-gradient(to right, #990F02, #D0312D)",
+//     fontSize: "18px",
+//   }, 
+// }).showToast();
+//     return;
+//   }
+
+//   fetch("/filtros/inserirFiltro", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ nomeFiltro: nomeFiltro, materia_id: materia_id, tipoEscola_id: tipoEscola_id, UF_id: UF_id, usuario_id: sessionStorage.ID_USUARIO, emUso: "nao" })
+//   })
+//   .then(res => {
+//     if (res.status === 200) location.reload();
+//     else if (res.status === 400) alert('Erro: filtro inválido');
+//   })
+//   .catch(erro => console.error('#ERRO: ' + erro));
+// }
+
+// function modalEditarFiltro(id, nomeFiltro, materia_id, tipoEscola_id, UF_id) {
+//   modal_container_adicionar_filtro.innerHTML = `
+//     <div class="modal-container show modal-add-filtro">
+//       <div class="modal-overlay" onclick="fecharModalAdd()"></div>
+//       <div class="modal modal-add">
+//         <button class="close-btn" onclick="fecharModalAdd()">✖</button>
+//         <h1 class="titulo-add-filtro">Edite seu filtro</h1>
+//         <div class="form_add_filtro">
+//           <div class="informacoes_add_filtro">
+//             <div class="form-group-add">
+//               <label for="input_nomeFiltro">Nome do filtro:</label>
+//               <input type="text" id="input_nomeFiltro" value="${nomeFiltro}">
+//             </div>
+//             <div class="form-group-add">
+//               <label for="select_materia">Matéria:</label>
+//               <select id="select_materia">
+//                 <option value="" disabled selected>Selecione a matéria</option>
+//                 <option value="mediana_cn">Ciências Naturais</option>
+//                 <option value="mediana_ch">Ciências Humanas</option>
+//                 <option value="mediana_lp">Lingua Portuguesa</option>
+//                 <option value="mediana_mt">Matemática</option>
+//                 <option value="mediana_red">Redação</option></select>
+//             </div>
+//             <div class="form-group-add">
+//               <label for="select_tipoEscola">Tipo de Escola:</label>
+//               <select id="select_tipoEscola"></select>
+//             </div>
+//             <div class="form-group-add">
+//               <label for="select_estado">Estado (UF):</label>
+//               <select id="select_estado"></select>
+//             </div>
+//           </div>
+//         </div>
+//         <div class="boxButtonAdd">
+//           <button class="btnSalvarAdd" onclick="editarFiltro(${id})">Editar Filtro</button>
+//         </div>
+//       </div>
+//     </div>`;
+
+//   listarMaterias().then(() => { const s = document.getElementById('select_materia'); if (s) s.value = materia_id; });
+//   listarTiposEscola().then(() => { const s = document.getElementById('select_tipoEscola'); if (s) s.value = tipoEscola_id; });
+//   listarEstados().then(() => { const s = document.getElementById('select_estado'); if (s) s.value = UF_id; });
+// }
+
+// function editarFiltro(idFiltro) {
+//   const nome = document.getElementById('input_nomeFiltro').value;
+//   const idMateria = document.getElementById('select_materia').value;
+//   const idTipoEscola = document.getElementById('select_tipoEscola').value;
+//   const idEstado = document.getElementById('select_estado').value;
+
+//   if (!nome || !idMateria || !idTipoEscola || !idEstado) {
+//     // alert('Todos os campos devem ser preenchidos!');
+//     Toastify({
+//   text: "Todos os campos devem ser preenchidos!",
+//   duration: 3000,
+//   destination: "https://github.com/apvarun/toastify-js",
+//   newWindow: true,
+//   close: true,
+//   gravity: "top", 
+//   position: "right", 
+//   stopOnFocus: true, 
+//   style: {
+//     background: "linear-gradient(to right, #990F02, #D0312D)",
+//     fontSize: "18px",
+//   }, 
+// }).showToast();
+//     return;
+//   }
+
+//   fetch('/filtros/atualizarFiltro/' + idFiltro, {
+//     method: 'PUT',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({
+//       nomeFiltro: nome,      
+//       materia_id: idMateria, 
+//       tipoEscola_id: idTipoEscola,
+//       UF_id: idEstado,
+//       idUsuario: idFiltro   
+//     })
+//   })
+//     .then(res => {
+//       if (res.status === 200) {
+//         location.reload();
+//       } else {
+//         alert('Erro ao atualizar filtro.');
+//       }
+//     })
+//     .catch(erro => console.error('#ERRO: ' + erro));
+// }
 </script>

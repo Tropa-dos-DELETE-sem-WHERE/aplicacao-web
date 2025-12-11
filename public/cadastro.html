@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>EducaData | Cadastro</title>
+  <link rel="icon" type="image/png" href="./assets/icons/escola.svg">
 
   <script src="./js/sessao.js"></script>
 
@@ -64,13 +65,20 @@
 
       <div class="campo">
         <label for="senha">Senha:</label>
-        <input type="text" id="input_senha" required>
+        <div class="campo-senha">
+          <input type="password" id="input_senha" required style="border: none;">
+          <span id="toggleIcon" onclick="toggleSenha()"style="cursor: pointer;">👁️‍🗨️</span>
+        </div>
       </div>
 
       <div class="campo">
         <label for="repetirSenha">Confirme sua senha:</label>
-        <input type="text" id="input_repetirSenha" required>
+          <div class="campo-senha">
+        <input type="password" id="input_repetirSenha" required style="border: none;">
+        <span id="toggleIcon2" onclick="toggleSenha()"style="cursor: pointer;">👁️‍🗨️</span>
+        </div>
         <button type="button" onclick="cadastrar()">Cadastrar -></button>
+        <!-- <div id="carregando"></div> -->
       </div>
 
       <div id="div_aviso">
@@ -84,6 +92,26 @@
 
 <script>
 
+function toggleSenha() {
+  const input = document.getElementById("input_senha");
+  const inputConfirmar = document.getElementById("input_repetirSenha");
+  const icon = document.getElementById("toggleIcon");
+   const icon2 = document.getElementById("toggleIcon2");
+
+
+  if (input.type === "password" || inputConfirmar === "password") {
+    inputConfirmar.type = "text"
+    input.type = "text";
+    icon.textContent = "👁️"; 
+    icon2.textContent = "👁️"; 
+  } else {
+    inputConfirmar.type = "password"
+    input.type = "password";
+    icon.textContent = "👁️‍🗨️";
+    icon2.textContent = "👁️‍🗨️";
+  }
+}
+
   function cadastrar() {
     event.preventDefault();
     const nomeInstituicao = input_nomeInstituicao.value;
@@ -91,7 +119,8 @@
     const email = input_email.value;
     const senha = input_senha.value;
     const confirmarSenha = input_repetirSenha.value;
-    const tipoUsuario = '1';
+    const tipoUsuario = '1'; // ATENCAO: Atualizar depois para a nova regra de negócio!
+
     if (senha === confirmarSenha) {
       h1_aviso.innerHTML = ``;
       fetch("/usuarios/cadastrar",
@@ -109,14 +138,25 @@
           }),
         })
         .then(function (resposta) {
-          console.log("resposta: ", resposta);
+
+          console.log("Resposta: ", resposta);
+
           if (resposta.status == 200) {
-            window.location = "./login.html";
+            console.log("Redirecionando agora…");
+
+            // document.getElementById('carregando').innerHTML = '<img src="./assets/gif.webp"></img>';
+            
+            // setTimeout(() => {
+            window.location.href = "./login.html";
+            // }, 1500); 
+            
           }
+
           if (resposta.status == 404) {
-            console.log("escola nao existe")
+            console.log("Escola nao existe")
             h1_aviso.innerHTML = `Instituição digitada não existe.`;
           }
+
         })
         .catch(function (resposta) {
           console.log(`#ERRO: ${resposta}`);
@@ -124,7 +164,7 @@
 
     }
     else {
-      console.log('diferentes')
+      console.log('Senhas diferentes!')
       h1_aviso.innerHTML = `Senhas devem ser iguais`;
     }
   }
