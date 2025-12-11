@@ -38,10 +38,12 @@ async function cadastrar(nomeInstituicao, nomeUsuario, email, senha, tipoUsuario
   const usuarioId = usuarioRes[0].id;
   
   const sqlSlack = `
-  INSERT INTO slack (nomeCanal,ultima_notificacao,escola_id,usuario_id)VALUES ('canal-escola-${escolaId}',null,${escolaId},${usuarioId});
-                `;
-    console.log("Executando SQL filtro:\n" + sqlSlack);
-    await database.executar(sqlSlack);
+    INSERT INTO slack (nomeCanal, ultima_notificacao, escola_id, usuario_id) 
+    VALUES ('canal-escola-${escolaId}', NULL, ${escolaId}, ${usuarioId});
+  `;
+  console.log("Executando SQL slack:\n" + sqlSlack);
+  await database.executar(sqlSlack);
+  
   const sqlFiltro = `
     INSERT INTO filtro (nome, materia_id, tipoEscola_id, UF_id, usuario_id, emUso)
     VALUES ('Filtro Padrão', ${1}, ${tipoEscolaId}, ${ufId}, ${usuarioId}, 'sim');
