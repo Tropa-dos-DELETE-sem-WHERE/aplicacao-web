@@ -78,7 +78,7 @@
         <span id="toggleIcon2" onclick="toggleSenha()"style="cursor: pointer;">👁️‍🗨️</span>
         </div>
         <button type="button" onclick="cadastrar()">Cadastrar -></button>
-        <div id="carregando"></div>
+        <!-- <div id="carregando"></div> -->
       </div>
 
       <div id="div_aviso">
@@ -144,11 +144,11 @@ function toggleSenha() {
           if (resposta.status == 200) {
             console.log("Redirecionando agora…");
 
-            document.getElementById('carregando').innerHTML = '<img src="./assets/gif.webp"></img>';
+            // document.getElementById('carregando').innerHTML = '<img src="./assets/gif.webp"></img>';
             
-            setTimeout(() => {
+            // setTimeout(() => {
             window.location.href = "./login.html";
-            }, 1500); 
+            // }, 1500); 
             
           }
 

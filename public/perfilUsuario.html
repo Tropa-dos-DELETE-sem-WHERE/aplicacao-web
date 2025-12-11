@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="css/telaPerfilUsuario.css">
     <link rel="stylesheet" href="css/logado.css">
 
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -64,6 +66,7 @@
 
 </html>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
     window.onload = async () => {
         const conteudo = document.getElementById("conteudo");
@@ -114,6 +117,26 @@
         })
         .then(resposta => {
             console.log("Dados atualizados com sucesso!");
+
+            
+     Toastify({
+      text: "Dados atualizados com sucesso!",
+      duration: 3000,
+      destination: "https://github.com/apvarun/toastify-js",
+      newWindow: true,
+      close: true,
+      gravity: "top", 
+      position: "right", 
+      stopOnFocus: true, 
+      style: {
+        background: "linear-gradient(to right, #337129, #96c93d)",
+        fontSize: "18px",
+      }, 
+    }).showToast();
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
         })
         .catch(erro => {
             console.log(`#ERRO: ${erro}`);
