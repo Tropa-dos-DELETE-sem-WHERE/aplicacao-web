@@ -110,7 +110,7 @@ function obterFiltroAtivo() {
   return fetch('/filtros/listar/' + idUsuario)
     .then(res => res.json())
     .then(dados => {
-      const ativo = dados.find(f => f.emUso === 1);
+      const ativo = dados.find(f => f.emUso === 1 || f.emUso === 'sim');
       return ativo || null;
     })
     .catch(e => {
@@ -255,7 +255,7 @@ function carregarMedianasQuery(query) {
 
       graficoMedianas = new Chart(grafico2, {
         type: 'pie',
-        data: { labels: dados.labels, datasets: [{ label: 'Distribuição de % por área de conhecimento', data: dados.values, backgroundColor: ["#78a8d1", "#ffc107", "#dc3545", "#91c7a9", "#6f42c1"], borderWidth: 1 }] },
+        data: { labels: dados.labels, datasets: [{ label: 'Distribuição de medianas por área de conhecimento', data: dados.values, backgroundColor: ["#78a8d1", "#ffc107", "#dc3545", "#91c7a9", "#6f42c1"], borderWidth: 1 }] },
         options: { maintainAspectRatio: false }
       });
     })
@@ -268,16 +268,19 @@ function carregarDashboardComFiltro(idEscolaUsuario) {
       const escolaUsuario = sessionStorage.ID_INSTITUICAO_USUARIO ? Number(sessionStorage.ID_INSTITUICAO_USUARIO) : idEscolaUsuario;
 
       if (filtro) {
+        console.log('Filtro ativo encontrado:', filtro);
         const qs = [];
         if (filtro.idMateria) qs.push(`materia_id=${filtro.idMateria}`);
         if (filtro.idTipoEscola) qs.push(`tipoEscola_id=${filtro.idTipoEscola}`);
         if (filtro.idEstado) qs.push(`UF_id=${filtro.idEstado}`);
         const query = qs.length ? '?' + qs.join('&') : '';
 
+        console.log('Query construída:', query);
         carregarKPIsQuery(query);
         carregarHistogramaQuery(query);
         carregarMedianasQuery(query);
       } else {
+        console.log('Nenhum filtro ativo. Carregando dados da escola:', escolaUsuario);
         carregarKPIs(escolaUsuario);
         carregarHistograma(escolaUsuario);
         carregarMedianas(escolaUsuario);
