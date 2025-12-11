@@ -60,9 +60,51 @@ function alterarWebhookCanal(idslack, solicitou) {
     return database.executar(instrucaoSql);
 }
 
+function ligarDelisgar(idSlack, ligar_desligar) {
+        console.log("Dentro do Model de Notificacao na função  ligarDelisgar() passando os seguintes dados para o banco",idSlack, ligar_desligar);
+    const sql = `
+        UPDATE slack
+        SET ligar_desligar = '${ligar_desligar}'
+        WHERE idslack = ${idSlack};
+    `;
+    return database.executar(sql);
+}
+
+function alterarLogsCanal(idSlack, quer_logs) {
+    const sql = `
+        UPDATE slack
+        SET quer_logs = ${quer_logs}
+        WHERE idslack = ${idSlack};
+    `;
+    return database.executar(sql);
+}
+
+function alterarMedianaCanal(idSlack, quer_mediana) {
+    const sql = `
+        UPDATE slack
+        SET quer_mediana = ${quer_mediana}
+        WHERE idslack = ${idSlack};
+    `;
+    return database.executar(sql);
+}
+
+function alterarIntervaloCanal(idSlack, intervalo_notificacao) {
+    const sql = `
+        UPDATE slack
+        SET intervalo_notificacao = '${intervalo_notificacao}'
+        WHERE idslack = ${idSlack};
+    `;
+    return database.executar(sql);
+}
+
+
 module.exports = {
     listarSlack,
     alterarStatusCanal,
     listarTodosSlack,
-    alterarWebhookCanal
+    alterarWebhookCanal,
+    ligarDelisgar,
+    alterarLogsCanal,
+    alterarMedianaCanal,
+    alterarIntervaloCanal
 };

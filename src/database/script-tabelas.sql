@@ -1,6 +1,7 @@
 drop database educadata;
 CREATE DATABASE IF NOT EXISTS educadata;
 USE educadata;
+select * from slack;
 
 CREATE TABLE IF NOT EXISTS tipoEscola (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -46,7 +47,8 @@ CREATE TABLE IF NOT EXISTS usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
     dataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id),
+    enviou BOOLEAN DEFAULT 0;
   );
 CREATE TABLE IF NOT EXISTS meta (
   id INT AUTO_INCREMENT PRIMARY KEY,

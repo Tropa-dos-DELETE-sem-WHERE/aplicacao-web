@@ -67,10 +67,51 @@ async function alterarWebhookCanal(req, res) {
     
 }
 
+function ligarDelisgar(req, res) {
+    const idSlack = req.params.idSlack;
+    const ligar_desligar= req.body.ligar_desligar;
+    console.log("Estou no controller passando os seguintes dados");
+            console.log(idSlack);
+            console.log(ligar_desligar);
+    notificacaoModel.ligarDelisgar(idSlack, ligar_desligar)
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro.sqlMessage));
+}
+
+function alterarLogsCanal(req, res) {
+    const idSlack = req.params.idSlack;
+    const quer_logs = req.body.quer_logs;
+    notificacaoModel.alterarLogsCanal(idSlack, quer_logs)
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro.sqlMessage));
+}
+
+function alterarMedianaCanal(req, res) {
+    const idSlack = req.params.idSlack;
+    const quer_mediana  = req.body.quer_mediana;
+
+    notificacaoModel.alterarMedianaCanal(idSlack, quer_mediana)
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro.sqlMessage));
+}
+
+function alterarIntervaloCanal(req, res) {
+    const idSlack = req.params.idSlack;
+    const intervalo_notificacao = req.body.intervalo_notificacao;
+
+    notificacaoModel.alterarIntervaloCanal(idSlack, intervalo_notificacao)
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro.sqlMessage));
+}
+
 
 module.exports = {
     listarSlack,
     alterarStatusCanal,
     listarTodosSlack,
-    alterarWebhookCanal
+    alterarWebhookCanal,
+    ligarDelisgar,
+    alterarLogsCanal,
+    alterarMedianaCanal,
+    alterarIntervaloCanal
 }

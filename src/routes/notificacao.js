@@ -24,6 +24,24 @@ router.patch("/alterarWebhook/:idSlack", function (req, res) {
 });
 
 
+router.patch("/ligarDelisgar/:idSlack", function (req, res) {
+    notificacaoController.ligarDelisgar(req, res);
+});
+
+router.patch("/alterarLogs/:idSlack", function (req, res) {
+    notificacaoController.alterarLogsCanal(req, res);
+});
+
+
+router.patch("/alterarMediana/:idSlack", function (req, res) {
+    notificacaoController.alterarMedianaCanal(req, res);
+});
+
+
+router.patch("/alterarIntervalo/:idSlack", function (req, res) {
+    notificacaoController.alterarIntervaloCanal(req, res);
+});
+
 
 
 
